@@ -5,10 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Sport extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'surnames', 'mail', 'pass', 'img'];
+
+    protected $fillable = ['slug', 'name', 'img'];
     protected $hidden = ['created_at', 'updated_at'];
+
+
+    public function courts() {
+        return $this->hasMany(Court::class);
+    }
 
 }

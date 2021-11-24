@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Court extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'surnames', 'mail', 'pass', 'img'];
+
+    protected $fillable = ['sector', 'price/h'];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function id_sport() {
+        return $this->belongsTo(Sport::class);
+    }
 
 }
