@@ -18,7 +18,7 @@ class CreateCourtsTable extends Migration
             $table->timestamps();
             $table->foreignId('id_sport')->references('id')->on('sports');
             $table->integer('sector');
-            $table->integer('price/h');
+            $table->integer('price_h');
         });
     }
 
