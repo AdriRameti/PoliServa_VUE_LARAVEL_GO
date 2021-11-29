@@ -18,8 +18,9 @@ class CreateReservationsTable extends Migration
             $table->timestamps();
             $table->foreignId('id_user')->references('id')->on('users');
             $table->foreignId('id_court')->references('id')->on('courts');
-            $table->string('fini');
-            $table->string('ffin');
+            $table->string('date');
+            $table->string('hini');
+            $table->string('hfin');
             $table->integer('total_price');
         });
     }

@@ -1,10 +1,12 @@
 package reservations
 
 import (
-	"github.com/gin-gonic/gin"
 	"fmt"
+	"log"
 	"net/http"
 	"poliserva/Config"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetAllReservations(c *gin.Context) {
@@ -16,4 +18,15 @@ func GetAllReservations(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, reservations)
+}
+
+func GetDateReservations(c *gin.Context){
+	Date:= c.Query("Fini")
+	Id_court:= c.Query("Id_Court")
+
+	if len(Finit)<1 {
+		log.Println("Fini is missing")
+		return
+	}
+	
 }
