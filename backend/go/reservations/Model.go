@@ -1,15 +1,39 @@
 package reservations
 
+import(
+	"fmt"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	"poliserva/Config"
+)
+
 type ReservationModel struct {
-	Id	uint `json:"id"`
-	Id_user	string `json:"slug"`
-	Id_court	string	`json:"name"`
-	Date	string	`json:"date"`
-	Hini	string	`json:"hini"`
-	Hfin	string	`json:"hfin"`
-	Total_price int `json:"total_price"`
+	Id          uint   `json:"id"`
+	Id_user     uint   `json:"id_user"`
+	Id_court    uint   `json:"id_court"`
+	Date        string `json:"date"`
+	Hini        string `json:"hini"`
+	Hfin        string `json:"hfin"`
+	Total_price int    `json:"total_price"`
 }
 
+func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
+	if err:= Config.DB.Create(reservations).Error; err!=nil{
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+	c.JSON(http.StatusAccepted,reservations)
+}
+func GetDateOneReservation(MyArray []string,reservations *[]ReservationModel, c *gin.Context){
+	Date:= MyArray[0]
+	Id_court:= MyArray[1]
+	Hour:= MyArray[2]
+	if err:= Config.DB.Raw("Select * from reservations where not exists (select * from reservations r inner join courts c ON r.id_court = c.id AND r.id_court = ? where ? between r.hini and r.hfin and r.date = ?)",Id_court,Hour,Date).Find(&reservations).Error; err != nil{
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+	c.JSON(http.StatusOK, reservations)
+}
 func (b *ReservationModel) TableName() string {
 	return "reservations"
 }
