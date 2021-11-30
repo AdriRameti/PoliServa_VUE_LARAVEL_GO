@@ -3,7 +3,7 @@ package Config
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"os"
+	// "os"
 	"github.com/joho/godotenv"
 )
 
@@ -27,9 +27,9 @@ func BuildDBConfig() *DBConfig {
 	dbConfig := DBConfig{
 		Host:     "localhost",
 		Port:     3306,
-		User:     os.Getenv("DB_USERNAME"),
-		Password: os.Getenv("DB_PASSWORD"),
-		DBName:   os.Getenv("DB_DATABASE"),
+		User:     "root",
+		Password: "adrian311299",
+		DBName:   "poliserva",
 	}
 	return &dbConfig
 }
