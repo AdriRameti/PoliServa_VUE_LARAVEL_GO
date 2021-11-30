@@ -17,6 +17,15 @@ type ReservationModel struct {
 	Total_price int    `json:"total_price"`
 }
 
+func GetAllReservation(reservations *[]ReservationModel, c *gin.Context){
+	if err := Config.DB.Find(&reservations).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+
+	c.JSON(http.StatusOK, reservations)
+}
+
 func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
 	if err:= Config.DB.Create(reservations).Error; err!=nil{
 		c.AbortWithStatus(http.StatusNotFound);
@@ -34,6 +43,34 @@ func GetDateOneReservation(MyArray []string,reservations *[]ReservationModel, c 
 	}
 	c.JSON(http.StatusOK, reservations)
 }
+
+func UpdateReservation(reservations *ReservationModel,id string,c *gin.Context){
+
+	if err:= Config.DB.Where("id = ?", id).Find(&reservations).Error;err != nil {
+		c.JSON(http.StatusNotFound, reservations)
+	}
+	c.BindJSON(reservations)
+	err := UpdateRes(reservations,id)
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+	} else {
+		c.JSON(http.StatusOK, reservations)
+	}
+}
+
+func UpdateRes(reservations *ReservationModel, id string) (err error) {
+	fmt.Println(reservations)
+	Config.DB.Save(reservations)
+	return nil
+}
+
+func DeleteReservation(reservations *ReservationModel,id string,c *gin.Context){
+	if err:= Config.DB.Where("id = ?", id).Delete(reservations).Error; err!= nil{
+		c.JSON(http.StatusNotFound, reservations)
+	}
+	c.JSON(http.StatusOK, reservations)
+}
+
 func (b *ReservationModel) TableName() string {
 	return "reservations"
 }

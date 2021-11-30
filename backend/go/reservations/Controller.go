@@ -1,10 +1,10 @@
 package reservations
 
 import (
-	"fmt"
+	// "fmt"
 	"log"
-	"net/http"
-	"poliserva/Config"
+	// "net/http"
+	// "poliserva/Config"
 	// "strconv"
 
 	"github.com/gin-gonic/gin"
@@ -13,12 +13,7 @@ import (
 func GetAllReservations(c *gin.Context) {
 	var reservations []ReservationModel
 
-	if err := Config.DB.Find(&reservations).Error; err != nil {
-		c.AbortWithStatus(http.StatusNotFound);
-		fmt.Println("Status:", err);
-	}
-
-	c.JSON(http.StatusOK, reservations)
+	GetAllReservation(&reservations,c)
 }
 
 func GetDateReservations(c *gin.Context){
@@ -48,4 +43,24 @@ func CreateReservations(c *gin.Context){
 
 	CreateNewReservation(&reservations,c)
 
+}
+
+func UpdateReservations(c *gin.Context){
+	var reservations ReservationModel
+	id := c.Params.ByName("id")
+	if len(id)<1{
+		log.Println("Id is missing")
+		return
+	}
+	UpdateReservation(&reservations,id,c)
+}
+
+func DeleteReservations(c *gin.Context){
+	var reservations ReservationModel
+	id := c.Params.ByName("id")
+	if len(id)<1{
+		log.Println("Id is missing")
+		return
+	}
+	DeleteReservation(&reservations,id,c)
 }
