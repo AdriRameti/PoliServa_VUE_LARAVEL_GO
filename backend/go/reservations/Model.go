@@ -69,7 +69,6 @@ func DeleteReservation(reservations *ReservationModel,id string,c *gin.Context){
 		c.JSON(http.StatusNotFound, reservations)
 	}
 	c.JSON(http.StatusOK, reservations)
->>>>>>> develop_reservations
 }
 
 func (b *ReservationModel) TableName() string {
