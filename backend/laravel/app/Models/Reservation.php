@@ -9,7 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['fini', 'ffin', 'total_price'];
+    protected $fillable = ['date', 'hini', 'hfin', 'total_price'];
     protected $hidden = ['created_at', 'updated_at'];
 
 
