@@ -1,6 +1,6 @@
 package reservations
 
-import(
+import (
 	"fmt"
 	"net/http"
 	"github.com/gin-gonic/gin"
@@ -27,7 +27,7 @@ func GetAllReservation(reservations *[]ReservationModel, c *gin.Context){
 }
 
 func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
-	if err:= Config.DB.Create(reservations).Error; err!=nil{
+	if err:= Config.DB.Create(&reservations).Error; err!=nil{
 		c.AbortWithStatus(http.StatusNotFound);
 		fmt.Println("Status:", err);
 	}
