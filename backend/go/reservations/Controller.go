@@ -6,7 +6,7 @@ import (
 	// "net/http"
 	// "poliserva/Config"
 	// "strconv"
-
+	"net/http"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,11 +37,15 @@ func GetDateReservations(c *gin.Context){
 	GetDateOneReservation(MyArray,&reservations,c)
 }
 func CreateReservations(c *gin.Context){
-	var reservations ReservationModel
-
-	c.BindJSON(&reservations)
-
-	CreateNewReservation(&reservations,c)
+	// var reservations ReservationModel
+	reservationModelValidation := NewReservationModelValidator()
+	
+	if err := reservationModelValidation.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, "Error Validation Reservation")
+		return
+	}
+	// c.BindJSON(&reservations)
+	CreateNewReservation(&reservationModelValidation.reservationModel,c)
 
 }
 
