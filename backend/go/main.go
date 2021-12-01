@@ -4,18 +4,14 @@ import (
 
 	"poliserva/Config"
 	"poliserva/Routes"
-
 	"fmt"
-	// "github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	// 
+	
 )
 
 var err error
 
 func main() {
-
-	// r := gin.Default()
 
 	Config.DB, err = gorm.Open("mysql", Config.DbURL(Config.BuildDBConfig()))
 
@@ -26,12 +22,6 @@ func main() {
 	defer Config.DB.Close()
 
 	r := Routes.SetupRouter()
-
-	// r.GET("/ping", func(c *gin.Context) {
-	// 	c.JSON(200, gin.H{
-	// 		"message": "pong",
-	// 	})
-	// })
 
 	r.Run(":3000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
