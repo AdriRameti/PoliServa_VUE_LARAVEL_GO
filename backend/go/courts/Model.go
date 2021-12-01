@@ -14,7 +14,7 @@ type CourtModel struct {
 	Price_h	int	`json:"price_h"`
 }
 
-func GetAllCourtsDB(c *gin.Context) {
+func GetAllCourtsDB(c *gin.Context) []CourtModel {
 	var courts []CourtModel
 
 	if err := Config.DB.Find(&courts).Error; err != nil {
@@ -22,27 +22,18 @@ func GetAllCourtsDB(c *gin.Context) {
 		fmt.Println("Status:", err);
 	}
 
-	c.JSON(http.StatusOK, courts)
+	return courts
 }
 
-func CreateCourtDB(court *CourtModel, c *gin.Context) {
-
-	// c.JSON(http.StatusOK, court)
-	fmt.Println("court DB", court)
+func CreateCourtDB(court *CourtModel, c *gin.Context) error {
 
 	if err := Config.DB.Create(court).Error; err != nil {
 		fmt.Println(err.Error())
 		c.AbortWithStatus(http.StatusNotFound)
+		return err
 	} else {
-		c.JSON(http.StatusOK, court)
+		return nil
 	}
-
-	// if err := Config.DB.Create(&court).Error; err != nil {
-	// 	fmt.Println(err.Error())
-	// 	c.AbortWithStatus(http.StatusNotFound)
-	// } else {
-	// 	c.JSON(http.StatusOK, court)
-	// }
 
 }
 

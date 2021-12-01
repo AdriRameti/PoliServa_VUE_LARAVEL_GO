@@ -6,7 +6,11 @@ import (
 )
 
 func GetAllCourts(c *gin.Context) {
-	GetAllCourtsDB(c)
+	courts := GetAllCourtsDB(c)
+
+	serializer := CourtsSerializer{c, courts}
+
+	c.JSON(http.StatusOK, serializer.Response())
 }
 
 func CreateCourt(c *gin.Context) {
@@ -18,18 +22,13 @@ func CreateCourt(c *gin.Context) {
 		return
 	}
 
-	CreateCourtDB(&courtModelValidator.courtModel, c)
+	if errC := CreateCourtDB(&courtModelValidator.courtModel, c); errC != nil {
+		c.JSON(http.StatusUnprocessableEntity, errC)
+		return
+	}
 
-	// c.JSON(http.StatusOK, courtModelValidator.courtModel)
+	serializer := CourtSerializer{c, courtModelValidator.courtModel}
 
-	// var court CourtModel
-
-	// c.BindJSON(&court)
-
-	// if err := ValidateCourt(&court); err == true {
-	// 	CreateCourtDB(&court, c)
-	// } else {
-	// 	c.JSON(http.StatusOK, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-	// }
+	c.JSON(http.StatusCreated, serializer.Response())
 
 }
