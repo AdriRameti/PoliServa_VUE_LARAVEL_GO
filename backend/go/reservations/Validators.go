@@ -2,9 +2,7 @@ package reservations
 
 import (
 	// "log"
-	"log"
 	"poliserva/Common"
-	"regexp"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -29,9 +27,9 @@ func (R *ReservationModelValidator) Bind(c *gin.Context) error {
 	if err != nil {
 		return err
 	}
-	hini:= ValidateHour(R.Hini)
-	hfin:= ValidateHour(R.Hfin)
-	date:= ValidateDate(R.Date)
+	hini:= common.ValidateHour(R.Hini)
+	hfin:= common.ValidateHour(R.Hfin)
+	date:= common.ValidateDate(R.Date)
 	if hini == false || hfin == false || date == false{
 		c.AbortWithStatus(http.StatusNotFound);
 	}else{
@@ -45,15 +43,4 @@ func (R *ReservationModelValidator) Bind(c *gin.Context) error {
 	}
 
 	return nil
-}
-
-
-func ValidateHour(hour string) bool{
-	match, _ := regexp.MatchString("[0-9][0-9]:[0-9][0-9]", hour)
-	return match
-}
-func ValidateDate(date string) bool{
-	match,_:= regexp.MatchString("[0-9]{2}/[0-9]{2}/[0-9]{4}", date)
-	log.Println(match)
-	return match
 }
