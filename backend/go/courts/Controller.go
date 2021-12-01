@@ -2,18 +2,34 @@ package courts
 
 import (
 	"github.com/gin-gonic/gin"
-	"fmt"
 	"net/http"
-	"poliserva/Config"
 )
 
 func GetAllCourts(c *gin.Context) {
-	var courts []CourtModel
+	GetAllCourtsDB(c)
+}
 
-	if err := Config.DB.Find(&courts).Error; err != nil {
-		c.AbortWithStatus(http.StatusNotFound);
-		fmt.Println("Status:", err);
+func CreateCourt(c *gin.Context) {
+
+	courtModelValidator := NewModelValidator()
+
+	if err := courtModelValidator.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
 	}
 
-	c.JSON(http.StatusOK, courts)
+	CreateCourtDB(&courtModelValidator.courtModel, c)
+
+	// c.JSON(http.StatusOK, courtModelValidator.courtModel)
+
+	// var court CourtModel
+
+	// c.BindJSON(&court)
+
+	// if err := ValidateCourt(&court); err == true {
+	// 	CreateCourtDB(&court, c)
+	// } else {
+	// 	c.JSON(http.StatusOK, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+	// }
+
 }

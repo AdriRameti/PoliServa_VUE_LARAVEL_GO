@@ -7,5 +7,6 @@ import (
 func CourtsRouting(router *gin.RouterGroup) {
 
 	router.GET("/", GetAllCourts)
+	router.POST("/", CreateCourt)
 	
 }
