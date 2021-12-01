@@ -1,19 +1,17 @@
 package reservations
 
 import (
-	// "fmt"
 	"log"
-	// "net/http"
-	// "poliserva/Config"
-	// "strconv"
+	"poliserva/Common"
 	"net/http"
 	"github.com/gin-gonic/gin"
 )
 
 func GetAllReservations(c *gin.Context) {
 	var reservations []ReservationModel
-
-	GetAllReservation(&reservations,c)
+	consult:=GetAllReservation(&reservations,c)
+	serializer:= ReservationsSerializer{c, *consult}
+	c.JSON(http.StatusCreated,serializer.Response())
 }
 
 func GetDateReservations(c *gin.Context){
@@ -21,31 +19,28 @@ func GetDateReservations(c *gin.Context){
 	Date:= c.Query("date")
 	Id_court:= c.Query("court")
 	Hour:= c.Query("hour")
-	if len(Date)<1{
-		log.Println("Date is missing")
+	if len(Date)<1 || len(Id_court)<1 ||  len(Hour)<1{
 		return
 	}
-	if len(Id_court)<1{
-		log.Println("Court is missing")
-		return
-	}
-	if len(Hour)<1{
-		log.Println("Hour is missing")
-		return
+	validDate:= common.ValidateDate(Date)
+	validHour:= common.ValidateHour(Hour)
+	if validDate == false || validHour == false{
+		c.AbortWithStatus(http.StatusNotFound);
 	}
 	MyArray:= []string {Date,Id_court,Hour}
-	GetDateOneReservation(MyArray,&reservations,c)
+	consult:=GetDateOneReservation(MyArray,&reservations,c)
+	serializer:= ReservationsSerializer{c, *consult}
+	c.JSON(http.StatusCreated, serializer.Response())
 }
 func CreateReservations(c *gin.Context){
-	// var reservations ReservationModel
 	reservationModelValidation := NewReservationModelValidator()
-	
 	if err := reservationModelValidation.Bind(c); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, "Error Validation Reservation")
 		return
 	}
-	// c.BindJSON(&reservations)
 	CreateNewReservation(&reservationModelValidation.reservationModel,c)
+	serializer:= ReservationSerializer{c, reservationModelValidation.reservationModel}
+	c.JSON(http.StatusCreated, serializer.Response())
 
 }
 
