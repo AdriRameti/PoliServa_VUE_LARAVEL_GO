@@ -17,9 +17,8 @@ func GetAllReservations(c *gin.Context) {
 func GetDateReservations(c *gin.Context){
 	var reservations []ReservationModel
 	Date:= c.Query("date")
-	Id_court:= c.Query("court")
 	Hour:= c.Query("hour")
-	if len(Date)<1 || len(Id_court)<1 ||  len(Hour)<1{
+	if len(Date)<1||  len(Hour)<1{
 		return
 	}
 	validDate:= common.ValidateDate(Date)
@@ -27,7 +26,7 @@ func GetDateReservations(c *gin.Context){
 	if validDate == false || validHour == false{
 		c.AbortWithStatus(http.StatusNotFound);
 	}
-	MyArray:= []string {Date,Id_court,Hour}
+	MyArray:= []string {Date,Hour}
 	consult:=GetDateOneReservation(MyArray,&reservations,c)
 	serializer:= ReservationsSerializer{c, *consult}
 	c.JSON(http.StatusCreated, serializer.Response())

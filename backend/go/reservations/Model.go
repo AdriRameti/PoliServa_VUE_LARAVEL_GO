@@ -35,9 +35,8 @@ func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
 }
 func GetDateOneReservation(MyArray []string,reservations *[]ReservationModel, c *gin.Context) (*[]ReservationModel){
 	Date:= MyArray[0]
-	Id_court:= MyArray[1]
-	Hour:= MyArray[2]
-	err:= Config.DB.Raw("Select * from reservations where not exists (select * from reservations r inner join courts c ON r.id_court = c.id AND r.id_court = ? where ? between r.hini and r.hfin and r.date = ?)",Id_court,Hour,Date).Find(&reservations).Error
+	Hour:= MyArray[1]
+	err:= Config.DB.Raw("Select * from reservations where not exists (select * from reservations r where ? between r.hini and r.hfin and r.date = ?)",Hour,Date).Find(&reservations).Error
 	if err != nil{
 		c.AbortWithStatus(http.StatusNotFound);
 		fmt.Println("Status:", err);
