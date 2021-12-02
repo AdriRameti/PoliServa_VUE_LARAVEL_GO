@@ -37,6 +37,15 @@ func GetCourtsBySport(c *gin.Context) {
 	c.JSON(http.StatusOK, serializer.Response())
 }
 
+func GetCourtsCarousel(c *gin.Context) {
+	
+	courts := GetCourtsCarouselDB(c)
+
+	serializer := CourtsSerializer{c, courts}
+
+	c.JSON(http.StatusOK, serializer.Response())
+}
+
 func CreateCourt(c *gin.Context) {
 
 	courtModelValidator := NewModelValidator()

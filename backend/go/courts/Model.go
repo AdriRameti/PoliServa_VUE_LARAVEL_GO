@@ -47,6 +47,17 @@ func GetCourtsBySportDB(slug string, c *gin.Context) []CourtModel {
 	return courts
 }
 
+func GetCourtsCarouselDB(c *gin.Context) []CourtModel {
+	var courts []CourtModel
+
+	if err := Config.DB.Limit(3).Find(&courts).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+
+	return courts
+}
+
 func CreateCourtDB(court *CourtModel, c *gin.Context) error {
 
 	if err := Config.DB.Create(court).Error; err != nil {
