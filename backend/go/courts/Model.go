@@ -12,6 +12,7 @@ type CourtModel struct {
 	Id_sport	uint	`json:"id_sport"`
 	Sector	int	`json:"sector"`
 	Price_h	int	`json:"price_h"`
+	Img string `json:"img"`
 }
 
 func GetAllCourtsDB(c *gin.Context) []CourtModel {
