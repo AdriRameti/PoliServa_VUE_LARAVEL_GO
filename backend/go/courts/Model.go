@@ -36,6 +36,17 @@ func GetOneCourtDB(id string, c *gin.Context) CourtModel {
 	return court
 }
 
+func GetCourtsBySportDB(slug string, c *gin.Context) []CourtModel {
+	var courts []CourtModel
+
+	if err := Config.DB.Raw("SELECT * FROM courts c WHERE c.id_sport = (SELECT id FROM sports s WHERE s.slug = ?)", slug).Find(&courts).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+
+	return courts
+}
+
 func CreateCourtDB(court *CourtModel, c *gin.Context) error {
 
 	if err := Config.DB.Create(court).Error; err != nil {

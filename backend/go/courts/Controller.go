@@ -25,6 +25,18 @@ func GetOneCourt(c *gin.Context) {
 	c.JSON(http.StatusOK, serializer.Response())
 }
 
+func GetCourtsBySport(c *gin.Context) {
+	var slug string
+
+	slug = c.Query("slug")
+
+	courts := GetCourtsBySportDB(slug, c)
+
+	serializer := CourtsSerializer{c, courts}
+
+	c.JSON(http.StatusOK, serializer.Response())
+}
+
 func CreateCourt(c *gin.Context) {
 
 	courtModelValidator := NewModelValidator()
