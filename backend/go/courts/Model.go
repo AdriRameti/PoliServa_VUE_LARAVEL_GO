@@ -25,6 +25,17 @@ func GetAllCourtsDB(c *gin.Context) []CourtModel {
 	return courts
 }
 
+func GetOneCourtDB(id string, c *gin.Context) CourtModel {
+	var court CourtModel
+
+	if err := Config.DB.Where("id = ?", id).Find(&court).Error; err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+
+	return court
+}
+
 func CreateCourtDB(court *CourtModel, c *gin.Context) error {
 
 	if err := Config.DB.Create(court).Error; err != nil {
@@ -35,6 +46,35 @@ func CreateCourtDB(court *CourtModel, c *gin.Context) error {
 		return nil
 	}
 
+}
+
+func UpdateCourtDB(id string, court *CourtModel, c *gin.Context) (courtR CourtModel, errR error) {
+
+	var courtF CourtModel
+
+	if err := Config.DB.Where("id = ?", id).Find(&courtF).Error; err != nil {
+		c.JSON(http.StatusNotFound, err)
+		return courtF, err
+	} else {
+		courtF.Id_sport = court.Id_sport
+		courtF.Sector = court.Sector
+		courtF.Price_h = court.Price_h
+		Config.DB.Save(&courtF)
+		return courtF, nil
+	}
+
+}
+
+func DeleteCourtDB(id string, c *gin.Context) {
+
+	var court CourtModel
+
+	if errF := Config.DB.Where("id = ?", id).Delete(&court).Error; errF == nil {
+		c.JSON(http.StatusOK, "Se ha eliminado con éxito")
+	} else {
+		fmt.Println(errF.Error())
+		c.AbortWithStatus(http.StatusNotFound)
+	}
 }
 
 func (b *CourtModel) TableName() string {

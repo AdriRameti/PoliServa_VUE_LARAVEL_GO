@@ -7,6 +7,9 @@ import (
 func CourtsRouting(router *gin.RouterGroup) {
 
 	router.GET("/", GetAllCourts)
+	router.GET("/single", GetOneCourt)
 	router.POST("/", CreateCourt)
+	router.PUT("/", UpdateCourt)
+	router.DELETE("/", DeleteCourt)
 	
 }
