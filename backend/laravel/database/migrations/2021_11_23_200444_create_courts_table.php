@@ -16,7 +16,7 @@ class CreateCourtsTable extends Migration
         Schema::create('courts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('id_sport')->references('id')->on('sports');
+            $table->foreignId('id_sport')->references('id')->on('sports')->nullable(true);
             $table->integer('sector');
             $table->integer('price_h');
             $table->string('img');

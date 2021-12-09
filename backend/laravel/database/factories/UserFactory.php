@@ -4,9 +4,10 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-
+use App\Traits\UtilsTrait;
 class UserFactory extends Factory
 {
+    use UtilsTrait;
     /**
      * Define the model's default state.
      *
@@ -18,10 +19,9 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'surnames'=> $this->faker->name(),
             'mail' => $this->faker->unique()->safeEmail(),
-            // 'email_verified_at' => now(),
+            'uuid' => self::generteUUID(),
             'pass' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'img'=>'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/640px-User_icon_2.svg.png'
-            // 'remember_token' => Str::random(10),
         ];
     }
 

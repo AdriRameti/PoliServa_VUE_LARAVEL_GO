@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('surnames');
+            $table->string('uuid');
             $table->string('mail');
             $table->string('pass');
             $table->string('img');
