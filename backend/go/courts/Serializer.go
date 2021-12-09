@@ -9,6 +9,7 @@ type CourtResponse struct {
 	Id_sport	uint	`json:"id_sport"`
 	Price_h	int	`json:"price_h"`
 	Sector	int	`json:"sector"`
+	Img string `json:"img"`
 }
 
 type CourtSerializer struct {
@@ -27,6 +28,7 @@ func (cs *CourtSerializer) Response() CourtResponse {
 		Id_sport: cs.court.Id_sport,
 		Price_h: cs.court.Price_h,
 		Sector: cs.court.Sector,
+		Img: cs.court.Img,
 	}
 
 	return response

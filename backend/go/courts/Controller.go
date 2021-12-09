@@ -13,6 +13,39 @@ func GetAllCourts(c *gin.Context) {
 	c.JSON(http.StatusOK, serializer.Response())
 }
 
+func GetOneCourt(c *gin.Context) {
+	var id string
+
+	id = c.Query("id")
+
+	court := GetOneCourtDB(id, c)
+
+	serializer := CourtSerializer{c, court}
+
+	c.JSON(http.StatusOK, serializer.Response())
+}
+
+func GetCourtsBySport(c *gin.Context) {
+	var slug string
+
+	slug = c.Query("slug")
+
+	courts := GetCourtsBySportDB(slug, c)
+
+	serializer := CourtsSerializer{c, courts}
+
+	c.JSON(http.StatusOK, serializer.Response())
+}
+
+func GetCourtsCarousel(c *gin.Context) {
+	
+	courts := GetCourtsCarouselDB(c)
+
+	serializer := CourtsSerializer{c, courts}
+
+	c.JSON(http.StatusOK, serializer.Response())
+}
+
 func CreateCourt(c *gin.Context) {
 
 	courtModelValidator := NewModelValidator()
@@ -31,4 +64,39 @@ func CreateCourt(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, serializer.Response())
 
+}
+
+func UpdateCourt(c *gin.Context) {
+
+	var id string
+	var court CourtModel
+
+	id = c.Query("id")
+	
+	courtModelValidator := NewModelValidator()
+
+	if err := courtModelValidator.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	court, errU := UpdateCourtDB(id, &courtModelValidator.courtModel, c)
+
+	if errU != nil {
+		c.JSON(http.StatusUnprocessableEntity, errU)
+		return
+	}
+
+	serializer := CourtSerializer{c, court}
+
+	c.JSON(http.StatusOK, serializer.Response())
+
+}
+
+func DeleteCourt(c *gin.Context) {
+	var id string
+
+	id = c.Query("id")
+
+	DeleteCourtDB(id, c)
 }

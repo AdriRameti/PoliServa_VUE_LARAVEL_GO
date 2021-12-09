@@ -7,6 +7,11 @@ import (
 func CourtsRouting(router *gin.RouterGroup) {
 
 	router.GET("/", GetAllCourts)
+	router.GET("/sport", GetCourtsBySport)
+	router.GET("/carousel", GetCourtsCarousel)
+	router.GET("/single", GetOneCourt)
 	router.POST("/", CreateCourt)
+	router.PUT("/", UpdateCourt)
+	router.DELETE("/", DeleteCourt)
 	
 }

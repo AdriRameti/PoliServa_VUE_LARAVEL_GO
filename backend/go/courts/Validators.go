@@ -9,6 +9,7 @@ type CourtModelValidator struct {
 	Id_sport	uint	`form:"id_sport" json:"id_sport" binding:"required"`
 	Sector	int	`form:"sector" json:"sector" binding:"required"`
 	Price_h	int	`form:"price_h" json:"price_h" binding:"required"`
+	Img string `form:"img" json:"img" binding:"required"`
 	courtModel CourtModel `json:"-"`
 }
 
@@ -23,9 +24,10 @@ func (court *CourtModelValidator) Bind(c *gin.Context) error {
 		return err
 	}
 
-	court.courtModel.Id_sport = court.Id_sport;
-	court.courtModel.Sector = court.Sector;
-	court.courtModel.Price_h = court.Price_h;
+	court.courtModel.Id_sport = court.Id_sport
+	court.courtModel.Sector = court.Sector
+	court.courtModel.Price_h = court.Price_h
+	court.courtModel.Img = court.Img
 
 	return nil
 }

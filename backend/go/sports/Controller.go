@@ -2,40 +2,79 @@ package sports
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func GetAllSports(c *gin.Context) {
-	GetAllSportsDB(c)
+	var sports []SportModel
+
+	sports = GetAllSportsDB(c)
+
+	serializer := SportsSerializer{c, sports}
+
+	c.JSON(http.StatusOK, serializer.Response())
 }
 
 func GetOneSport(c *gin.Context) {
+	var sport SportModel
 	var slug string
 
 	slug = c.Query("slug")
 
-	GetOneSportDB(slug, c)
+	sport = GetOneSportDB(slug, c)
+
+	serializer := SportSerializer{c, sport}
+
+	c.JSON(http.StatusOK, serializer.Response())
 }
 
 func CreateSport(c *gin.Context) {
+
 	var sport SportModel
 
-	c.BindJSON(&sport)
+	sportModelValidator := NewModelValidator()
 
-	CreateSportDB(&sport, c)
+	if err := sportModelValidator.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	sport, errC := CreateSportDB(&sportModelValidator.sportModel, c)
+
+	if errC != nil {
+		c.JSON(http.StatusUnprocessableEntity, errC)
+		return
+	}
+
+	serializer := SportSerializer{c, sport}
+
+	c.JSON(http.StatusOK, serializer.Response())
+
 }
 
 func UpdateSport(c *gin.Context) {
 	var slug string
-	var name string
-	var img string
+	var sport SportModel
 
 	slug = c.Query("slug")
-	name = c.Query("name")
-	img = c.Query("img")
 
-	values := []string {slug, name, img}
-	
-	UpdateSportDB(values, c)
+	sportModelValidator := NewModelValidator()
+
+	if err := sportModelValidator.Bind(c); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	sport, errU := UpdateSportDB(slug, &sportModelValidator.sportModel, c)
+
+	if errU != nil {
+		c.JSON(http.StatusUnprocessableEntity, errU)
+		return
+	}
+
+	serializer := SportSerializer{c, sport}
+
+	c.JSON(http.StatusOK, serializer.Response())
 
 }
 
