@@ -19,6 +19,6 @@ use app\Http\Controllers\SportsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::resouce('reservation',ReservationController::class);
-Route::resouce('courts',CourtsController::class);
-Route::resouce('sports',SportsController::class);
+Route::resource('reservation',ReservationController::class);
+Route::resource('courts',CourtsController::class);
+Route::resource('sports',SportsController::class);

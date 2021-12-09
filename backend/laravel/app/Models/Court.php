@@ -9,7 +9,7 @@ class Court extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sector', 'price_h'];
+    protected $fillable = ['sector', 'price_h','img'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function id_sport() {
