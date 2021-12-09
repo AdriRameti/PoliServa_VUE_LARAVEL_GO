@@ -8,13 +8,15 @@ import (
 	"strconv"
 	"strings"
 	"github.com/gin-gonic/gin"
+	courtsP "poliserva/courts"
 )
 
 type SportModel struct {
-	Id	uint `json:"id"`
+	ID	uint `json:"id"`
 	Slug	string `json:"slug"`
 	Name	string	`json:"name"`
 	Img	string	`json:"img"`
+	Courts []courtsP.CourtModel `gorm:"ForeignKey:Id_sport" json:"courts"`
 }
 
 func (sport *SportModel) BeforeCreate() {
@@ -47,7 +49,7 @@ func (sport *SportModel) BeforeSave() {
 
 }
 
-func GetAllSportsDB(c *gin.Context) {
+func GetAllSportsDB(c *gin.Context) []SportModel {
 
 	var sports []SportModel
 
@@ -56,61 +58,56 @@ func GetAllSportsDB(c *gin.Context) {
 		fmt.Println("Status:", err)
 	}
 
-	c.JSON(http.StatusOK, sports)
+	return sports
 
 }
 
-func GetOneSportDB(slug string,c *gin.Context) {
+func GetOneSportDB(slug string,c *gin.Context) SportModel {
 
 	var sport SportModel
 
 	if err := Config.DB.Where("slug = ?", slug).Find(&sport).Error; err != nil {
 		fmt.Println(err.Error())
 		c.AbortWithStatus(http.StatusNotFound)
+		return sport
 	} else {
-		c.JSON(http.StatusOK, sport)
+		return sport
 	}
 
 }
 
-func CreateSportDB(sport *SportModel, c *gin.Context) {
+func CreateSportDB(sport *SportModel, c *gin.Context) (sportR SportModel, errR error) {
+	
+	var sportRet SportModel
 
 	if err := Config.DB.Create(sport).Error; err != nil {
 		fmt.Println(err.Error())
 		c.AbortWithStatus(http.StatusNotFound)
+		
+		return sportRet, err
 	} else {
-		c.JSON(http.StatusOK, sport)
+		Config.DB.Where("slug = ?", sport.Slug).Find(&sportRet)
+		return sportRet, err
 	}
 
 }
 
-func UpdateSportDB(values []string, c *gin.Context) {
+func UpdateSportDB(slug string, sport *SportModel, c *gin.Context) (sportR SportModel, errR error) {
 
-	var sport SportModel
-	var slug string
-	var name string
-	var img string
+	var sportF SportModel
 
-	slug = values[0]
-	name = values[1]
-	img = values[2]
+	if errF := Config.DB.Where("slug = ?", slug).Find(&sportF).Error; errF == nil {
 
-	if errF := Config.DB.Where("slug = ?", slug).Find(&sport).Error; errF == nil {
+		sportF.Name = sport.Name
+		sportF.Img = sport.Img
 
-		if name != "" {
-			sport.Name = name
-		}
+		Config.DB.Save(&sportF)
 
-		if img != "" {
-			sport.Img = img
-		}
-
-		Config.DB.Save(&sport)
-
-		c.JSON(http.StatusOK, sport)
+		return sportF, errF
 	} else {
 		fmt.Println(errF.Error())
 		c.AbortWithStatus(http.StatusNotFound)
+		return sportF, errF
 	}
 
 }
@@ -118,12 +115,26 @@ func UpdateSportDB(values []string, c *gin.Context) {
 func DeleteSportDB(slug string, c *gin.Context) {
 
 	var sportF SportModel
+	var courts []courtsP.CourtModel
 
-	if errF := Config.DB.Where("slug = ?", slug).Delete(&sportF).Error; errF == nil {
-		c.JSON(http.StatusOK, "Se ha eliminado con éxito")
+	if errF := Config.DB.Where("slug = ?", slug).Preload("Courts").Find(&sportF).Error; errF == nil {
+
+		Config.DB.Model(&sportF).Association("Courts").Find(&courts) 
+
+		if Config.DB.Model(&sportF).Association("Courts").Delete(sportF.Courts).Error != nil {
+			c.JSON(http.StatusNotFound, gin.H{"message": "unable to delete courts association",})
+		} else {
+			Config.DB.Where("slug = ?", slug).Delete(&sportF)
+
+			for _, court := range courts {
+
+				courtsP.DeleteCourtDB(strconv.FormatUint(uint64(court.Id), 10), c)
+			}
+		}
+
 	} else {
 		fmt.Println(errF.Error())
-		c.AbortWithStatus(http.StatusNotFound)
+		c.AbortWithStatus(http.StatusUnprocessableEntity)
 	}
 
 }

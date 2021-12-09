@@ -24,10 +24,10 @@ func (court *CourtModelValidator) Bind(c *gin.Context) error {
 		return err
 	}
 
-	court.courtModel.Id_sport = court.Id_sport;
-	court.courtModel.Sector = court.Sector;
-	court.courtModel.Price_h = court.Price_h;
-	court.courtModel.Img = court.Img;
+	court.courtModel.Id_sport = court.Id_sport
+	court.courtModel.Sector = court.Sector
+	court.courtModel.Price_h = court.Price_h
+	court.courtModel.Img = court.Img
 
 	return nil
 }
