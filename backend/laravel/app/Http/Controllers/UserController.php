@@ -3,9 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Repositories\UserRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+
+    protected User $user;
+    
+
+    public function __construct(User $user, UserRepository $userRepository) {
+        $this->user = $user;
+        $this->userRepository = $userRepository;
+    }
+
+    public function login(LoginRequest $request) {
+        // print_r('holaaa, entre');
+        // print_r($request->validated());
+    }
+
+    public function register(RegisterRequest $request) {
+
+    }
+
     /**
      * Display a listing of the resource.
      *

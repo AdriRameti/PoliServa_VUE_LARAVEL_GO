@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\CourtsController;
-use app\Http\Controllers\ReservationController;
-use app\Http\Controllers\SportsController;
+use App\Http\Controllers\CourtsController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\SportsController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +20,10 @@ use app\Http\Controllers\SportsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('users/login', [UserController::class, "login"]);
+Route::get('users/register', [UserController::class, "register"]);
+Route::resource('users', UserController::class);
 Route::resource('reservation',ReservationController::class);
 Route::resource('courts',CourtsController::class);
 Route::resource('sports',SportsController::class);
