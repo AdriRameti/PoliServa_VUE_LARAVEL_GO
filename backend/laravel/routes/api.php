@@ -22,7 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('users/login', [UserController::class, "login"]);
-Route::get('users/register', [UserController::class, "register"]);
+Route::post('users/register', [UserController::class, "register"]);
+Route::post('users/mailRegister',[UserController::class,"mailRegister"]);
+Route::post('users/sendMailRegister',[UserController::class,"sendMailRegister"]);
 Route::resource('users', UserController::class);
 Route::resource('reservation',ReservationController::class);
 Route::resource('courts',CourtsController::class);

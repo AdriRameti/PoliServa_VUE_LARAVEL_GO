@@ -3,32 +3,117 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
+use App\Traits\ApiResponseTrait;
+use App\Traits\UtilsTrait;
+use JWTAuth;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
 
     protected User $user;
-    
-
+    use ApiResponseTrait;
+    use UtilsTrait;
     public function __construct(User $user, UserRepository $userRepository) {
         $this->user = $user;
         $this->userRepository = $userRepository;
     }
 
     public function login(LoginRequest $request) {
-        // print_r('holaaa, entre');
-        // print_r($request->validated());
+        try{
+            if(session('token')){
+                $data = self::decode(session('token'));
+                $array = json_decode(json_encode($data), True);
+                $uuid = $array['uuid'];
+            }else{
+
+            }
+        }catch(Exception $e){
+
+        }
     }
 
     public function register(RegisterRequest $request) {
-
+        try{
+            $dataReq = $request->only(
+                'name',
+                'surnames',
+                'mail',
+                'pass'
+            );
+            // $dataLogin = $request->only(
+            //     'mail',
+            //     'pass'
+            // );
+            
+            $user = $this->userRepository->register($dataReq);
+            
+            if($user){
+                $token = self::encode();
+               if( $token ){
+                    $data =  $this->respondWithToken($token);
+                    session(['token'=>$data]);
+                    Session::save();
+                    // $_SESSION['token'] = $data;
+                    // $token1 = $_SESSION['token']; 
+                    // $this->login($dataLogin);
+                    return redirect()->action([UserController::class,'login'],['mail'=>$dataReq['mail'],'pass'=>$dataReq['pass']]);
+                    // return self::apiResponseSuccess(null, 'Successfully registered', Response::HTTP_OK);
+                } 
+            }
+        }catch(\Exception $e){
+            return self::apiServerError($e->getMessage());
+        }
+    }
+    public function mailRegister($infouser){
+        $arr = array(
+            'name' => $infouser[0],
+            'surnames' => $infouser[1],
+            'mail' => $infouser[2],
+            'pass' => $infouser[3],
+        );
+        $codeVerify = $infouser[4];
+        $code = $_SESSION['code'];
+        $obj = json_encode($arr);
+        if($codeVerify != $code){
+            return self::apiServerError($e->getMessage());
+        }else{
+            $this->register($obj);
+        }
+    }
+    public function sendMailRegister($info){
+        $mail = $info[0];
+        $type = 'register';
+        $arrMail = array();
+        array_push($arrMail,$mail);
+        array_push($arrMail,$type);
+        if (!$mail && !$type){
+            return self::apiServerError($e->getMessage());
+        }else{
+            self::dataMail($arrMail);
+        }
+    }
+    protected function respondWithToken($token)
+    {
+        $data = [
+            'access_token'  => $token,
+            'token_type'    => 'bearer',
+            'expires_in'    => $this->guard()->factory()->getTTL() * 60 * 24 * 30,
+            'user'          => $this->guard()->user()
+        ];
+        return $data['access_token'];
     }
 
+    public function guard()
+    {
+        return auth()->guard('api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -104,4 +189,6 @@ class UserController extends Controller
     {
         //
     }
+
+
 }

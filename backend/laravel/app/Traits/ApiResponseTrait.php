@@ -28,6 +28,9 @@ trait ApiResponseTrait {
 
 	public static function apiResponseSuccess($data, $message = "Success", $code = JsonResponse::HTTP_OK)
 	{
+        if($data == null){
+            $data = '';
+        }
 		return response()->json([
             'status' => true,
             'message' => $message,
