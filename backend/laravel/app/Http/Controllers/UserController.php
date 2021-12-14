@@ -32,7 +32,7 @@ class UserController extends Controller
                 $array = json_decode(json_encode($data), True);
                 $uuid = $array['uuid'];
             }else{
-
+                
             }
         }catch(Exception $e){
 
