@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -20,23 +21,32 @@ class UserController extends Controller
     protected User $user;
     use ApiResponseTrait;
     use UtilsTrait;
+
     public function __construct(User $user, UserRepository $userRepository) {
         $this->user = $user;
         $this->userRepository = $userRepository;
     }
 
     public function login(LoginRequest $request) {
+
         try{
             if(session('token')){
                 $data = self::decode(session('token'));
                 $array = json_decode(json_encode($data), True);
                 $uuid = $array['uuid'];
             }else{
-                
+                // $email = $request->only('email');
+                // $response = HTTP::acceptJson()->post("http://localhost:3000/api/users/getRole")->json();
+
+                $response = HTTP::withHeaders(['uuid' => 'asdasd'])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
+
+                return $response;
+                // print_r($response);
             }
         }catch(Exception $e){
 
         }
+
     }
 
     public function register(RegisterRequest $request) {
