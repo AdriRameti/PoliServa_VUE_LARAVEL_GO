@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -11,7 +10,6 @@ use App\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Traits\ApiResponseTrait;
 use App\Traits\UtilsTrait;
-use JWTAuth;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -47,24 +45,13 @@ class UserController extends Controller
                 'mail',
                 'pass'
             );
-            // $dataLogin = $request->only(
-            //     'mail',
-            //     'pass'
-            // );
-            
             $user = $this->userRepository->register($dataReq);
-            
             if($user){
                 $token = self::encode();
                if( $token ){
-                    $data =  $this->respondWithToken($token);
-                    session(['token'=>$data]);
+                    session(['token'=>$token]);
                     Session::save();
-                    // $_SESSION['token'] = $data;
-                    // $token1 = $_SESSION['token']; 
-                    // $this->login($dataLogin);
-                    return redirect()->action([UserController::class,'login'],['mail'=>$dataReq['mail'],'pass'=>$dataReq['pass']]);
-                    // return self::apiResponseSuccess(null, 'Successfully registered', Response::HTTP_OK);
+                    return redirect()->action([ UserController::class, 'login' ],[ 'mail' => $dataReq['mail'] , 'pass' => $dataReq['pass'] ]);
                 } 
             }
         }catch(\Exception $e){
@@ -79,12 +66,11 @@ class UserController extends Controller
             'pass' => $infouser[3],
         );
         $codeVerify = $infouser[4];
-        $code = $_SESSION['code'];
-        $obj = json_encode($arr);
+        $code = session('code');
         if($codeVerify != $code){
             return self::apiServerError($e->getMessage());
         }else{
-            $this->register($obj);
+            return redirect()->action([ UserController::class, 'register' ],[ 'name' => $arr['name'] , 'surnames' => $arr['surnames'] , 'mail' => $arr['mail'] ,'pass' => $arr['pass']  ]);
         }
     }
     public function sendMailRegister($info){
@@ -96,24 +82,10 @@ class UserController extends Controller
         if (!$mail && !$type){
             return self::apiServerError($e->getMessage());
         }else{
-            self::dataMail($arrMail);
+            return self::dataMail($arrMail);
         }
     }
-    protected function respondWithToken($token)
-    {
-        $data = [
-            'access_token'  => $token,
-            'token_type'    => 'bearer',
-            'expires_in'    => $this->guard()->factory()->getTTL() * 60 * 24 * 30,
-            'user'          => $this->guard()->user()
-        ];
-        return $data['access_token'];
-    }
 
-    public function guard()
-    {
-        return auth()->guard('api');
-    }
     /**
      * Display a listing of the resource.
      *

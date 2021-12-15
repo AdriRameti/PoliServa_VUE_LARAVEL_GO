@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Session;
 
 trait UtilsTrait {
 
@@ -38,8 +39,9 @@ trait UtilsTrait {
     public static function dataMail($info){
         $emailClient =$info[0];
         $emailServer = 'poliserva@infopoliserva.com';
-        $code = $this->generateCode();
-        $_SESSION['code'] = $code;
+        $code = self::generateCode();
+        session(['code'=>$code]);
+        Session::save();
         $message = 'Para completar el registro debe introducir el codigo de verificación: '.$code;
         $type = $info[1];
         $html = '';
@@ -64,19 +66,19 @@ trait UtilsTrait {
            $html .= "<br><br>";
 	       $html .= $body;
 	       $html .= "<br><br>";
-	       $html .= "<p>Sent by KIWEAR SHOP</p>";
+	       $html .= "<p>Sent by Poliserva</p>";
 		$html .= "</body>";
 		$html .= "</html>";
 
         try{
-            $result = $this->sendMail($emailServer,$emailClient,$subject,$html);
+            $result = self::sendMail($emailServer,$emailClient,$subject,$html);
         }catch(Exception $e){
             return $e;
         }
         return $result;
     }
     public static function sendMail($mailServ,$mailClien,$subject,$html){
-        $info_file = parse_ini_file( $_SERVER['DOCUMENT_ROOT'].'/Proyect2_Go_Laravel_Vue/backend/laravel/info.ini');
+        $info_file = parse_ini_file( $_SERVER['DOCUMENT_ROOT'].'\info.ini');
         $config = array();
         $config['api_key']=$info_file['api_key'];
         $config['api_url']=$info_file['api_url'];
@@ -102,7 +104,7 @@ trait UtilsTrait {
         curl_close($ch);
         return $result;
     }
-    private function generateCode(){
+    private static function generateCode(){
         $cod = random_int(00000,99999);
         return $cod;
     }
