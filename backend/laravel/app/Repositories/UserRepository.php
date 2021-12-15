@@ -10,6 +10,22 @@ class UserRepository{
 
     use UtilsTrait;
 
+    public function login($data) {
+
+        $user = User::where('mail', $data['mail'])->first();
+
+        if ($user) {
+            if (Hash::check($data['pass'], $user['pass']) == 1) {
+                return $user['uuid'];
+            } else {
+                return "password don't match";
+            }
+        } else {
+            return "user not found" ;
+        }
+
+    }
+
     public function register($data)
     {
         $data = [
