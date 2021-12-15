@@ -67,9 +67,8 @@ class UserController extends Controller
                 'mail',
                 'pass'
             );
-            
+
             $user = $this->userRepository->register($dataReq);
-            
             if($user){
                 $token = self::encode();
                if( $token ){
@@ -94,12 +93,11 @@ class UserController extends Controller
             'pass' => $infouser[3],
         );
         $codeVerify = $infouser[4];
-        $code = $_SESSION['code'];
-        $obj = json_encode($arr);
+        $code = session('code');
         if($codeVerify != $code){
             return self::apiServerError($e->getMessage());
         }else{
-            $this->register($obj);
+            return redirect()->action([ UserController::class, 'register' ],[ 'name' => $arr['name'] , 'surnames' => $arr['surnames'] , 'mail' => $arr['mail'] ,'pass' => $arr['pass']  ]);
         }
     }
 
@@ -112,7 +110,7 @@ class UserController extends Controller
         if (!$mail && !$type){
             return self::apiServerError($e->getMessage());
         }else{
-            self::dataMail($arrMail);
+            return self::dataMail($arrMail);
         }
     }
 
@@ -126,7 +124,7 @@ class UserController extends Controller
     //     ];
     //     return $data['access_token'];
     // }
-    
+
     /**
      * Display a listing of the resource.
      *
