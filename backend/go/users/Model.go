@@ -1,10 +1,10 @@
 package users
 
 import (
-	// "poliserva/Config"
-	// "fmt"
-	// "net/http"
-	// "github.com/gin-gonic/gin"
+	"poliserva/Config"
+	"fmt"
+	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 type UserModel struct {
@@ -17,9 +17,19 @@ type UserModel struct {
 	Img string `json:"img"`
 }
 
-// func (uuid string, c *gin.Context) GetUserWithRoleDB() {
+func GetUserWithRoleDB(uuid string, c *gin.Context) UserModel {
+	
+	var user UserModel
 
-// }
+	if err := Config.DB.Where("uuid = ?", uuid).Find(&user).Error; err != nil {
+		fmt.Println(err.Error())
+		c.AbortWithStatus(http.StatusNotFound)
+		return user
+	} else {
+		return user
+	}
+
+}
 
 func (b *UserModel) TableName() string {
 	return "users"

@@ -8,10 +8,15 @@ import (
 
 func GetUserWithRole(c *gin.Context) {
 	var uuid string
+	var user UserModel
 
 	uuid = c.GetHeader("uuid")
 
-	c.JSON(http.StatusOK, uuid)
+	user = GetUserWithRoleDB(uuid, c)
+
+	serializer := UserSerializer{c, user}
+
+	c.JSON(http.StatusOK, serializer.Response())
 
 	// userWithRoleModelValidator := NewUserWithRoleValidator()
 
