@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -20,5 +21,13 @@ class User extends Authenticatable
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function setPassAttribute($value)
+    {
+        $this->attributes['pass'] = Hash::make($value);
+    }
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['name'] .' '. $this->attributes['surnames'];
     }
 }
