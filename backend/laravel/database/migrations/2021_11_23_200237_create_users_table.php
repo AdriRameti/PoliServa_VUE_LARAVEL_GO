@@ -22,6 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('mail');
             $table->string('pass');
             $table->string('img');
+            $table->text('google2fa_secret')->nullable(true);
+            $table->string('role');
+            $table->boolean('is_blocked');
         });
     }
 

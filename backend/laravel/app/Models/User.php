@@ -9,8 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasFactory;
-    protected $fillable = ['name', 'surnames','uuid', 'mail', 'pass', 'img'];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = ['name', 'surnames','uuid', 'mail', 'pass', 'img', 'google2fa_secret', 'role', 'is_blocked'];
+    protected $hidden = ['created_at', 'updated_at', 'google2fa_secret'];
 
     public function getJWTIdentifier()
     {
@@ -20,5 +20,28 @@ class User extends Authenticatable
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Ecrypt the user's google_2fa secret.
+     *
+     * @param  string  $value
+     * @return string
+     */
+
+    // public function setGoogle2faSecretAttribute($value)
+    // {
+    //     $this->attributes['google2fa_secret'] = encrypt($value);
+    // }
+
+    /**
+     * Decrypt the user's google_2fa secret.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getGoogle2faSecretAttribute($value)
+    {
+        return decrypt($value);
     }
 }

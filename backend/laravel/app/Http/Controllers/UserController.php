@@ -10,6 +10,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Traits\ApiResponseTrait;
+use App\Traits\Google2FATrait;
 use App\Traits\UtilsTrait;
 use Illuminate\Support\Facades\Session;
 
@@ -19,10 +20,26 @@ class UserController extends Controller
     protected User $user;
     use ApiResponseTrait;
     use UtilsTrait;
+    use Google2FATrait;
 
     public function __construct(User $user, UserRepository $userRepository) {
         $this->user = $user;
         $this->userRepository = $userRepository;
+    }
+
+    public function enable2fa() {
+        return self::en2fa();
+    }
+
+    public function disable2fa() {
+        return self::dis2fa();
+    }
+
+    public function check2fa(Request $request) {
+
+        $digits = $request->only('one_time_password');
+
+        return self::checkOTP($digits['one_time_password']);
     }
 
     public function login(LoginRequest $request) {
@@ -39,14 +56,15 @@ class UserController extends Controller
 
                 return $response;
             }else{
+
                 $data = $request->validated();
 
                 $uuid = $this->userRepository->login($data);
 
                 if ($uuid == "user not found") {
-                    return $uuid;
+                    return self::apiServerError('user not found');
                 } else if ($uuid == "password don't match") {
-                    return $uuid;
+                    return self::apiServerError("password don't match");
                 } else {
                     $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
                 }
@@ -54,7 +72,7 @@ class UserController extends Controller
                 return $response;
             }
         }catch(Exception $e){
-            return $e;
+            return self::apiServerError($e->getMessage());
         }
 
     }

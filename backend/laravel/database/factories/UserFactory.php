@@ -21,7 +21,10 @@ class UserFactory extends Factory
             'mail' => $this->faker->unique()->safeEmail(),
             'uuid' => self::generteUUID(),
             'pass' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'img'=>'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/640px-User_icon_2.svg.png'
+            'img'=>'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/640px-User_icon_2.svg.png',
+            'google2fa_secret' => null,
+            'role' => 'client',
+            'is_blocked' => false
         ];
     }
 
