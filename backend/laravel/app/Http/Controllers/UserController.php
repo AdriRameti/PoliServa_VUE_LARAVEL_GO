@@ -132,17 +132,6 @@ class UserController extends Controller
         }
     }
 
-    // protected function respondWithToken($token)
-    // {
-    //     $data = [
-    //         'access_token'  => $token,
-    //         'token_type'    => 'bearer',
-    //         'expires_in'    => $this->guard()->factory()->getTTL() * 60 * 24 * 30,
-    //         'user'          => $this->guard()->user()
-    //     ];
-    //     return $data['access_token'];
-    // }
-
     /**
      * Display a listing of the resource.
      *
