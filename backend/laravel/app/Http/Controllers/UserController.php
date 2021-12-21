@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateRequest;
 use App\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Traits\ApiResponseTrait;
@@ -46,11 +47,7 @@ class UserController extends Controller
 
         try{
             if(session('token')){
-                $data = self::decode(session('token'));
-
-                $array = json_decode(json_encode($data), True);
-
-                $uuid = $array['uuid'];
+                $uuid = self::getUuid();
 
                 $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
 
@@ -192,9 +189,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request)
     {
-        //
+        if($this->userRepository->getUser()){
+            $user = $this->userRepository->getUser();
+            $user->name = $request->name;
+            $user->surnames = $request->surnames;
+            $user->mail = $request->mail;
+            $user->pass = $request->pass;
+            $user->img = $request->img;
+            $user->save();
+            print_r($user);
+            // return $this->userRepository->getUser();
+        }else{
+            self::apiResponseError($e->getMessage());
+        }
     }
 
     /**
@@ -203,9 +212,38 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function deleteUser(Request $request){
+        if($this->userRepository->check2fa()){
+            $result = self::checkOTP($request->input('one_time_password'));
+            if($result === 'verified'){
+                $user = $this->userRepository->getUser();
+                $user->delete();
+                return self::apiResponseSuccess(null);
+            }
+        }else{
+             $user = $this->userRepository->getUser();
+             $type = 'delete';
+             $arrMail = array();
+             array_push($arrMail,$user['mail']);
+             array_push($arrMail,$type);
+             if (!$user['mail'] && !$type){
+                 return self::apiServerError($e->getMessage());
+             }else{
+                 return self::dataMail($arrMail);
+             }
+        }
+    }
+    public function destroy(Request $request)
     {
-        //
+        $codeVerify = $request->input('codeVeri');
+        $code = session('code');
+        if($codeVerify != $code){
+            return self::apiServerError($e->getMessage());
+        }else{
+            $user = $this->userRepository->getUser();
+            $user->delete();
+            return self::apiResponseSuccess(null);
+        }
     }
 
 

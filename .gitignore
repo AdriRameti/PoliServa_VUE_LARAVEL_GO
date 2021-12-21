@@ -2,4 +2,4 @@
 **/vendor
 **/package-lock.json
 **.env
-**.ini
+**info.ini

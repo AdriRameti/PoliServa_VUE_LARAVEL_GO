@@ -50,14 +50,21 @@ class UserRepository{
     }
 
     public function getUser() {
-        $token = self::decode(session('token'));
-
-        $array = json_decode(json_encode($token), True);
-
-        $uuid = $array['uuid'];
+        $uuid = self::getUuid();
 
         $user = User::where('uuid', $uuid)->first();
 
         return $user;
     }
+    public function check2fa(){
+        $uuid = self::getUuid();
+
+        $user = User::where('uuid', $uuid)->whereNotNull('google2fa_secret')->first();
+        
+        return $user;
+    }
+    public function logOut(){
+        Session::forget('token');
+    }
+
 }

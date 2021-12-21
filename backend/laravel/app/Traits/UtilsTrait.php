@@ -37,14 +37,22 @@ trait UtilsTrait {
     public static function decode($token){
         $decoded = JWT::decode($token, new Key(env("JWT_SECRET"), 'HS256'));
         return $decoded;
-    } 
+    }
+    public static function getUuid(){
+        $token = self::decode(session('token'));
+
+        $array = json_decode(json_encode($token), True);
+
+        $uuid = $array['uuid'];
+        return $uuid;
+    }
     public static function dataMail($info){
         $emailClient =$info[0];
         $emailServer = 'poliserva@infopoliserva.com';
         $code = self::generateCode();
         session(['code'=>$code]);
         Session::save();
-        $message = 'Para completar el registro debe introducir el codigo de verificación: '.$code;
+        $message = 'Para completar la operación debe introducir el codigo de verificación: '.$code;
         $type = $info[1];
         $html = '';
         $subject = '';
@@ -54,7 +62,11 @@ trait UtilsTrait {
             case 'register':
                 $subject = 'Tu alta en Poliserva';
                 $body = 'Gracias por unirte a Poliserva.';
-            break;
+                break;
+            case 'delete':
+                $subject = 'Confirmación para la eliminación de la cuenta';
+                $body = 'Te esperamos pronto en Poliserva';
+                break;
         }
         $html .= "<html>";
         $html .= "<body>";
