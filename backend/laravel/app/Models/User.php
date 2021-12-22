@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class User extends Authenticatable
 {
     use HasFactory;
+    protected $appends =['fullName'];
     protected $fillable = ['name', 'surnames','uuid', 'mail', 'pass', 'img', 'google2fa_secret', 'role', 'is_blocked'];
     protected $hidden = ['created_at', 'updated_at', 'google2fa_secret'];
 

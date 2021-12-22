@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Resources\UserResource;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateRequest;
@@ -43,15 +44,16 @@ class UserController extends Controller
         return self::checkOTP($digits['one_time_password']);
     }
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request): UserResource {
 
         try{
             if(session('token')){
                 $uuid = self::getUuid();
-
+                $user = $this->userRepository->getUser();
+                $fullName = $user->fullName;
                 $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
-
-                return $response;
+                $response+=array('fullName'=>$fullName);
+                return $this->userResponse($response);
             }else{
 
                 $data = $request->validated();
@@ -246,5 +248,10 @@ class UserController extends Controller
         }
     }
 
-
+    private function userResponse($response): UserResource {
+        $user = $this->userRepository->getUser();
+        $fullName = $user->fullName;
+        
+        return new UserResource($response);
+    }
 }
