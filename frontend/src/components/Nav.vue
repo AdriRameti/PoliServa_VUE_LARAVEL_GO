@@ -8,16 +8,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-md-auto gap-2">
         <li class="nav-item rounded">
-          <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house-fill me-2"></i>Home</a>
+          <a class="nav-link active text-white" aria-current="page" href="#"><i class="bi bi-house-fill me-2"></i>Home</a>
         </li>
         <li class="nav-item rounded">
-          <a class="nav-link" href="#"><i class="bi bi-people-fill me-2"></i>About</a>
+          <a class="nav-link text-white" href="#"><i class="bi bi-people-fill me-2"></i>About</a>
         </li>
         <li class="nav-item rounded">
-          <a class="nav-link" href="#"><i class="bi bi-telephone-fill me-2"></i>Contact</a>
+          <a class="nav-link text-white" href="#"><i class="bi bi-telephone-fill me-2"></i>Contact</a>
         </li>
         <li class="nav-item dropdown rounded">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill me-2"></i>Profile</a>
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill me-2"></i>Profile</a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#">Account</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
