@@ -11,6 +11,9 @@ type UserResponse struct {
 	Surnames string `json:"surnames"`
 	Mail string `json:"mail"`
 	Img string `json:"img"`
+	Google2fa_secret string `json:"google2fa_secret"`
+	Role string `json:"role"`
+	Is_blocked bool `json:"is_blocked"`
 }
 
 type UserSerializer struct {
@@ -31,6 +34,9 @@ func (us *UserSerializer) Response() UserResponse {
 		Surnames: us.user.Surnames,
 		Mail: us.user.Mail,
 		Img: us.user.Img,
+		Google2fa_secret: us.user.Google2fa_secret,
+		Role: us.user.Role,
+		Is_blocked: us.user.Is_blocked,
 	}
 
 	return response

@@ -1,12 +1,5 @@
 package users
 
-import (
-	"poliserva/Config"
-	"fmt"
-	"net/http"
-	"github.com/gin-gonic/gin"
-)
-
 type UserModel struct {
 	ID uint `json:"id"`
 	UUID string `json:"uuid"`
@@ -15,20 +8,9 @@ type UserModel struct {
 	Mail string `json:"mail"`
 	Pass string `json:"pass"`
 	Img string `json:"img"`
-}
-
-func GetUserWithRoleDB(uuid string, c *gin.Context) UserModel {
-	
-	var user UserModel
-
-	if err := Config.DB.Where("uuid = ?", uuid).Find(&user).Error; err != nil {
-		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusNotFound)
-		return user
-	} else {
-		return user
-	}
-
+	Google2fa_secret string `json:"google2fa_secret"`
+	Role string `json:"role"`
+	Is_blocked bool `json:"is_blocked"`
 }
 
 func (b *UserModel) TableName() string {
