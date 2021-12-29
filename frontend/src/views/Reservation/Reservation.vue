@@ -1,61 +1,87 @@
 <template>
     <div>
         <div class="input-group">
-            <Datepicker class="input-group-text" v-model="picked" :on-change="onChange(picked)" />
-            <select class="form-select">
+            <Datepicker class="input-group-text" v-model="picked" />
+            <select class="form-select" v-on:change="hIni($event)">
             <option value="" selected disabled hidden>Inicio</option>
-            <option>08:00</option>
-            <option>09:00</option>
-            <option>10:00</option>
-            <option>11:00</option>
-            <option>12:00</option>
-            <option>13:00</option>
-            <option>14:00</option>
-            <option>15:00</option>
-            <option>16:00</option>
-            <option>17:00</option>
-            <option>18:00</option>
-            <option>19:00</option>
-            <option>20:00</option>
-            <option>21:00</option>
+            <option data-time="08:00">08:00</option>
+            <option data-time="09:00">09:00</option>
+            <option data-time="10:00">10:00</option>
+            <option data-time="11:00">11:00</option>
+            <option data-time="12:00">12:00</option>
+            <option data-time="13:00">13:00</option>
+            <option data-time="14:00">14:00</option>
+            <option data-time="15:00">15:00</option>
+            <option data-time="16:00">16:00</option>
+            <option data-time="17:00">17:00</option>
+            <option data-time="18:00">18:00</option>
+            <option data-time="19:00">19:00</option>
+            <option data-time="20:00">20:00</option>
+            <option data-time="21:00">21:00</option>
         </select>
-        <select class="form-select">
+        <select class="form-select" @change="handleChange">
             <option value="" selected disabled hidden>Fin</option>
-            <option>09:00</option>
-            <option>10:00</option>
-            <option>11:00</option>
-            <option>12:00</option>
-            <option>13:00</option>
-            <option>14:00</option>
-            <option>15:00</option>
-            <option>16:00</option>
-            <option>17:00</option>
-            <option>18:00</option>
-            <option>19:00</option>
-            <option>20:00</option>
-            <option>21:00</option>
-            <option>22:00</option>
+            <option data-time="09:00">09:00</option>
+            <option data-time="10:00">10:00</option>
+            <option data-time="11:00">11:00</option>
+            <option data-time="12:00">12:00</option>
+            <option data-time="13:00">13:00</option>
+            <option data-time="14:00">14:00</option>
+            <option data-time="15:00">15:00</option>
+            <option data-time="16:00">16:00</option>
+            <option data-time="17:00">17:00</option>
+            <option data-time="18:00">18:00</option>
+            <option data-time="19:00">19:00</option>
+            <option data-time="20:00">20:00</option>
+            <option data-time="21:00">21:00</option>
+            <option data-time="22:00">22:00</option>
         </select>
+        <a class="btn btn-dark text-white" v-on:click="search()">Aplicar</a>   
         </div>
-        
+        <reservation-list/>
     </div>
 </template>
 <script>
 import Datepicker from 'vue3-datepicker/dist/vue3-datepicker.esm'
+import { Store, useStore } from "vuex"
+import ReservationList from '../../components/ReservationList.vue'
 export default({
     components: {
-        Datepicker
+        Datepicker,
+        ReservationList
     },
     data: ()=> {
         return{
-            picked: new Date()
+            picked: new Date(),
+            date: '',
+            hini: '',
+            hfin:'',
         };
        
     },
     methods: {
-        onChange(event){
-            console.log(event)
+        handleChange(e){
+            this.hfin = e.target.options[e.target.options.selectedIndex].dataset.time
+        },
+        hIni(e){
+            this.hini = e.target.options[e.target.options.selectedIndex].text
+        },
+        search(){
+            var day = this.picked.getDate()
+            var month = this.picked.getMonth() +1
+            var year = this.picked.getFullYear()
+            this.date = day+'/'+month+'/'+year
+
+            if(!this.date && !this.hini && !this.hfin){
+                console.log('Variables vacias');
+            }else{
+                store.dispatch("")
+            }
+            console.log(this.date,this.hini,this.hfin)
         }
+    },
+    setup(props){
+        console.log(props)
     }
 })
 </script>
