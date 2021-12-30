@@ -28,8 +28,19 @@ export const useGetSportCourts = async (slug) => {
     let data = await res.json();
     
     courts.value = data;
-
-    console.log(courts.value, count.value);
-
+    
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+}
+export const useGetCarouselCourts = async () => {
+    
+    let courts = ref([]);
+
+    let res = await fetch(secret.GO_URL + "courts/carousel");
+    // let res = Api(`http://localhost:3000/api/`).get(`courts`);
+    let data = await res.json();
+    
+    courts.value = data;
+
+    return { courts }
+
 }

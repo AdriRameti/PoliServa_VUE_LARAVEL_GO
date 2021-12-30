@@ -13,12 +13,16 @@ import { useGetAllCourts, useGetSportCourts } from '../composables/courts/useGet
 
 export default({
     async setup() {
-        const slug = localStorage.getItem('slug')
-        const { courts, count } = await useGetAllCourts('tenis-5209');
+        const slug = localStorage.getItem('slug');
 
-        console.log('hola', courts.value);
+        if (slug) {
+            const { courts, count } = await useGetSportCourts(slug);
+            return { courts, count };
+        } else {
+            const { courts, count } = await useGetAllCourts();
+            return { courts, count };
+        }
 
-        return { courts, count };
     },
 })
 </script>
