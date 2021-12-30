@@ -38,7 +38,9 @@
         </select>
         <a class="btn btn-dark text-white" v-on:click="search()">Aplicar</a>   
         </div>
-        <reservation-list/>
+        <Suspense>
+            <reservation-list/>
+        </Suspense>
     </div>
 </template>
 <script>
