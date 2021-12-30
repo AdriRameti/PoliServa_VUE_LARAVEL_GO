@@ -17,16 +17,19 @@ func GetAllReservations(c *gin.Context) {
 func GetDateReservations(c *gin.Context){
 	var reservations []ReservationModel
 	Date:= c.Query("date")
-	Hour:= c.Query("hour")
-	if len(Date)<1||  len(Hour)<1{
+	hini:= c.Query("hini")
+	hfin:= c.Query("hfin")
+	slug:= c.Query("slug")
+	if len(Date)<1||  len(hini)<1 || len(hfin)<1 || len(slug)<1 {
 		return
 	}
 	validDate:= common.ValidateDate(Date)
-	validHour:= common.ValidateHour(Hour)
-	if validDate == false || validHour == false{
+	validHini:= common.ValidateHour(hini)
+	validHfin:= common.ValidateHour(hfin)
+	if validDate == false || validHini == false || validHfin == false{
 		c.AbortWithStatus(http.StatusNotFound);
 	}
-	MyArray:= []string {Date,Hour}
+	MyArray:= []string {Date,hini,hfin,slug}
 	consult:=GetDateOneReservation(MyArray,&reservations,c)
 	serializer:= ReservationsSerializer{c, *consult}
 	c.JSON(http.StatusCreated, serializer.Response())

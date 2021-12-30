@@ -9,11 +9,12 @@
 </template>
 <script>
 
-import { useGetAllCourts } from '../composables/courts/useGetAllCourts';
+import { useGetAllCourts, useGetSportCourts } from '../composables/courts/useGetAllCourts';
 
 export default({
     async setup() {
-        const { courts, count } = await useGetAllCourts();
+        const slug = localStorage.getItem('slug')
+        const { courts, count } = await useGetAllCourts('tenis-5209');
 
         console.log('hola', courts.value);
 

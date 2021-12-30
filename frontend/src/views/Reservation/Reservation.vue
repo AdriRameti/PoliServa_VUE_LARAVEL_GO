@@ -77,7 +77,7 @@ export default({
             if(!this.date && !this.hini && !this.hfin){
                 console.log('Variables vacias');
             }else{
-                store.dispatch("")
+                
             }
             console.log(this.date,this.hini,this.hfin)
         }
