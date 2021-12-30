@@ -3,3 +3,4 @@
 **/package-lock.json
 **.env
 **info.ini
+frontend/src/secret.js
