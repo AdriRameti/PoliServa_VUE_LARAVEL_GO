@@ -32,8 +32,8 @@
 
 <style>
 
-nav * {
-  color: white;
+.nav-item {
+  cursor: pointer;
 }
 
 .navbar-nav .nav-item:hover {
