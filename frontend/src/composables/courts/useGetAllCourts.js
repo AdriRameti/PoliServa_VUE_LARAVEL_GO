@@ -33,3 +33,23 @@ export const useGetSportCourts = async (slug) => {
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
+export const useGetDateReservation = async (infoDate) => {
+    console.log(infoDate)
+    var date = infoDate[0]
+    var hini = infoDate[1]
+    var hfin = infoDate[2]
+    var slug = infoDate[3]
+    let courts = ref([]);
+
+    let count = computed(() => courts.value.length);
+
+    let res = await fetch(secret.GO_URL + "reservations/datereservation?date="+date+"&hini="+hini+"&hfin="+hfin+"&slug="+slug);
+    // let res = Api(`http://localhost:3000/api/`).get(`courts`);
+    let data = await res.json();
+    
+    courts.value = data;
+
+    console.log(courts.value, count.value);
+
+    return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+}

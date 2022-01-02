@@ -9,16 +9,30 @@
 </template>
 <script>
 
-import { useGetAllCourts, useGetSportCourts } from '../composables/courts/useGetAllCourts';
+import { useGetAllCourts, useGetSportCourts,useGetDateReservation } from '../composables/courts/useGetAllCourts';
 
 export default({
     async setup() {
-        const slug = localStorage.getItem('slug')
-        const { courts, count } = await useGetAllCourts('tenis-5209');
+        var sl = localStorage.getItem('slug')
+        var dat = localStorage.getItem('date')
+        var hin = localStorage.getItem('hini')
+        var hfi = localStorage.getItem('hfin')
+        var arr = []
+        if (sl && dat && hin && hfi){
+            arr.push(dat)
+            arr.push(hin)
+            arr.push(hfi)
+            arr.push('tenis-5209')
+            
+            const { courts, count } = await useGetDateReservation(arr);
+            
+            return { courts, count };
+        }else{
+            const { courts, count } = await useGetSportCourts('tenis-5209');
 
-        console.log('hola', courts.value);
+            return { courts, count };
+        }
 
-        return { courts, count };
     },
 })
 </script>

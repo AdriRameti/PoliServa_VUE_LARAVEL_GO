@@ -39,7 +39,7 @@
         <a class="btn btn-dark text-white" v-on:click="search()">Aplicar</a>   
         </div>
         <Suspense>
-            <reservation-list/>
+            <reservation-list :value="filter"/>
         </Suspense>
     </div>
 </template>
@@ -58,6 +58,7 @@ export default({
             date: '',
             hini: '',
             hfin:'',
+            filter: []
         };
        
     },
@@ -77,7 +78,9 @@ export default({
             if(!this.date && !this.hini && !this.hfin){
                 console.log('Variables vacias');
             }else{
-                
+                localStorage.setItem('date',this.date)
+                localStorage.setItem('hini',this.hini)
+                localStorage.setItem('hfin',this.hfin)
             }
             console.log(this.date,this.hini,this.hfin)
         }
