@@ -1,0 +1,34 @@
+<template>
+    <div class="pistas d-flex flex-wrap p-3 justify-content-center m-3">
+        <div class="card p-3 card-reser" v-for="sport in sports" :key="sport.id">
+            <img :src="sport.img"/>
+            <h1>{{ sport.name }}</h1>
+            <p class="reser-descrip">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            <button class="btn btn-dark text-white" v-on:click="setSport(sport.slug)">Mirar pistas</button>
+        </div>
+    </div>
+</template>
+<script>
+
+import { useGetAllSports } from '../composables/sports/useSports';
+
+export default({
+
+    methods:{
+        setSport(slug) {
+            localStorage.setItem('slug', slug);
+            window.location.href="/#/reservation";
+        }
+    },
+    async setup() {
+
+        const { sports } = await useGetAllSports();
+
+        return { sports };
+    },
+})
+</script>
+
+<style lang="scss">
+
+</style>
