@@ -18,7 +18,7 @@ const routes = [
   {path: '/court',name: 'Court',component:()=> import('../views/Court/Court.vue')},
   {path: '/dashboard',name: 'Dashboard',component:()=> import('../views/Dashboard/Dashboard.vue')},
   {path: '/login',name: 'Login',component:()=> import('../views/Login/Login.vue')},
-  {path: '/register',name: 'Register',component:()=> import('../views/Login/Register.vue')},
+  // {path: '/register',name: 'Register',component:()=> import('../views/Login/Register.vue')},
   {path: '/reservation',name: 'Reservation',component:()=> import('../views/Reservation/Reservation.vue')},
   {path: '/sport',name: 'Sport',component:()=> import('../views/Sport/Sport.vue')}
 ]
