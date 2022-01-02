@@ -11,7 +11,7 @@
             <a class="nav-link active text-white" aria-current="page" href="#"><i class="bi bi-house-fill me-2"></i>Home</a>
           </li>
           <li class="nav-item rounded">
-            <a class="nav-link text-white" href="/#/reservation"><i class="bi bi-people-fill me-2"></i>Reservar</a>
+            <a class="nav-link text-white" v-on:click="clearSport()"><i class="bi bi-people-fill me-2"></i>Reservar</a>
           </li>
           
           <li class="nav-item dropdown rounded">
@@ -44,8 +44,14 @@ nav * {
 <script>
 
 export default({
-    setup() {
+  methods:{
+    clearSport(slug) {
+      localStorage.removeItem('slug');
+      window.location.href="/#/reservation";
+    }
+  },
+  setup() {
         
-    },
+  },
 })
 </script>
