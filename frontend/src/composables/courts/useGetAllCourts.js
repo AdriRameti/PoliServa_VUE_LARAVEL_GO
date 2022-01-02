@@ -35,6 +35,8 @@ export const useGetCarouselCourts = async () => {
     
     let courts = ref([]);
 
+    let count = computed(() => courts.value.length);
+
     let res = await fetch(secret.GO_URL + "courts/carousel");
     // let res = Api(`http://localhost:3000/api/`).get(`courts`);
     let data = await res.json();
