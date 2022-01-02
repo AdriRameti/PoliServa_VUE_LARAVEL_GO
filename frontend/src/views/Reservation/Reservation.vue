@@ -39,7 +39,7 @@
         <a class="btn btn-dark text-white" v-on:click="search()">Aplicar</a>   
         </div>
         <Suspense>
-            <reservation-list :value="filter"/>
+            <reservation-list :key="updateList"/>
         </Suspense>
     </div>
 </template>
@@ -58,7 +58,8 @@ export default({
             date: '',
             hini: '',
             hfin:'',
-            filter: []
+            filter: [],
+            updateList: 0
         };
        
     },
@@ -82,6 +83,7 @@ export default({
                 localStorage.setItem('hini',this.hini)
                 localStorage.setItem('hfin',this.hfin)
             }
+            this.updateList += 1;
             console.log(this.date,this.hini,this.hfin)
         }
     },
