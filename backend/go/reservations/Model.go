@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"poliserva/Config"
+	courtsP "poliserva/courts"
 )
 
 type ReservationModel struct {
@@ -33,12 +34,13 @@ func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
 	}
 	// c.JSON(http.StatusAccepted,reservations)
 }
-func GetDateOneReservation(MyArray []string,reservations *[]ReservationModel, c *gin.Context) (*[]ReservationModel){
+func GetDateOneReservation(MyArray []string, c *gin.Context) ([]courtsP.CourtModel){
+	var reservations []courtsP.CourtModel
 	Date:= MyArray[0]
 	Hini:= MyArray[1]
 	Hfin := MyArray[2]
 	Slug := MyArray[3]
-	err:= Config.DB.Raw("SELECT count(*) AS NumPista  FROM courts c WHERE c.id_sport = (SELECT s.id FROM sports s WHERE s.slug= ?) AND c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Slug,Hini,Hfin,Date).Find(&reservations).Error
+	err:= Config.DB.Raw("SELECT * FROM courts c WHERE c.id_sport = (SELECT s.id FROM sports s WHERE s.slug= ?) AND c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Slug,Hini,Hfin,Date).Find(&reservations).Error
 	if err != nil{
 		c.AbortWithStatus(http.StatusNotFound);
 		fmt.Println("Status:", err);

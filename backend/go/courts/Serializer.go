@@ -14,21 +14,21 @@ type CourtResponse struct {
 
 type CourtSerializer struct {
 	C *gin.Context
-	court CourtModel
+	Court CourtModel
 }
 
 type CourtsSerializer struct {
 	C *gin.Context
-	courts []CourtModel
+	Courts []CourtModel
 }
 
 func (cs *CourtSerializer) Response() CourtResponse {
 	response := CourtResponse {
-		Id: cs.court.Id,
-		Id_sport: cs.court.Id_sport,
-		Price_h: cs.court.Price_h,
-		Sector: cs.court.Sector,
-		Img: cs.court.Img,
+		Id: cs.Court.Id,
+		Id_sport: cs.Court.Id_sport,
+		Price_h: cs.Court.Price_h,
+		Sector: cs.Court.Sector,
+		Img: cs.Court.Img,
 	}
 
 	return response
@@ -37,7 +37,7 @@ func (cs *CourtSerializer) Response() CourtResponse {
 func (cs *CourtsSerializer) Response() []CourtResponse {
 	response := []CourtResponse{}
 
-	for _, court := range cs.courts {
+	for _, court := range cs.Courts {
 		serializer := CourtSerializer{cs.C, court}
 		response = append(response, serializer.Response())
 	}

@@ -5,6 +5,7 @@ import (
 	"poliserva/Common"
 	"net/http"
 	"github.com/gin-gonic/gin"
+	courtsP "poliserva/courts"
 )
 
 func GetAllReservations(c *gin.Context) {
@@ -15,7 +16,7 @@ func GetAllReservations(c *gin.Context) {
 }
 
 func GetDateReservations(c *gin.Context){
-	var reservations []ReservationModel
+	// var reservations []courtsP.CourtModel
 	Date:= c.Query("date")
 	hini:= c.Query("hini")
 	hfin:= c.Query("hfin")
@@ -30,8 +31,8 @@ func GetDateReservations(c *gin.Context){
 		c.AbortWithStatus(http.StatusNotFound);
 	}
 	MyArray:= []string {Date,hini,hfin,slug}
-	consult:=GetDateOneReservation(MyArray,&reservations,c)
-	serializer:= ReservationsSerializer{c, *consult}
+	courts:=GetDateOneReservation(MyArray,c)
+	serializer:= courtsP.CourtsSerializer{c, courts}
 	c.JSON(http.StatusCreated, serializer.Response())
 }
 func CreateReservations(c *gin.Context){
