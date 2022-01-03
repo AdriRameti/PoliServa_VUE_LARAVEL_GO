@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
-    <Nav/>
-    <router-view/>
+    <Nav @relv="reloadView"/>
+    <router-view :key="reload"/>
   </div>
 </template>
 <script>
@@ -9,6 +9,16 @@ import Nav from './components/Nav.vue'
 
 export default ({
   components:{Nav},
+  data() {
+    return {
+      reload: 0
+    }
+  },
+  methods: { 
+    reloadView() {
+      this.reload += 1;
+    }
+  }
 });
 </script>
 

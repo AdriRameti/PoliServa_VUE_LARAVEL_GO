@@ -56,8 +56,14 @@ export default({
   },
   methods:{
     clearSport(slug) {
+
       localStorage.removeItem('slug');
-      window.location.href="/#/reservation";
+
+      if (window.location.hash == '#/reservation') {
+        this.$emit('relv');
+      } else {
+        window.location.href="/#/reservation";
+      }
     }
   },
   setup() {
