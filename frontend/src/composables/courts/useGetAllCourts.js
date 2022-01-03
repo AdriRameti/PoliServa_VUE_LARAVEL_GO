@@ -13,7 +13,7 @@ export const useGetAllCourts = async () => {
     
     courts.value = data;
 
-    console.log(courts.value, count.value);
+    // console.log(courts.value, count.value);
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
@@ -46,11 +46,11 @@ export const useGetCarouselCourts = async () => {
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
 export const useGetDateReservation = async (infoDate) => {
-    console.log(infoDate)
     var date = infoDate[0]
     var hini = infoDate[1]
     var hfin = infoDate[2]
     var slug = infoDate[3]
+    
     let courts = ref([]);
 
     let count = computed(() => courts.value.length);
@@ -61,7 +61,7 @@ export const useGetDateReservation = async (infoDate) => {
     
     courts.value = data;
 
-    console.log(courts.value, count.value);
+    // console.log('courtsFilter', courts.value, count.value);
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }

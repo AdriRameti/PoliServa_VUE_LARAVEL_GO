@@ -35,17 +35,25 @@ func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
 	// c.JSON(http.StatusAccepted,reservations)
 }
 func GetDateOneReservation(MyArray []string, c *gin.Context) ([]courtsP.CourtModel){
-	var reservations []courtsP.CourtModel
+	var courts []courtsP.CourtModel
+	var err error
 	Date:= MyArray[0]
 	Hini:= MyArray[1]
 	Hfin := MyArray[2]
 	Slug := MyArray[3]
-	err:= Config.DB.Raw("SELECT * FROM courts c WHERE c.id_sport = (SELECT s.id FROM sports s WHERE s.slug= ?) AND c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Slug,Hini,Hfin,Date).Find(&reservations).Error
+
+	if Slug != "undefined" {
+		err = Config.DB.Raw("SELECT * FROM courts c WHERE c.id_sport = (SELECT s.id FROM sports s WHERE s.slug = ?) AND c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Slug,Hini,Hfin,Date).Find(&courts).Error
+	} else {
+		err = Config.DB.Raw("SELECT * FROM courts c WHERE c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Hini,Hfin,Date).Find(&courts).Error
+	}
+
 	if err != nil{
 		c.AbortWithStatus(http.StatusNotFound);
 		fmt.Println("Status:", err);
 	}
-	return reservations
+
+	return courts
 }
 
 func UpdateReservation(reservations *ReservationModel,id string,c *gin.Context){

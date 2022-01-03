@@ -87,8 +87,7 @@ export default({
             console.log(this.date,this.hini,this.hfin)
         }
     },
-    setup(props){
-        console.log(props)
+    setup(){
     }
 })
 </script>

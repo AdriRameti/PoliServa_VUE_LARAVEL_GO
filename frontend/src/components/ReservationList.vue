@@ -27,11 +27,15 @@ export default({
         var hin = localStorage.getItem('hini')
         var hfi = localStorage.getItem('hfin')
         var arr = []
-        if (sl && dat && hin && hfi){
+        if (dat && hin && hfi){
             arr.push(dat)
             arr.push(hin)
             arr.push(hfi)
-            arr.push(sl)
+
+            if (sl) {
+                arr.push(sl)
+            }
+
             const { courts, count } = await useGetDateReservation(arr);
             
             localStorage.removeItem('date')
