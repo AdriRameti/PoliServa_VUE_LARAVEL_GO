@@ -60,8 +60,17 @@ func GetAllSportsDB(c *gin.Context) []SportModel {
 
 	return sports
 
-}
-
+} 
+// func GetIdSportDB(id,c *gin.Context)SportModel{
+// 	var sport SportModel
+// 	if err := Config.DB.Where("id = ?", id).Find(&sport).Error; err != nil {
+// 		fmt.Println(err.Error())
+// 		c.AbortWithStatus(http.StatusNotFound)
+// 		return sport
+// 	} else {
+// 		return sport
+// 	}
+// }
 func GetOneSportDB(slug string,c *gin.Context) SportModel {
 
 	var sport SportModel

@@ -39,7 +39,14 @@
         <a class="btn btn-dark text-white" v-on:click="search()">Aplicar</a>   
         </div>
         <Suspense>
-            <reservation-list :key="updateList"/>
+            <reservation-list :key="updateList" 
+            :dateSearch="{
+                date: this.date,
+                hini: this.hini,
+                hfin: this.hfin,
+                isActivated: this.isActivated
+                }"
+            />
         </Suspense>
     </div>
 </template>
@@ -59,35 +66,50 @@ export default({
             hini: '',
             hfin:'',
             filter: [],
-            updateList: 0
+            updateList: 0,
+            isActivated: true
         };
        
     },
     methods: {
+
         handleChange(e){
+            
             this.hfin = e.target.options[e.target.options.selectedIndex].dataset.time
         },
+
         hIni(e){
+
             this.hini = e.target.options[e.target.options.selectedIndex].text
         },
+
         search(){
+
             var day = this.picked.getDate()
+
             var month = this.picked.getMonth() +1
+
             var year = this.picked.getFullYear()
+
             this.date = day+'/'+month+'/'+year
 
             if(!this.date && !this.hini && !this.hfin){
+
                 console.log('Variables vacias');
+
             }else{
+
                 localStorage.setItem('date',this.date)
+
                 localStorage.setItem('hini',this.hini)
+
                 localStorage.setItem('hfin',this.hfin)
+
+                this.isActivated = false
             }
+
             this.updateList += 1;
-            console.log(this.date,this.hini,this.hfin)
         }
-    },
-    setup(){
     }
 })
 </script>

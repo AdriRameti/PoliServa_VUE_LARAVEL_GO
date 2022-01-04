@@ -1,8 +1,9 @@
 package sports
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetAllSports(c *gin.Context) {
@@ -14,7 +15,12 @@ func GetAllSports(c *gin.Context) {
 
 	c.JSON(http.StatusOK, serializer.Response())
 }
-
+// func GetIdSport(c *gin.Context){
+// 	var sport SportModel
+// 	var id number
+// 	id = c.Query("id")
+// 	sport = GetIdSportDB(id, c)
+// }
 func GetOneSport(c *gin.Context) {
 	var sport SportModel
 	var slug string

@@ -3,6 +3,7 @@ package courts
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"poliserva/Common"
 )
 
 func GetAllCourts(c *gin.Context) {
@@ -12,7 +13,26 @@ func GetAllCourts(c *gin.Context) {
 
 	c.JSON(http.StatusOK, serializer.Response())
 }
-
+func GetDateReservations(c *gin.Context){
+	// var reservations []courtsP.CourtModel
+	Date:= c.Query("date")
+	hini:= c.Query("hini")
+	hfin:= c.Query("hfin")
+	slug:= c.Query("slug")
+	if len(Date)<1||  len(hini)<1 || len(hfin)<1 || len(slug)<1 {
+		return
+	}
+	validDate:= common.ValidateDate(Date)
+	validHini:= common.ValidateHour(hini)
+	validHfin:= common.ValidateHour(hfin)
+	if validDate == false || validHini == false || validHfin == false{
+		c.AbortWithStatus(http.StatusNotFound);
+	}
+	MyArray:= []string {Date,hini,hfin,slug}
+	courts:=GetDateOneReservation(MyArray,c)
+	serializer:= CourtsSerializer{c, courts}
+	c.JSON(http.StatusCreated, serializer.Response())
+}
 func GetOneCourt(c *gin.Context) {
 	var id string
 

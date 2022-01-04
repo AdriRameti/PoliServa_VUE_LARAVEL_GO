@@ -43,9 +43,9 @@ func GetDateOneReservation(MyArray []string, c *gin.Context) ([]courtsP.CourtMod
 	Slug := MyArray[3]
 
 	if Slug != "undefined" {
-		err = Config.DB.Raw("SELECT * FROM courts c WHERE c.id_sport = (SELECT s.id FROM sports s WHERE s.slug = ?) AND c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Slug,Hini,Hfin,Date).Find(&courts).Error
+		err = Config.DB.Model(&courts).Preload("Sports").Raw("SELECT * FROM courts c WHERE c.id_sport = (SELECT s.id FROM sports s WHERE s.slug = ?) AND c.id NOT IN (SELECT r.id_court from reservations r where r.hini = ? and r.hfin = ? and r.date = ?)",Slug,Hini,Hfin,Date).Find(&courts).Error
 	} else {
-		err = Config.DB.Raw("SELECT * FROM courts c WHERE c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Hini,Hfin,Date).Find(&courts).Error
+		err = Config.DB.Raw("SELECT * FROM courts c WHERE c.id NOT IN (SELECT r.id_court from reservations r  where r.hini = ? and r.hfin = ? and r.date = ?)",Hini,Hfin,Date).Preload("Sports").Find(&courts).Error
 	}
 
 	if err != nil{
