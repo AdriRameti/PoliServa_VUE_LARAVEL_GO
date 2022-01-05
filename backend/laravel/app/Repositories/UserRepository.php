@@ -18,9 +18,11 @@ class UserRepository{
         if ($user) {
             if (Hash::check($data['pass'], $user['pass']) == 1) {
 
-                $user['is_blocked'] = true;
+                // if ($user['google2fa_secret']) {
 
-                $user->save();
+                //     $user['is_blocked'] = true;
+                //     $user->save();
+                // }
 
                 return $user['uuid'];
             } else {

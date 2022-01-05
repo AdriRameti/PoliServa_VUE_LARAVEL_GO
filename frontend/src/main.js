@@ -6,6 +6,6 @@ import router from './router'
 import store from './store'
 import 'bootstrap'
 import './assets/app.scss'
-createApp(App).use(store).use(router).use(Toast).mount('#app')
+createApp(App).use(router).use(store).use(Toast).mount('#app')
 
 

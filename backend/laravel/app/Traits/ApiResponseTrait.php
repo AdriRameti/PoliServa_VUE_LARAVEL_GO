@@ -37,4 +37,13 @@ trait ApiResponseTrait {
             'data' => $data,
         ], $code);
 	}
+
+    public static function apiResponseLogin($message, $code = JsonResponse::HTTP_OK)
+	{
+		return response()->json([
+            'status' => false,
+            'message' => $message,
+            'data' => null,
+        ], $code);
+	}
 }

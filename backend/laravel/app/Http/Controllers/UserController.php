@@ -44,7 +44,7 @@ class UserController extends Controller
         return self::checkOTP($digits['one_time_password']);
     }
 
-    public function login(LoginRequest $request): UserResource {
+    public function login(LoginRequest $request): UserResource|Response {
 
         try{
             if(session('token')){
@@ -53,6 +53,7 @@ class UserController extends Controller
                 $fullName = $user->fullName;
                 $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
                 $response+=array('fullName'=>$fullName);
+                $response+=array('token'=>session('token'));
                 return $this->userResponse($response);
             }else{
 
@@ -61,14 +62,32 @@ class UserController extends Controller
                 $uuid = $this->userRepository->login($data);
 
                 if ($uuid == "user not found") {
-                    return self::apiServerError('user not found');
+                    return self::apiResponseLogin('user not found');
                 } else if ($uuid == "password don't match") {
-                    return self::apiServerError("password don't match");
+                    return self::apiResponseLogin("password don't match");
                 } else {
                     $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
                 }
 
-                return $response;
+                session(['uuid'=>$uuid]);
+                Session::save();
+
+                if (session('uuid')) {
+                    $token = self::encode();
+
+                    if( $token ) {
+                        session(['token'=>$token]);
+                        Session::save();
+                    }
+
+                    $user = $this->userRepository->getUser();
+                    $fullName = $user->fullName;
+
+                    $response+=array('fullName'=>$fullName);
+                    $response+=array('token'=>$token);
+                }
+                
+                return $this->userResponse($response);
             }
         }catch(Exception $e){
             return self::apiServerError($e->getMessage());
@@ -249,8 +268,8 @@ class UserController extends Controller
     }
 
     private function userResponse($response): UserResource {
-        $user = $this->userRepository->getUser();
-        $fullName = $user->fullName;
+        // $user = $this->userRepository->getUser();
+        // $fullName = $user->fullName;
         
         return new UserResource($response);
     }
