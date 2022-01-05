@@ -6,15 +6,15 @@ export const user = {
     namespaced: true,
 
     state: {
-
+        
     },
     mutations: {
         [Constant.LOGIN_USER]: (state, payload) => {
 
             state.user = payload
             state.token = payload.token
-            localStorage.setItem('token', payload.token)
 
+            localStorage.setItem('token', payload.token)
         },
         [Constant.REGISTER_USER]: (state, payload) => {
             
@@ -53,6 +53,7 @@ export const user = {
                     timeout: 1500
                 });
 
+                // $router.push({name: 'Profile'})
                 window.location.href = "/#/";
 
             });
@@ -70,6 +71,10 @@ export const user = {
         }
     },
     getters: {
+        getUser(state) {
 
+            console.log('getter', state)
+            return state.user;
+        }
     }
 }
