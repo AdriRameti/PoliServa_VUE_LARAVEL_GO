@@ -36,7 +36,7 @@
             <option data-time="21:00">21:00</option>
             <option data-time="22:00">22:00</option>
         </select>
-        <a class="btn btn-dark text-white" v-on:click="search()">Aplicar</a>   
+        <button class="btn btn-dark text-white" v-on:click="search()" :disabled="apply">Aplicar</button>   
         </div>
         <Suspense>
             <reservation-list :key="updateList" 
@@ -67,7 +67,8 @@ export default({
             hfin:'',
             filter: [],
             updateList: 0,
-            isActivated: true
+            isActivated: true,
+            apply: true
         };
        
     },
@@ -76,11 +77,17 @@ export default({
         handleChange(e){
             
             this.hfin = e.target.options[e.target.options.selectedIndex].dataset.time
+            if(this.hini && this.hfin){
+                this.apply = false
+            }
         },
 
         hIni(e){
 
             this.hini = e.target.options[e.target.options.selectedIndex].text
+            if(this.hini && this.hfin){
+                this.apply = false
+            }
         },
 
         search(){

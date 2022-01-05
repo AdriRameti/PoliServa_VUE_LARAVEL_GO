@@ -36,7 +36,7 @@
 <script>
 
 import { onMounted } from '@vue/runtime-core';
-import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation } from '../composables/courts/useGetAllCourts';
+import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation, insertReservation } from '../composables/courts/useGetAllCourts';
 
 export default ({
     data(){
@@ -51,7 +51,21 @@ export default ({
     props:['dateSearch'],
     methods: {
         reservar(){
-            // const reservation = useCreateReservation();
+            console.log(this.dateSearch.hini)
+            var hiniTime = this.dateSearch.hini.split(":")
+            var hiniNumber = parseInt(hiniTime)
+            var hfinTime = this.dateSearch.hfin.split(":")
+            var hfinNumber = parseInt(hfinTime)
+            var totalHoras = hfinNumber - hiniNumber
+            console.log(totalHoras)
+            const reservation = insertReservation()
+            console.log(reservation)
+            if(localStorage.getItem('token')){
+                
+                const reservation = insertReservation()
+            }else{
+               // window.location.href = '/#/login';
+            }
             
         }
     },

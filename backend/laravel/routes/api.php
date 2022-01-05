@@ -35,6 +35,8 @@ Route::post('users/register', [UserController::class, "register"]);
 Route::post('users/mailRegister',[UserController::class,"mailRegister"]);
 Route::post('users/sendMailRegister',[UserController::class,"sendMailRegister"]);
 
+Route::post('reservation/insertReservation', [ReservationController::class,"insertReservation"]);
+
 Route::resource('users', UserController::class);
 Route::resource('reservation',ReservationController::class);
 Route::resource('courts',CourtsController::class);

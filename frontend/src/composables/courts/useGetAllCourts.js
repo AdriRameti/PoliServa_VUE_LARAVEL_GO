@@ -93,3 +93,18 @@ export const useCreateReservation = async () => {
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
+export const insertReservation = async () => {
+    
+    let reservation = ref([]);
+
+    let count = computed(() => courts.value.length);
+
+    let res = await fetch(secret.LARAVEL_URL + "reservation/insertReservation");
+    console.log(res)
+    // let data = await res.json();
+    // reservation.value = data;
+
+    // console.log('courtsFilter', courts.value, count.value);
+
+    return { reservation, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+}

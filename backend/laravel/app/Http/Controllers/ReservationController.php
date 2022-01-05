@@ -4,8 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use app\Models\Reservation;
+use App\Traits\UtilsTrait;
+use App\Task;
 class ReservationController extends Controller
 {
+    use UtilsTrait;
+    public function insertReservation(){
+        return ;
+    //    $uuid = self::getUuid();
+
+
+    }
     /**
      * Display a listing of the resource.
      *
