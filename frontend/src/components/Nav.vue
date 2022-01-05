@@ -62,7 +62,7 @@ export default({
       if (window.location.hash == '#/reservation') {
         this.$emit('relv');
       } else {
-        window.location.href="/#/reservation";
+        this.$router.push({name: 'Reservation'})
       }
     }
   },
