@@ -47,6 +47,8 @@
 </style>
 <script>
 
+import { useToast } from "vue-toastification";
+
 export default({
   data() {
     return {
@@ -65,9 +67,19 @@ export default({
       }
     },
     logout() {
+
+      this.toastr.success("Logout success", {
+          timeout: 1500
+      });
+
       localStorage.removeItem('token');
       this.$router.push({name: 'Home'});
     }
+  },
+  setup() {
+    const toastr = useToast();
+
+    return { toastr }
   }
 })
 </script>

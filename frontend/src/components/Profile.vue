@@ -20,7 +20,9 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm">Follow</button>
+					<button type="button" class="btn btn-success btn-sm" data-bs-target="#modal2fa" data-bs-toggle="modal" v-show="store.state.user.google2fa_secret == ''" @click="enable2fa()">Enable 2fa</button>
+          <button type="button" class="btn btn-danger btn-sm" v-show="store.state.user.google2fa_secret != ''" @click="disable2fa()">Dissable 2fa</button>
+
 					<button type="button" class="btn btn-danger btn-sm">Message</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
@@ -94,13 +96,41 @@
             </div>
 		</div>
 	</div>
+  <div id="modal2fa" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Two-Factor Authentication</h4>
+                <button type="button" class="close btn btn-dark" data-bs-dismiss="modal" @click="disable2fa()">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div> 
+            <div class="modal-body">
+              <h4>Two-factor authentication increases the security of your Ledgy account.</h4>
+              <p>All you need is a compatible app on your smartphone, for example:</p>
+              <ul>
+                <li>Google Authentificator</li>
+                <li>Duo</li>
+                <li>Authy</li>
+              </ul>
+              <div v-html="store.state.user.user.QR"></div>
+              <p>Scan this image with your app. You will see a 6-digit code on your screen. Enter the code below to verify your phone and complete the setup.</p>
+              <div class="form-outline mb-4">
+                <input type="text" v-model="otp" class="form-control form-control-lg" placeholder="One Time Password"/>
+              </div>
+              <button class="btn btn-primary btn-lg btn-block" v-on:click="check2fa()" v-show="!store.state.user.g2faverified" :disabled="otp.length != 6">Verify Two-Factor Authentication</button>
+              <button class="btn btn-primary btn-lg btn-block" v-show="store.state.user.g2faverified" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 </template>
 
 <script>
 
 import { useStore } from 'vuex';
-
+import Constant from "../Constant";
 
 export default {
   setup() {
@@ -110,7 +140,19 @@ export default {
   },
   data() {
     return {
-      user: this.store.getters["user/getUser"] ? this.store.getters["user/getUser"] : {}
+      user: this.store.getters["user/getUser"] ? this.store.getters["user/getUser"] : {},
+      otp: ''
+    }
+  },
+  methods: {
+    enable2fa() {
+      this.store.dispatch("user/" + Constant.ENABLE2FA);
+    },
+    disable2fa() {
+      this.store.dispatch("user/" + Constant.DISABLE2FA);
+    },
+    check2fa() {
+      this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp});
     }
   }
 }

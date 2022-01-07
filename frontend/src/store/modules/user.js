@@ -6,21 +6,31 @@ export const user = {
     namespaced: true,
 
     state: {
-        
+        g2faverified: false
     },
     mutations: {
         [Constant.LOGIN_USER]: (state, payload) => {
 
-            state.user = payload
-            state.token = payload.token
+            state.user = payload;
+            state.token = payload.token;
 
-            localStorage.setItem('token', payload.token)
+            localStorage.setItem('token', payload.token);
         },
         [Constant.REGISTER_USER]: (state, payload) => {
             
         },
-        [Constant.VALIDATE_OTP]: (state, payload) => {
-            
+        [Constant.ENABLE2FA]: (state, payload) => {
+            state.google2fa_secret = payload.google2fa;
+            state.user = payload;
+        },
+        [Constant.DISABLE2FA]: (state, payload) => {
+            state.google2fa_secret = '';
+            state.user = payload;
+        },
+        [Constant.CHECK2FA]: (state, payload) => {
+            if (payload) {
+                state.g2faverified = true;
+            }
         },
         [Constant.VALIDATE_REGISTER]: (state, payload) => {
             
@@ -49,12 +59,14 @@ export const user = {
 
                 store.commit(Constant.LOGIN_USER, data.data.data);
 
-                toastr.success("Login success", {
-                    timeout: 1500
-                });
-
-                // $router.push({name: 'Profile'})
-                window.location.href = "/#/";
+                if (data.data.data.google2fa_secret) {
+                    window.location.href = "/#/otp";
+                } else {
+                    window.location.href = "/#/";
+                    toastr.success("Login success", {
+                        timeout: 1500
+                    });
+                }
 
             });
             
@@ -63,8 +75,48 @@ export const user = {
         [Constant.REGISTER_USER]: (store, payload) => {
             
         },
-        [Constant.VALIDATE_OTP]: (store, payload) => {
-            
+        [Constant.ENABLE2FA]: (store, payload) => {
+            UserServices.enable2fa().then(data => {
+                store.commit(Constant.ENABLE2FA, data.data);
+            });
+        },
+        [Constant.DISABLE2FA]: (store, payload) => {
+            UserServices.disable2fa().then(data => {
+                store.commit(Constant.DISABLE2FA, data.data);
+            });
+        },
+        [Constant.CHECK2FA]: (store, payload) => {
+
+            var toastr = useToast();
+
+            UserServices.check2fa(payload.otp).then(data => {
+
+                if (data.data == "not verified") {
+                    toastr.error("Incorrect code", {
+                        timeout: 1500
+                    });
+                    return
+                } else if (data.data == "verified") {
+                    
+                    
+                    if (payload.from == 'otp') {
+
+                        toastr.success("Login success", {
+                            timeout: 1500
+                        });
+
+                        window.location.href="/#/";
+                    } else {
+
+                        toastr.success("Two-Factor Authentication activated", {
+                            timeout: 1500
+                        });
+
+                        store.commit(Constant.CHECK2FA, true);
+                    }
+
+                }
+            })
         },
         [Constant.VALIDATE_REGISTER]: (store, payload) => {
             
@@ -73,7 +125,7 @@ export const user = {
     getters: {
         getUser(state) {
 
-            console.log('getter', state)
+            console.log('getter', state);
             return state.user;
         }
     }

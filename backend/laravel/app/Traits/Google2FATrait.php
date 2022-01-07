@@ -26,7 +26,11 @@ trait Google2FATrait {
 
         $QR_Image = self::generateQR($user);
 
-        return $QR_Image;
+        $user2 = $userRepository->getUser();
+
+        $user2['QR'] = $QR_Image;
+
+        return $user2;
 
     }
 
@@ -39,7 +43,7 @@ trait Google2FATrait {
 
         $user->save();
 
-        return '2fa disabled';
+        return $user;
     }
 
     public static function generateQR($user) {
