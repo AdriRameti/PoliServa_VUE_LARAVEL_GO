@@ -21,11 +21,11 @@
           <li class="nav-item dropdown rounded" v-show="token">
             <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill me-2"></i>Profile</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Account</a></li>
+              <li><a class="dropdown-item" href="/#/profile">Account</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li><a class="dropdown-item" v-on:click="logout()">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -47,8 +47,9 @@
 </style>
 <script>
 
-export default({
+import { useToast } from "vue-toastification";
 
+export default({
   data() {
     return {
       token: localStorage.getItem('token') ? true : false
@@ -62,12 +63,23 @@ export default({
       if (window.location.hash == '#/reservation') {
         this.$emit('relv');
       } else {
-        window.location.href="/#/reservation";
+        this.$router.push({name: 'Reservation'})
       }
+    },
+    logout() {
+
+      this.toastr.success("Logout success", {
+          timeout: 1500
+      });
+
+      localStorage.removeItem('token');
+      this.$router.push({name: 'Home'});
     }
   },
   setup() {
-    
-  },
+    const toastr = useToast();
+
+    return { toastr }
+  }
 })
 </script>

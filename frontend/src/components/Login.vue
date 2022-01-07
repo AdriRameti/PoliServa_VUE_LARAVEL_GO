@@ -30,7 +30,9 @@
 
 <script>
 
+import { useStore } from 'vuex';
 import { useToast } from "vue-toastification";
+import Constant from "../Constant";
 
 export default({
 
@@ -59,48 +61,47 @@ export default({
     },
     login() {
 
-      const toastr = useToast();
       var val = this.validateForm();
 
       if (val == "empty") {
 
-        toastr.error("Email and password mustn't be empty", {
+        this.toastr.error("Email and password mustn't be empty", {
           timeout: 1500
         });
         return
 
       } else if (val == "email empty") {
 
-        toastr.error("Email mustn't be empty", {
+        this.toastr.error("Email mustn't be empty", {
           timeout: 1500
         });
         return
 
       } else if (val == "password empty") {
 
-        toastr.error("Password mustn't be empty", {
+        this.toastr.error("Password mustn't be empty", {
           timeout: 1500
         });
         return
 
       } else if (val == "email not valid") {
 
-        toastr.error("Email must be like example@example.example", {
+        this.toastr.error("Email must be like example@example.example", {
           timeout: 1500
         });
         return
 
       }
 
-      toastr.success("Login success", {
-        timeout: 1500
-      });
-
+      this.store.dispatch("user/" + Constant.LOGIN_USER, {mail: this.email, pass: this.password})
 
     }
   },
   setup() {
-    
+    const toastr = useToast();
+    const store = useStore();
+
+    return { toastr, store }
   },
 })
 </script>

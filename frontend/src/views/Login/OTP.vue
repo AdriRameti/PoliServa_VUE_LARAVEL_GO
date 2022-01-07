@@ -12,7 +12,7 @@
                         <input type="text" v-model="otp" class="form-control form-control-lg" placeholder="One Time Password"/>
                     </div>
                     
-                    <button class="btn btn-primary btn-lg btn-block" v-on:click="validate()">Send OTP</button>
+                    <button class="btn btn-primary btn-lg btn-block" v-on:click="check2fa()" :disabled="otp.length != 6">Send OTP</button>
 
                     </div>
                 </div>
@@ -23,7 +23,8 @@
 </template>
 <script>
 
-import { useToast } from "vue-toastification";
+import { useStore } from 'vuex';
+import Constant from "../../Constant";
 
 export default({
 
@@ -34,22 +35,14 @@ export default({
         }
     },
     methods: {
-        validate() {
-
-            const toastr = useToast();
-            
-            if (this.otp.length == 0) {
-                toastr.error("One Time Password mustn't be empty", {
-                    timeout: 1500
-                });
-                return
-            }
-
-            console.log(this.otp)
+        check2fa() {
+            this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp, 'from': 'otp'});
         }
     },
     setup() {
-        
+        const store = useStore();
+
+        return { store }
     },
 })
 </script>
