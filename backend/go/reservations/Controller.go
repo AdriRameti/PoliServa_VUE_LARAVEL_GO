@@ -2,10 +2,11 @@ package reservations
 
 import (
 	"log"
-	"poliserva/Common"
 	"net/http"
-	"github.com/gin-gonic/gin"
+	"poliserva/Common"
 	courtsP "poliserva/courts"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetAllReservations(c *gin.Context) {
@@ -36,14 +37,23 @@ func GetDateReservations(c *gin.Context){
 	c.JSON(http.StatusCreated, serializer.Response())
 }
 func CreateReservations(c *gin.Context){
-	reservationModelValidation := NewReservationModelValidator()
-	if err := reservationModelValidation.Bind(c); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, "Error Validation Reservation")
-		return
-	}
-	CreateNewReservation(&reservationModelValidation.reservationModel,c)
-	serializer:= ReservationSerializer{c, reservationModelValidation.reservationModel}
-	c.JSON(http.StatusCreated, serializer.Response())
+	id_user:= c.GetHeader("id_user")
+	id_court:= c.GetHeader("id_court")
+	date:= c.GetHeader("date")
+	hini:= c.GetHeader("hini")
+	hfin:= c.GetHeader("hfin")
+	total_price:= c.GetHeader("total_price")
+	arr:= []string{id_user,id_court,date,hini,hfin,total_price}
+	request:=CreateNewReservation(arr,c)
+	c.JSON(http.StatusCreated,request)
+	// reservationModelValidation := NewReservationModelValidator()
+	// if err := reservationModelValidation.Bind(c); err != nil {
+	// 	c.JSON(http.StatusUnprocessableEntity, "Error Validation Reservation")
+	// 	return
+	// }
+	// CreateNewReservation(&reservationModelValidation.reservationModel,c)
+	// serializer:= ReservationSerializer{c, reservationModelValidation.reservationModel}
+	// c.JSON(http.StatusCreated, serializer.Response())
 
 }
 

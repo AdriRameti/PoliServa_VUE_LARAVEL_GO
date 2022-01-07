@@ -6,11 +6,28 @@ use Illuminate\Http\Request;
 use app\Models\Reservation;
 use App\Traits\UtilsTrait;
 use App\Task;
+use App\Models\User;
+use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Http;
 class ReservationController extends Controller
 {
     use UtilsTrait;
-    public function insertReservation(){
-        return ;
+    public function __construct(User $user, UserRepository $userRepository) {
+        $this->user = $user;
+        $this->userRepository = $userRepository;
+    }
+    public function insertReservation(Request $request){
+            // $user = $this->userRepository->getUser();
+            $request['id_user']=2;
+            $response = HTTP::withHeaders([
+                "id_user"=>$request['id_user'],
+                "id_court"=>$request['id_court'],
+                "date"=>$request['date'],
+                "hini"=>$request['hini'],
+                "hfin"=>$request['hfin'],
+                "total_price"=>$request['total_price']
+            ])->acceptJson()->post("http://localhost:3000/api/reservations/")->json();
+        return $response;
     //    $uuid = self::getUuid();
 
 

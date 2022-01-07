@@ -7,7 +7,7 @@
                 <h1> {{ court.Sport.name }}</h1>
                 <p class="reser-descrip">Precio hora: {{ court.price_h }}</p>
                 <p class="text-danger" v-show="dateSearch.isActivated == true">Introduzca la fecha de su reserva</p>
-                <button id="confirm" class="btn btn-dark" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated">Confirmar Reserva</button>
+                <button id="confirm" class="btn btn-dark" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">Confirmar Reserva</button>
             </div>
         </div>
         <div class="modal fade" id="modalReservation">
@@ -26,7 +26,7 @@
                             Hora Final: {{ dateSearch.hfin }} <br/>
                         </p>
                         <a class="btn btn-danger text-white m-5" data-bs-dismiss="modal">Cancelar</a>
-                        <a class="btn btn-success text-white m-5" @click="reservar()">Confirmar</a>
+                        <a class="btn btn-success text-white m-5" data-bs-dismiss="modal" @click="reservar()">Confirmar</a>
                     </div>
                 </div>
             </div>
@@ -35,9 +35,8 @@
 </template>
 <script>
 
-import { onMounted } from '@vue/runtime-core';
 import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation, insertReservation } from '../composables/courts/useGetAllCourts';
-
+import { useToast } from "vue-toastification";
 export default ({
     data(){
         return{
@@ -50,58 +49,116 @@ export default ({
     },
     props:['dateSearch'],
     methods: {
-        reservar(){
-            console.log(this.dateSearch.hini)
-            var hiniTime = this.dateSearch.hini.split(":")
-            var hiniNumber = parseInt(hiniTime)
-            var hfinTime = this.dateSearch.hfin.split(":")
-            var hfinNumber = parseInt(hfinTime)
-            var totalHoras = hfinNumber - hiniNumber
-            console.log(totalHoras)
-            const reservation = insertReservation()
-            console.log(reservation)
+        async reservar(){
+
+            const toastr = useToast();
+
             if(localStorage.getItem('token')){
-                
-                const reservation = insertReservation()
+
+                var totalPrices = this.calculateHour();
+
+                var idCourt = parseInt(localStorage.getItem('idCourt'));
+            
+                var obj = {
+                id_court:idCourt,
+                date: this.dateSearch.date,
+                hini: this.dateSearch.hini,
+                hfin: this.dateSearch.hfin,
+                total_price:totalPrices
+                }
+                const reservation = await insertReservation(obj)
+            
+                if(reservation !=1){
+
+                    toastr.error("Had an error processing your reservation", {
+                        timeout: 2500
+                    });
+
+                }else{
+
+                    toastr.success("Your reservation has been confirmed succesfuly", {
+                        timeout: 2500
+                    });
+                    
+                }
+
             }else{
                // window.location.href = '/#/login';
             }
-            
+        },
+        calculateHour(){
+
+            var priceHour = localStorage.getItem('priceHour')
+
+            var hiniTime = this.dateSearch.hini.split(":")
+
+            var hiniNumber = parseInt(hiniTime)
+
+            var hfinTime = this.dateSearch.hfin.split(":")
+
+            var hfinNumber = parseInt(hfinTime)
+
+            var totalHoras = hfinNumber - hiniNumber
+
+            var totalPrice = totalHoras * priceHour
+
+            return totalPrice;
+        },
+        saveId(id,price){
+
+            localStorage.setItem('idCourt',id);
+
+            localStorage.setItem('priceHour',price)
+
         }
     },
     async setup() {
     
         var sl = localStorage.getItem('slug')
+
         var dat = localStorage.getItem('date')
+
         var hin = localStorage.getItem('hini')
+
         var hfi = localStorage.getItem('hfin')
+
         var arr = []
+
         if (dat && hin && hfi){
+
             arr.push(dat)
+
             arr.push(hin)
+
             arr.push(hfi)
+
             if (sl) {
+
                 arr.push(sl)
+
             }
 
             const { courts, count } = await useGetDateReservation(arr);
-            console.log(courts)
+
             localStorage.removeItem('date')
+
             localStorage.removeItem('hini')
-            localStorage.removeItem('hfin')     
+
+            localStorage.removeItem('hfin')  
+               
             localStorage.removeItem('slug') 
             return { courts, count }
 
         }else if (sl){
 
             const { courts, count } = await useGetSportCourts(sl);
-            console.log(courts);
+
             return { courts, count };
 
         } else {
 
             const { courts, count } = await useGetAllCourts();
-            console.log(courts);
+
             return { courts, count };
         }
     }

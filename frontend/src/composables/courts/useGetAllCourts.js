@@ -93,18 +93,23 @@ export const useCreateReservation = async () => {
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
-export const insertReservation = async () => {
-    
+export const insertReservation = async (body) => {
+    console.log(body);
     let reservation = ref([]);
 
-    let count = computed(() => courts.value.length);
-
-    let res = await fetch(secret.LARAVEL_URL + "reservation/insertReservation");
-    console.log(res)
-    // let data = await res.json();
+    let res = await fetch(secret.LARAVEL_URL + "reservation/insertReservation",{
+        method:'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    });
+    let data = await res.json();
+    console.log(data);
     // reservation.value = data;
 
     // console.log('courtsFilter', courts.value, count.value);
 
-    return { reservation, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    return data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }

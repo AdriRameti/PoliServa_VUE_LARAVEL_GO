@@ -1,13 +1,14 @@
 package reservations
 
 import (
-	// "log"
+	 "log"
 	"poliserva/Common"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 type ReservationModelValidator struct{
+	
 		Id          uint   `json:"id" binding:"required"`
 		Id_user     uint   `json:"id_user" binding:"required"`
 		Id_court    uint   `json:"id_court" binding:"required"` 
@@ -24,6 +25,7 @@ func NewReservationModelValidator() ReservationModelValidator {
 
 func (R *ReservationModelValidator) Bind(c *gin.Context) error {
 	err := common.Bind(c, R)
+	log.Println(err)
 	if err != nil {
 		return err
 	}

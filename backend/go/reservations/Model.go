@@ -27,12 +27,20 @@ func GetAllReservation(reservations *[]ReservationModel, c *gin.Context) (*[]Res
 	return reservations
 }
 
-func CreateNewReservation(reservations *ReservationModel, c *gin.Context) {
-	if err:= Config.DB.Create(&reservations).Error; err!=nil{
+func CreateNewReservation(reservations []string, c *gin.Context) bool {
+	var reser []ReservationModel
+	id_user:= reservations[0]
+	id_court:= reservations[1]
+	date:= reservations[2]
+	hini:= reservations[3]
+	hfin:= reservations[4]
+	total_price:= reservations[5]
+	err:= Config.DB.Raw("INSERT INTO reservations (id_user,id_court,date,hini,hfin,total_price) VALUES (?,?,?,?,?,?)",id_user,id_court,date,hini,hfin,total_price).Find(&reser).Error
+	if err!=nil{
 		c.AbortWithStatus(http.StatusNotFound);
 		fmt.Println("Status:", err);
 	}
-	// c.JSON(http.StatusAccepted,reservations)
+	return true
 }
 func GetDateOneReservation(MyArray []string, c *gin.Context) ([]courtsP.CourtModel){
 	var courts []courtsP.CourtModel
