@@ -1,10 +1,9 @@
-import store from '@/store';
 
 export default {
 
     authGuardUser(to, from, next) {
 
-        if (store.getters["user/getUser"]) {
+        if (localStorage.getItem('token')) {
             next();
         } else {
             next("/");
