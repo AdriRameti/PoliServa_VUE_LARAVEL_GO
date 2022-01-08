@@ -9,23 +9,14 @@ import Nav from './components/Nav.vue'
 
 export default ({
   components:{Nav},
-  watch:{
-    $route (to, from) {
-      this.reloadNav()
-    }
-  },
   data() {
     return {
       reload: 0,
-      nav: 0
     }
   },
   methods: { 
     reloadView() {
       this.reload += 1;
-    },
-    reloadNav() {
-      this.nav += 1;
     }
   },
 });

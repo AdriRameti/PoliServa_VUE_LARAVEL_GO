@@ -14,11 +14,11 @@
             <a class="nav-link text-white" v-on:click="clearSport()"><i class="bi bi-people-fill me-2"></i>Reservar</a>
           </li>
 
-          <li class="nav-item rounded" v-show="!token">
+          <li class="nav-item rounded" v-show="!store.state.user.user">
               <a class="nav-link active text-white" aria-current="page" href="/#/login"><i class="bi bi-house-fill me-2"></i>Login</a>
           </li>
           
-          <li class="nav-item dropdown rounded" v-show="token">
+          <li class="nav-item dropdown rounded" v-show="store.state.user.user">
             <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill me-2"></i>Profile</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="/#/profile">Account</a></li>
@@ -48,6 +48,7 @@
 <script>
 
 import { useToast } from "vue-toastification";
+import { useStore } from 'vuex';
 
 export default({
   data() {
@@ -73,13 +74,15 @@ export default({
       });
 
       localStorage.removeItem('token');
+      this.store.state.user.user = undefined;
       this.$router.push({name: 'Home'});
     }
   },
   setup() {
     const toastr = useToast();
+    const store = useStore();
 
-    return { toastr }
+    return { toastr, store }
   }
 })
 </script>
