@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import AuthGuards from '../services/guards/AuthGuards'
 
 const routes = [
   {
@@ -18,8 +18,8 @@ const routes = [
   {path: '/court',name: 'Court',component:()=> import('../views/Court/Court.vue')},
   {path: '/dashboard',name: 'Dashboard',component:()=> import('../views/Dashboard/Dashboard.vue')},
   {path: '/login',name: 'Login',component:()=> import('../views/Login/Login.vue')},
-  {path: '/otp',name: 'Otp',component: ()=> import('../views/Login/OTP.vue')},
-  {path: '/profile', name:'Profile', component: () => import('../views/Profile/Profile.vue')},
+  {path: '/otp',name: 'Otp',component: ()=> import('../views/Login/OTP.vue'), beforeEnter: AuthGuards.authGuardUser},
+  {path: '/profile', name:'Profile', component: () => import('../views/Profile/Profile.vue'), beforeEnter: AuthGuards.authGuardUser},
   // {path: '/register',name: 'Register',component:()=> import('../views/Login/Register.vue')},
   {path: '/reservation',name: 'Reservation',component:()=> import('../views/Reservation/Reservation.vue')},
   {path: '/sport',name: 'Sport',component:()=> import('../views/Sport/Sport.vue')}
