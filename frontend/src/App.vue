@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <Nav @relv="reloadView" :key="nav"/>
+    <Nav @relv="reloadView"/>
     <router-view :key="reload"/>
   </div>
 </template>
