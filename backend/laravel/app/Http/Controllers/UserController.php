@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\UserResource;
@@ -212,15 +213,40 @@ class UserController extends Controller
      */
     public function update(UpdateRequest $request)
     {
+
+
         if($this->userRepository->getUser()){
             $user = $this->userRepository->getUser();
-            $user->name = $request->name;
-            $user->surnames = $request->surnames;
-            $user->mail = $request->mail;
-            $user->pass = $request->pass;
-            $user->img = $request->img;
+
+            if ($request->name) {
+                $user->name = $request->name;
+            }
+
+            if ($request->surnames) {
+                $user->surnames = $request->surnames;
+            }
+
+            if ($request->mail) {
+                $user->mail = $request->mail;
+            }
+
+            if ($request->pass) {
+                $user->pass = $request->pass;
+            }
+
+            if ($request->img) {
+
+                $file = $request->file('img');
+
+                $path = $file->store('public/files', 'public');
+                $path2 = Storage::path($path);
+
+                $user->img = $request->imgURL;
+            }
+
             $user->save();
-            print_r($user);
+            
+            return ($user);
             // return $this->userRepository->getUser();
         }else{
             self::apiResponseError($e->getMessage());

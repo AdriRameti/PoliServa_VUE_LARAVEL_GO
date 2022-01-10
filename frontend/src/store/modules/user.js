@@ -32,6 +32,9 @@ export const user = {
                 state.g2faverified = true;
             }
         },
+        [Constant.UPDATE_USER]: (state, payload) => {
+            state.user.img = payload.img;
+        },
         [Constant.VALIDATE_REGISTER]: (state, payload) => {
             
         }
@@ -71,9 +74,6 @@ export const user = {
             });
             
 
-        },
-        [Constant.REGISTER_USER]: (store, payload) => {
-            
         },
         [Constant.ENABLE2FA]: (store, payload) => {
             UserServices.enable2fa().then(data => {
@@ -117,6 +117,15 @@ export const user = {
 
                 }
             })
+        },
+        [Constant.UPDATE_USER]: (store, payload) => {
+
+            UserServices.updateUser(payload).then(data => {
+                console.log(data)
+
+                store.commit(Constant.UPDATE_USER, data.data)
+            });
+
         },
         [Constant.VALIDATE_REGISTER]: (store, payload) => {
             

@@ -1,101 +1,112 @@
 <template>
-    <div class="container">
+  <div class="container">
     <div class="row profile">
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img :src="user.img" class="img-responsive" alt="">
+					<img :src="store.state.user.user.img" class="img-responsive" alt="">
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						{{ user.fullName }}
+						{{ store.state.user.user.fullName }}
 					</div>
 					<div class="profile-usertitle-job">
-						Developer
+						
 					</div>
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm" data-bs-target="#modal2fa" data-bs-toggle="modal" v-show="store.state.user.google2fa_secret == ''" @click="enable2fa()">Enable 2fa</button>
-          <button type="button" class="btn btn-danger btn-sm" v-show="store.state.user.google2fa_secret != ''" @click="disable2fa()">Dissable 2fa</button>
+					<button type="button" class="btn btn-success btn-sm" data-bs-target="#modal2fa" data-bs-toggle="modal" v-show="!store.state.user.google2fa_secret" @click="enable2fa()">Enable 2fa</button>
+          <button type="button" class="btn btn-danger btn-sm" v-show="store.state.user.google2fa_secret" @click="disable2fa()">Dissable 2fa</button>
 
-					<button type="button" class="btn btn-danger btn-sm">Message</button>
+					<button type="button" class="btn btn-danger btn-sm">Delete user</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
 						<li class="active">
-							<a href="#">
+							<a @click="showOverview()">
 							<i class="glyphicon glyphicon-home"></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href="https://codepen.io/jasondavis/pen/jVRwaG?editors=1000">
+							<a @click="showAccSettings()">
 							<i class="glyphicon glyphicon-user"></i>
 							Account Settings </a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-flag"></i>
-							Help </a>
 						</li>
 					</ul>
 				</div>
 				<!-- END MENU -->
 			   
            <div class="portlet light bordered">
-                                                <!-- STAT -->
-                                                <div class="row list-separated profile-stat">
-                                                    <div class="col-md-4 col-sm-4 col-xs-6">
-                                                        <div class="uppercase profile-stat-title"> 37 </div>
-                                                        <div class="uppercase profile-stat-text"> Projects </div>
-                                                    </div>
-                                                    <div class="col-md-4 col-sm-4 col-xs-6">
-                                                        <div class="uppercase profile-stat-title"> 51 </div>
-                                                        <div class="uppercase profile-stat-text"> Tasks </div>
-                                                    </div>
-                                                    <div class="col-md-4 col-sm-4 col-xs-6">
-                                                        <div class="uppercase profile-stat-title"> 61 </div>
-                                                        <div class="uppercase profile-stat-text"> Uploads </div>
-                                                    </div>
-                                                </div>
-                                                <!-- END STAT -->
-                                                 <div>
-                                                    <h4 class="profile-desc-title">About Jason Davis</h4>
-                                                    <span class="profile-desc-text"> Lorem ipsum dolor sit amet diam nonummy nibh dolore. </span>
-                                                    <div class="margin-top-20 profile-desc-link">
-                                                        <i class="fa fa-globe"></i>
-                                                        <a href="https://www.apollowebstudio.com">apollowebstudio.com</a>
-                                                    </div>
-                                                    <div class="margin-top-20 profile-desc-link">
-                                                        <i class="fa fa-twitter"></i>
-                                                        <a href="https://www.twitter.com/jasondavisfl/">@jasondavisfl</a>
-                                                    </div>
-                                                    <div class="margin-top-20 profile-desc-link">
-                                                        <i class="fa fa-facebook"></i>
-                                                        <a href="https://www.facebook.com/">JasonDavisFL</a>
- </div></div></div>                   
-                                           
-        
-        
+            <!-- STAT -->
+            <div class="row list-separated profile-stat">
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                  <div class="uppercase profile-stat-title"> 51 </div>
+                  <div class="uppercase profile-stat-text"> Reservations </div>
+              </div>
+            </div>
+            <!-- END STAT -->
+          </div>                   
+                                          
 			</div>
 		</div>
 		<div class="col-md-9">
-            <div class="profile-content">
-			   Some user related content goes here...
-            </div>
+          <div class="profile-content">
+            <p v-show="overview">Hola estadisticas</p>
+
+            <section v-show="accSettngs">
+              <div class="container h-100">
+                  <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                      <div class="card-body p-4">
+                        <h3 class="mb-3">Account Settings</h3>
+
+                        <div class="form-outline mb-4">
+                          <label for="typeNameX-2" class="form-label float-left">Name</label>
+                          <input type="email" id="typeNameX-2" class="form-control form-control-lg" v-model="updateNameValue" :placeholder="user.name"/>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <label for="typeSurnamesX-2" class="form-label float-left">Surnames</label>
+                          <input type="email" id="typeSurnamesX-2" class="form-control form-control-lg" v-model="updateSurnamesValue" :placeholder="user.surnames"/>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <label for="typeEmailX-2" class="form-label float-left">Email</label>
+                          <input type="email" id="typeEmailX-2" class="form-control form-control-lg" v-model="updateMailValue" :placeholder="user.mail"/>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <label for="typePasswordX-2" class="form-label float-left">Password</label>
+                          <input type="password" id="typePasswordX-2" v-model="updatePassValue" class="form-control form-control-lg" placeholder="Password"/>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <label for="typeProfileX-2" class="form-label float-left">Profile image</label>
+                          <input type="file" id="typeProfileX-2" class="form-control form-control-lg" @change="previewFile"/>
+                        </div>
+                        <div class="profile-userpic mt-2 mb-3" v-show="profileImgPreview">
+                          <p>Profile photo preview</p>
+                          <img :src="profileImgURL" class="img-responsive" alt="">
+                        </div>
+
+                        <button class="btn btn-primary btn-lg btn-block" v-on:click="updateUser()">Update</button>
+                      </div>
+                </div>
+              </div>
+            </section>
+
+
+          </div>
 		</div>
 	</div>
+
+
   <div id="modal2fa" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -136,12 +147,22 @@ export default {
   setup() {
     const store = useStore();
 
+    console.log(window.location.origin)
+
     return { store }
   },
   data() {
     return {
       user: this.store.getters["user/getUser"] ? this.store.getters["user/getUser"] : {},
-      otp: ''
+      otp: '',
+      overview: true,
+      accSettngs: false,
+      updateNameValue: '',
+      updateSurnamesValue: '',
+      updateMailValue: '',
+      updatePassValue: '',
+      profileImgURL: '',
+      profileImgPreview: false
     }
   },
   methods: {
@@ -153,6 +174,54 @@ export default {
     },
     check2fa() {
       this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp});
+    },
+    showOverview() {
+      this.overview = true;
+      this.accSettngs = false;
+    },
+    showAccSettings() {
+      this.overview = false;
+      this.accSettngs = true;
+    },
+    previewFile(event) {
+      this.profileImg = event.target.files[0];
+
+      if (this.profileImg.type.split('/')[0] == 'image') {
+        this.profileImgURL = URL.createObjectURL(this.profileImg);
+        this.profileImgPreview = true;
+      } else {
+        this.profileImgPreview = false;
+      }
+    },
+    updateUser() {
+
+      var userUpdate = new FormData()
+
+
+      if (this.updateNameValue) {
+        userUpdate.append('name', this.updateNameValue);
+      }
+
+      if (this.updateSurnamesValue) {
+        userUpdate.append('surnames', this.updateSurnamesValue);
+      }
+
+      if (this.updateMailValue) {
+        userUpdate.append('mail', this.updateMailValue);
+      }
+
+      if (this.updatePassValue) {
+        userUpdate.append('pass', this.updatePassValue);
+      }
+
+      if (this.profileImg) { 
+        userUpdate.append('img', this.profileImg);
+      }
+
+      userUpdate.append('_method', 'PUT');
+
+      this.store.dispatch("user/" + Constant.UPDATE_USER, userUpdate);
+
     }
   }
 }

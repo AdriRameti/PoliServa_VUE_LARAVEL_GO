@@ -37,7 +37,7 @@ Route::post('users/sendMailRegister',[UserController::class,"sendMailRegister"])
 
 Route::post('reservation/insertReservation', [ReservationController::class,"insertReservation"]);
 
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->middleware('jwtsession');
 Route::resource('reservation',ReservationController::class);
 Route::resource('courts',CourtsController::class);
 Route::resource('sports',SportsController::class);
