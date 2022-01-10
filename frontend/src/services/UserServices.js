@@ -14,5 +14,11 @@ export default {
     },
     check2fa(data) {
         return Api(`${secret.LARAVEL_URL}`).post(`users/check2fa/`, {'one_time_password': data})
+    },
+    validaRegister(mail){  
+        return Api(`${secret.LARAVEL_URL}`).post(`users/sendMailRegister/`,{'mail':mail.mail})
+    },
+    register(info){ 
+        return Api(`${secret.LARAVEL_URL}`).post(`users/mailRegister/`,{'info':info})
     }
 }

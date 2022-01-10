@@ -17,7 +17,10 @@ export const user = {
             localStorage.setItem('token', payload.token);
         },
         [Constant.REGISTER_USER]: (state, payload) => {
-            
+            state.user = payload;
+            state.token = payload.token;
+
+            localStorage.setItem('token', payload.token);
         },
         [Constant.ENABLE2FA]: (state, payload) => {
             state.google2fa_secret = payload.google2fa;
@@ -33,7 +36,8 @@ export const user = {
             }
         },
         [Constant.VALIDATE_REGISTER]: (state, payload) => {
-            
+            state.code = payload
+            localStorage.setItem('verifyCode',state.code);
         }
     },
     actions: {
@@ -71,9 +75,6 @@ export const user = {
             });
             
 
-        },
-        [Constant.REGISTER_USER]: (store, payload) => {
-            
         },
         [Constant.ENABLE2FA]: (store, payload) => {
             UserServices.enable2fa().then(data => {
@@ -120,6 +121,29 @@ export const user = {
         },
         [Constant.VALIDATE_REGISTER]: (store, payload) => {
             
+            var toastr = useToast();
+
+            UserServices.validaRegister(payload).then(data =>{
+                console.log(data.data);
+                store.commit(Constant.VALIDATE_REGISTER, data.data);
+            });
+        },
+        [Constant.REGISTER_USER]: (store, payload) => {
+            
+            var toastr = useToast();
+            console.log(payload)
+            UserServices.register(payload).then(data =>{
+                store.commit(Constant.REGISTER_USER, data.data.data);
+
+                if (data.data.data.google2fa_secret) {
+                    window.location.href = "/#/otp";
+                } else {
+                    window.location.href = "/#/";
+                    toastr.success("Login success", {
+                        timeout: 1500
+                    });
+                }
+            });
         }
     },
     getters: {

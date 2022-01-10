@@ -44,7 +44,7 @@ class UserController extends Controller
         return self::checkOTP($digits['one_time_password']);
     }
 
-    public function login(LoginRequest $request): UserResource|Response {
+    public function login(LoginRequest $request): UserResource | Response {
 
         try{
             if(session('token')){
@@ -116,37 +116,42 @@ class UserController extends Controller
                     return redirect()->action([UserController::class,'login'],['mail'=>$dataReq['mail'],'pass'=>$dataReq['pass']]);
                 } 
             }
-        }catch(\Exception $e){
+        }catch(Exception $e){
             return self::apiServerError($e->getMessage());
         }
     }
 
-    public function mailRegister($infouser){
+    public function mailRegister(Request $request){
+        $info = $request->only('info');
+        // return $info['info']['info']['name'];
+        // $name = $request->only('name');
+        // $surnames = $request->only('surnames');
+        // $mail = $request->only('mail');
+        // $pass = $request->only('password');
+        // $code = $request->only('code');
         $arr = array(
-            'name' => $infouser[0],
-            'surnames' => $infouser[1],
-            'mail' => $infouser[2],
-            'pass' => $infouser[3],
+            'name' => $info['info']['info']['name'],
+            'surnames' => $info['info']['info']['surnames'],
+            'mail' => $info['info']['info']['mail'],
+            'pass' => $info['info']['info']['password'],
         );
-        $codeVerify = $infouser[4];
-        $code = session('code');
-        if($codeVerify != $code){
-            return self::apiServerError($e->getMessage());
-        }else{
             return redirect()->action([ UserController::class, 'register' ],[ 'name' => $arr['name'] , 'surnames' => $arr['surnames'] , 'mail' => $arr['mail'] ,'pass' => $arr['pass']  ]);
-        }
     }
 
-    public function sendMailRegister($info){
-        $mail = $info[0];
+    public function sendMailRegister(Request $request){
+        $mail = $request->only('mail');
         $type = 'register';
+        $code = self::generateCode();
         $arrMail = array();
-        array_push($arrMail,$mail);
+        array_push($arrMail,$mail['mail']);
         array_push($arrMail,$type);
+        array_push($arrMail,$code);
         if (!$mail && !$type){
             return self::apiServerError($e->getMessage());
-        }else{
-            return self::dataMail($arrMail);
+        }
+        else{
+            self::dataMail($arrMail);
+            return $code;
         }
     }
 

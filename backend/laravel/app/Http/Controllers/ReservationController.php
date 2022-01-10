@@ -17,8 +17,8 @@ class ReservationController extends Controller
         $this->userRepository = $userRepository;
     }
     public function insertReservation(Request $request){
-            // $user = $this->userRepository->getUser();
-            $request['id_user']=2;
+            $user = $this->userRepository->getUser();
+            $request['id_user']=$user['id'];
             $response = HTTP::withHeaders([
                 "id_user"=>$request['id_user'],
                 "id_court"=>$request['id_court'],
