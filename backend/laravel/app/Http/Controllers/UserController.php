@@ -242,11 +242,10 @@ class UserController extends Controller
             if ($request->img) {
 
                 $file = $request->file('img');
+                $fileName = time().'_'.$file->getClientOriginalName();
 
-                $path = $file->store('public/files', 'public');
-                $path2 = Storage::path($path);
-
-                $user->img = $request->imgURL;
+                $file->move(public_path().'/uploads/', $fileName);
+                $user->img = 'http://localhost:8000/uploads/'.$fileName;
             }
 
             $user->save();
