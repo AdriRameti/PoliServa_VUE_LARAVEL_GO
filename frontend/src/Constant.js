@@ -5,5 +5,7 @@ export default {
     DISABLE2FA:"disable2fa",
     CHECK2FA:"check2fa",
     UPDATE_USER:"updateUser",
-    VALIDATE_REGISTER:"validateRegister"
+    VALIDATE_REGISTER:"validateRegister",
+    REGISTER_USER:"validateMail"
+
 }

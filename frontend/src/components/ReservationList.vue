@@ -26,7 +26,7 @@
                             Hora Final: {{ dateSearch.hfin }} <br/>
                         </p>
                         <a class="btn btn-danger text-white m-5" data-bs-dismiss="modal">Cancelar</a>
-                        <a class="btn btn-success text-white m-5" data-bs-dismiss="modal" @click="reservar()">Confirmar</a>
+                        <a class="btn btn-success text-white m-5" @click="reservar()">Confirmar</a>
                     </div>
                 </div>
             </div>
@@ -50,10 +50,10 @@ export default ({
     props:['dateSearch'],
     methods: {
         async reservar(){
-
+            // console.log('asd')
             const toastr = useToast();
 
-            if(localStorage.getItem('token')){
+            if(!localStorage.getItem('token')){
 
                 var totalPrices = this.calculateHour();
 

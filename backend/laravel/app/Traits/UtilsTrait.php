@@ -49,9 +49,9 @@ trait UtilsTrait {
     public static function dataMail($info){
         $emailClient =$info[0];
         $emailServer = 'poliserva@infopoliserva.com';
-        $code = self::generateCode();
-        session(['code'=>$code]);
-        Session::save();
+        // session(['code'=>$code]);
+        // Session::save();
+        $code = $info[2];
         $message = 'Para completar la operación debe introducir el codigo de verificación: '.$code;
         $type = $info[1];
         $html = '';
