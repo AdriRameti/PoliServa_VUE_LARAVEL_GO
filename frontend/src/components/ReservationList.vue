@@ -67,8 +67,7 @@ export default ({
                 total_price:totalPrices
                 }
                 const reservation = await insertReservation(obj)
-            
-                if(reservation !=1){
+                if(reservation.data !=1){
 
                     toastr.error("Had an error processing your reservation", {
                         timeout: 2500
@@ -79,11 +78,12 @@ export default ({
                     toastr.success("Your reservation has been confirmed succesfuly", {
                         timeout: 2500
                     });
+                    this.$router.push({name: 'Home'});
                     
                 }
 
             }else{
-               // window.location.href = '/#/login';
+               window.location.href = '/#/login';
             }
         },
         calculateHour(){
