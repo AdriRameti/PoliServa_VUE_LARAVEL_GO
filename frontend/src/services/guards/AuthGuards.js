@@ -10,5 +10,15 @@ export default {
             next("/");
         }
         
+    },
+
+    authGuardAdmin(to, from, next) {
+
+        if (localStorage.getItem('token') && store.state.user.user && store.state.user.user.role == 'admin') {
+            next();
+        } else {
+            next("/");
+        }
+
     }
 }

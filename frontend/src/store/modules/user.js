@@ -13,12 +13,14 @@ export const user = {
 
             state.user = payload;
             state.token = payload.token;
+            state.google2fa_secret = payload.google2fa_secret;
 
             localStorage.setItem('token', payload.token);
         },
         [Constant.REGISTER_USER]: (state, payload) => {
             state.user = payload;
             state.token = payload.token;
+            state.google2fa_secret = payload.google2fa_secret;
 
             localStorage.setItem('token', payload.token);
         },
@@ -36,7 +38,7 @@ export const user = {
             }
         },
         [Constant.UPDATE_USER]: (state, payload) => {
-            state.user.img = payload.img;
+            state.user = payload;
         },
         [Constant.VALIDATE_REGISTER]: (state, payload) => {
             state.code = payload
@@ -133,8 +135,6 @@ export const user = {
         [Constant.UPDATE_USER]: (store, payload) => {
 
             UserServices.updateUser(payload).then(data => {
-                console.log(data)
-
                 store.commit(Constant.UPDATE_USER, data.data)
             });
 
