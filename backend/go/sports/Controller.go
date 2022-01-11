@@ -86,9 +86,14 @@ func UpdateSport(c *gin.Context) {
 
 func DeleteSport(c *gin.Context) {
 	var slug string
+	var sports []SportModel
 
 	slug = c.Query("slug")
 
-	DeleteSportDB(slug, c)
+	sports = DeleteSportDB(slug, c)
+
+	serializer := SportsSerializer{c, sports}
+
+	c.JSON(http.StatusOK, serializer.Response())
 
 } 

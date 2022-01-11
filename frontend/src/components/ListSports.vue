@@ -1,6 +1,6 @@
 <template>
     <div class="pistas d-flex flex-wrap p-3 justify-content-center m-3">
-        <div class="card p-3 card-reser" v-for="sport in sports" :key="sport.id">
+        <div class="card p-3 card-reser" v-for="sport in sportsData" :key="sport.id">
             <img :src="sport.img"/>
             <h1>{{ sport.name }}</h1>
             <p class="reser-descrip">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -11,6 +11,7 @@
 <script>
 
 import { useGetAllSports } from '../composables/sports/useSports';
+import { reactive } from 'vue';
 
 export default({
 
@@ -24,7 +25,9 @@ export default({
 
         const { sports } = await useGetAllSports();
 
-        return { sports };
+        var sportsData = reactive(sports.value);
+
+        return { sportsData };
     },
 })
 </script>

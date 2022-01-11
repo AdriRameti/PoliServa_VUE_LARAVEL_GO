@@ -14,6 +14,10 @@
             <a class="nav-link text-white" v-on:click="clearSport()"><i class="bi bi-people-fill me-2"></i>Reservar</a>
           </li>
 
+          <li class="nav-item rounded">
+            <a class="nav-link text-white" v-show="store.state.user.user && store.state.user.user.role == 'admin'" href="/#/dashboard"><i class="bi bi-people-fill me-2"></i>Dashboard</a>
+          </li>
+
           <li class="nav-item rounded" v-show="!store.state.user.user">
               <a class="nav-link active text-white" aria-current="page" href="/#/login"><i class="bi bi-house-fill me-2"></i>Login</a>
           </li>

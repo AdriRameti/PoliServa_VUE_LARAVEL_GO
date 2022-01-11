@@ -17,11 +17,11 @@
               </div>
 
               <div class="form-outline mb-4">
-                <input type="email" id="typeEmailX-2" v-model="email" class="form-control form-control-lg" placeholder="Email"/>
+                <input type="email" id="typeEmailX-3" v-model="email" class="form-control form-control-lg" placeholder="Email"/>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" v-model="password"  class="form-control form-control-lg" placeholder="Password"/>
+                <input type="password" id="typePasswordX-3" v-model="password"  class="form-control form-control-lg" placeholder="Password"/>
               </div>
 
               <div class="progress" v-show="this.password.length>0">

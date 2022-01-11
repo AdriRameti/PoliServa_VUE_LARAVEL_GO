@@ -16,7 +16,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {path: '/court',name: 'Court',component:()=> import('../views/Court/Court.vue')},
-  {path: '/dashboard',name: 'Dashboard',component:()=> import('../views/Dashboard/Dashboard.vue')},
+  {path: '/dashboard',name: 'Dashboard',component:()=> import('../views/Dashboard/Dashboard.vue'), beforeEnter: AuthGuards.authGuardAdmin},
   {path: '/login',name: 'Login',component:()=> import('../views/Login/Login.vue')},
   {path: '/otp',name: 'Otp',component: ()=> import('../views/Login/OTP.vue'), beforeEnter: AuthGuards.authGuardUser},
   {path: '/profile', name:'Profile', component: () => import('../views/Profile/Profile.vue'), beforeEnter: AuthGuards.authGuardUser},
