@@ -6,6 +6,7 @@ export default {
     CHECK2FA:"check2fa",
     UPDATE_USER:"updateUser",
     VALIDATE_REGISTER:"validateRegister",
-    REGISTER_USER:"validateMail"
-
+    REGISTER_USER:"validateMail",
+    DELETE_USER:"deleteUser",
+    DESTROY_USER:"destroyUser"
 }

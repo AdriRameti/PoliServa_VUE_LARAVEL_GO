@@ -124,12 +124,6 @@ class UserController extends Controller
 
     public function mailRegister(Request $request){
         $info = $request->only('info');
-        // return $info['info']['info']['name'];
-        // $name = $request->only('name');
-        // $surnames = $request->only('surnames');
-        // $mail = $request->only('mail');
-        // $pass = $request->only('password');
-        // $code = $request->only('code');
         $arr = array(
             'name' => $info['info']['info']['name'],
             'surnames' => $info['info']['info']['surnames'],
@@ -275,27 +269,24 @@ class UserController extends Controller
         }else{
              $user = $this->userRepository->getUser();
              $type = 'delete';
+             $code = self::generateCode();
              $arrMail = array();
              array_push($arrMail,$user['mail']);
              array_push($arrMail,$type);
-             if (!$user['mail'] && !$type){
+             array_push($arrMail,$code);
+             if (!$user['mail'] && !$type && !$code){
                  return self::apiServerError($e->getMessage());
              }else{
-                 return self::dataMail($arrMail);
-             }
+                self::dataMail($arrMail);
+                return $code;
+            }
         }
     }
-    public function destroy(Request $request)
+    public function destroy()
     {
-        $codeVerify = $request->input('codeVeri');
-        $code = session('code');
-        if($codeVerify != $code){
-            return self::apiServerError($e->getMessage());
-        }else{
             $user = $this->userRepository->getUser();
             $user->delete();
             return self::apiResponseSuccess(null);
-        }
     }
 
     private function userResponse($response): UserResource {

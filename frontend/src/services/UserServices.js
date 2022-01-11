@@ -22,5 +22,11 @@ export default {
     },
     register(info){ 
         return Api(`${secret.LARAVEL_URL}`).post(`users/mailRegister/`,{'info':info});
+    },
+    deleteUser(data){
+        return Api(`${secret.LARAVEL_URL}`).post(`users/deleteUser`,{'one_time_password':data})
+    },
+    destroyUser(){
+        return Api(`${secret.LARAVEL_URL}`).delete(`users/destroy`)
     }
 }

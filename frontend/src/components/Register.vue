@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
- <div class="row d-flex justify-content-center align-items-center h-100" v-if="showView==false">
+      <div iv class="row d-flex justify-content-center align-items-center h-100" v-if="showView==false">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-4 text-center">
@@ -126,7 +126,6 @@ export default ({
   },
   methods:{
     printSecurityPassword(){
-      console.log('hola')
       if(this.password.length<4){
       var element = document.getElementById("security");
       element.classList.add("w-33");

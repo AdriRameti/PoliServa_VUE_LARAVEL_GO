@@ -4,7 +4,7 @@
             <h1 v-if="this.courts == 0">No hay pistas disponibles en este horario</h1>
             <div class="card p-3 card-reser" v-for="court in this.courts" :key="court.id">
                 <img :src="court.Sport.img"/>
-                <h1> {{ court.Sport.name }}</h1>
+                <h1 class="text-center"> {{ court.Sport.name }}</h1>
                 <p class="reser-descrip">Precio hora: {{ court.price_h }}</p>
                 <p class="text-danger" v-show="dateSearch.isActivated == true">Introduzca la fecha de su reserva</p>
                 <button id="confirm" class="btn btn-dark" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">Confirmar Reserva</button>
@@ -53,7 +53,7 @@ export default ({
             // console.log('asd')
             const toastr = useToast();
 
-            if(!localStorage.getItem('token')){
+            if(localStorage.getItem('token')){
 
                 var totalPrices = this.calculateHour();
 

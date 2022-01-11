@@ -41,6 +41,14 @@ export const user = {
         [Constant.VALIDATE_REGISTER]: (state, payload) => {
             state.code = payload
             localStorage.setItem('verifyCode',state.code);
+        },
+        [Constant.DELETE_USER]: (state, payload) => {
+            state.code = payload
+            localStorage.setItem('verifyCode',state.code);
+        },
+        [Constant.DESTROY_USER]: (state, payload) => {
+            console.log('entra')
+            localStorage.setItem('delete',1);
         }
     },
     actions: {
@@ -143,7 +151,6 @@ export const user = {
         [Constant.REGISTER_USER]: (store, payload) => {
             
             var toastr = useToast();
-            console.log(payload)
             UserServices.register(payload).then(data =>{
                 store.commit(Constant.REGISTER_USER, data.data.data);
 
@@ -156,6 +163,18 @@ export const user = {
                     });
                 }
             });
+        },
+        [Constant.DELETE_USER]: (store,payload) =>{
+            UserServices.deleteUser(payload).then(data =>{
+                store.commit(Constant.DELETE_USER, data.data);
+            })
+        },
+        [Constant.DESTROY_USER]: (store,payload) =>{
+            UserServices.destroyUser().then(data =>{
+                if(data){
+                    store.commit(Constant.DESTROY_USER, data);
+                }
+            })
         }
     },
     getters: {
