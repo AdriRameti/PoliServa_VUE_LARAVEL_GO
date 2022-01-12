@@ -34,6 +34,11 @@
             </div>
         </div>
         <div class="col py-3">
+            <div class="w-100 h-100" v-show="dashboard">
+                <Suspense>
+                    <AdminStats></AdminStats>
+                </Suspense>  
+            </div>  
             <div class="w-100 h-100" v-show="sports">
                 <Suspense>
                     <ListSportsAdmin></ListSportsAdmin>
@@ -48,15 +53,16 @@
 <script>
 //import { defineComponent } from '@vue/composition-api'
 import ListSportsAdmin from '@/components/ListSportsAdmin.vue'
-
+import AdminStats from '@/components/AdminStats.vue'
 
 export default ({
     components: {
-        ListSportsAdmin
+        ListSportsAdmin,
+        AdminStats
     },
   data() {
     return {
-        dashboard: false,
+        dashboard: true,
         sports: false,
         courts: false,
         users: false
@@ -68,8 +74,6 @@ export default ({
         this.sports = false;
         this.courts = false;
         this.users = false;
-                console.log(this)
-
     },
     showSports() {
         this.dashboard = false;
