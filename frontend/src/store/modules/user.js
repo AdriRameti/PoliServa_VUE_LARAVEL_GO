@@ -130,7 +130,7 @@ export const user = {
                             if(data){
                                 store.commit(Constant.LOGOUT, data);
                                 
-                                toastr.success("You're acount has been delete succesfully", {
+                                toastr.success("You're acount has been deleted successfully", {
                                     timeout: 1500
                                 });
         

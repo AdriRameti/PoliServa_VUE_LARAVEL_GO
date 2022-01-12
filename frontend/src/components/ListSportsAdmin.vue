@@ -1,6 +1,8 @@
 <template>
     
-    <h1>Deportes</h1>
+    <div class="text-center">
+        <h1>Deportes</h1>
+    </div>
 
     <div class="mb-2 d-flex justify-content-end">
         <button @click="getSelectedRows()" class="btn btn-success m-1">Create</button>

@@ -337,23 +337,22 @@ export default ({
     },
     delete_user(){
 
-
       if (this.store.state.user.google2fa_secret) {
 
         document.getElementById('delButton').click();
 
-      // } else {
-        // this.store.dispatch("user/" + Constant.DELETE_USER, {'otp': this.otp});
+      } else {
+        this.store.dispatch("user/" + Constant.DELETE_USER, {'otp': this.otp});
 
-        // if(localStorage.getItem('verifyCode')){
-        //   this.showView = true
-        //   this.overview = false
-        //   this.accSettngs = false
-        //   this.toastr.warning("Check the email where you will receive a verification code.", {
-        //     timeout: 4500
-        //   });
-        //   return
-        // }
+        if(localStorage.getItem('verifyCode')){
+          this.showView = true
+          this.overview = false
+          this.accSettngs = false
+          this.toastr.warning("Check the email where you will receive a verification code.", {
+            timeout: 4500
+          });
+          return
+        }
       }
       
     },
@@ -366,7 +365,7 @@ export default ({
       }else{
         this.store.dispatch("user/" + Constant.DESTROY_USER);
         if(localStorage.getItem('delete')){
-          this.toastr.success("You're acount has been delete succesfully", {
+          this.toastr.success("You're acount has been deleted successfully", {
             timeout: 1500
           });
           localStorage.removeItem('token');
