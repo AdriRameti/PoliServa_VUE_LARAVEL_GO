@@ -93,8 +93,7 @@ export const useCreateReservation = async () => {
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
-export const insertReservation = async (body) => {
-    console.log(body);
+export const useInsertReservation = async (Rdata) => {
     let reservation = ref([]);
     let token = localStorage.getItem('token')
     let res = await fetch(secret.LARAVEL_URL + "reservation/insertReservations",{
@@ -104,12 +103,9 @@ export const insertReservation = async (body) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: body
+        body: JSON.stringify(Rdata)
     });
     let data = await res.json();
-    // reservation.value = data;
-
-    // console.log('courtsFilter', courts.value, count.value);
 
     return {data}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 }

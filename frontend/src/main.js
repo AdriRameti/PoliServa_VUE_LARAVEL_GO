@@ -7,7 +7,7 @@ import store from './store'
 import 'bootstrap'
 import './assets/app.scss'
 import VueChartkick from 'vue-chartkick'
-import Chart from 'chartkick/chart.js'
-createApp(App).use(router).use(store).use(Toast).use(VueChartkick).use(Chart).mount('#app')
+import 'chartkick/chart.js'
+createApp(App).use(router).use(store).use(Toast).use(VueChartkick).mount('#app')
 
 

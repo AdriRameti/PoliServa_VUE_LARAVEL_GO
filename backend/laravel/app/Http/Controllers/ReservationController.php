@@ -17,19 +17,20 @@ class ReservationController extends Controller
         $this->userRepository = $userRepository;
     }
     public function insertReservation(Request $request){
-            $user = $this->userRepository->getUser();
-            $request['id_user']=$user['id'];
-            $response = HTTP::withHeaders([
-                "id_user"=>$request['id_user'],
-                "id_court"=>$request['id_court'],
-                "date"=>$request['date'],
-                "hini"=>$request['hini'],
-                "hfin"=>$request['hfin'],
-                "total_price"=>$request['total_price']
-            ])->acceptJson()->post("http://localhost:3000/api/reservations/")->json();
-        return $response;
-    //    $uuid = self::getUuid();
 
+        $user = $this->userRepository->getUser();
+        $request['id_user']=$user['id'];
+
+        $response = HTTP::withHeaders([
+            "id_user"=>$request['id_user'],
+            "id_court"=>$request->input('id_court'),
+            "date"=>$request->input('date'),
+            "hini"=>$request->input('hini'),
+            "hfin"=>$request->input('hfin'),
+            "total_price"=>$request->input('total_price')
+        ])->acceptJson()->post("http://localhost:3000/api/reservations/")->json();
+
+        return $response;
 
     }
     /**
