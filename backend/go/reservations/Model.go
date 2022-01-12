@@ -21,6 +21,10 @@ type SportUserModel struct {
 	Numreser	int `json:"numreser"`
 	Name	string	`json:"name"`
 }
+type CourtUserModel struct {
+	Numreser	int `json:"numreser"`
+	Id	string	`json:"id"`
+}
 
 func GetAllReservation(reservations *[]ReservationModel, c *gin.Context) (*[]ReservationModel){
 	if err := Config.DB.Find(&reservations).Error; err != nil {
@@ -30,14 +34,27 @@ func GetAllReservation(reservations *[]ReservationModel, c *gin.Context) (*[]Res
 
 	return reservations
 }
-func GetUserSportsReservation(id string,c *gin.Context)([]SportUserModel){
-	var reser []SportUserModel
-	err:=Config.DB.Raw("SELECT  COUNT(s.name) as numreser,s.name from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id where r.id_user = ? group by s.name",id).Find(&reser).Error
+func GetCourtsReservation( c *gin.Context) ([]CourtUserModel){
+	var reser []CourtUserModel
+	err:=Config.DB.Raw("SELECT  count(c.id) as numreser,c.id from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id group by c.id").Find(&reser).Error
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound);
 		fmt.Println("Status:", err);
 	}
-	fmt.Println(reser)
+	return reser
+}
+func GetUserSportsReservation(id string,dashboard string,c *gin.Context)([]SportUserModel){
+	var reser []SportUserModel
+	var err error
+	if (dashboard == "profile"){
+		err=Config.DB.Raw("SELECT  COUNT(s.name) as numreser,s.name from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id where r.id_user = ? group by s.name",id).Find(&reser).Error
+	}else{
+		err=Config.DB.Raw("SELECT  COUNT(s.name) as numreser,s.name from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id group by s.name").Find(&reser).Error
+	}
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
 	return reser;
 }
 func GetUserReservations(arr []string, c *gin.Context) ([]ReservationModel){

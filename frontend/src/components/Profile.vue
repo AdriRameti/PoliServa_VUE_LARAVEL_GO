@@ -202,8 +202,9 @@ export default ({
         var fIni = dates[0];
         var fFin = dates[1];
         var arr = [id,fIni,fFin];
+        var reserArr =[id,'profile']
         var reservation = await useGetUserReservation(arr);
-        var reservationSport = await useGetUserSportReservation(id);
+        var reservationSport = await useGetUserSportReservation(reserArr);
         var ReservationSportValue = reservationSport.reservations.value
         var reser = reservation.reservations.value
         var totReser = reser.length
@@ -228,7 +229,7 @@ export default ({
           arrSport.push(sportArr)
         }else{
           for(var i=0;i<ReservationSportValue.length;i++){
-            var sport = ReservationSportValue[i].name 
+            var sport = ReservationSportValue[i].name.toUpperCase() 
             var count = ReservationSportValue[i].numreser
             var sportArr = [sport,count]
             arrSport.push(sportArr)

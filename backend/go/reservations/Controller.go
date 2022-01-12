@@ -26,8 +26,12 @@ func GetUserReservation(c *gin.Context){
 }
 func GetUserSportReservation(c *gin.Context){
 	id:= c.Query("id")
-	log.Println(id)
-	consult:=GetUserSportsReservation(id,c)
+	dashboard:= c.Query("type")
+	consult:=GetUserSportsReservation(id,dashboard,c)
+	c.JSON(http.StatusCreated,consult)
+}
+func GetUserCourtReservation(c *gin.Context){
+	consult:=GetCourtsReservation(c)
 	c.JSON(http.StatusCreated,consult)
 }
 func GetDateReservations(c *gin.Context){

@@ -10,6 +10,7 @@ func ReservationRouting(router *gin.RouterGroup) {
 	router.GET("/datereservation", GetDateReservations)
 	router.GET("/userreservation",GetUserReservation)
 	router.GET("/usersportreservation",GetUserSportReservation)
+	router.GET("/usercourtreservation",	GetUserCourtReservation)
 	router.POST("/",CreateReservations)
 	router.PUT("/:id",UpdateReservations)
 	router.DELETE("/:id",DeleteReservations)
