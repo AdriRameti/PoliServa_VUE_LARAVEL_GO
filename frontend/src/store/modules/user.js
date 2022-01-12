@@ -6,7 +6,7 @@ export const user = {
     namespaced: true,
 
     state: {
-        g2faverified: false
+        g2faverified: false,
     },
     mutations: {
         [Constant.LOGIN_USER]: (state, payload) => {
@@ -25,7 +25,7 @@ export const user = {
             localStorage.setItem('token', payload.token);
         },
         [Constant.ENABLE2FA]: (state, payload) => {
-            state.google2fa_secret = payload.google2fa;
+            state.google2fa_secret = 'secret';
             state.user = payload;
         },
         [Constant.DISABLE2FA]: (state, payload) => {
@@ -49,8 +49,11 @@ export const user = {
             localStorage.setItem('verifyCode',state.code);
         },
         [Constant.DESTROY_USER]: (state, payload) => {
-            console.log('entra')
             localStorage.setItem('delete',1);
+        },
+        [Constant.LOGOUT]: (state, payload) => {
+            localStorage.removeItem('token');
+            state.user = undefined;
         }
     },
     actions: {
@@ -120,6 +123,22 @@ export const user = {
                         });
 
                         window.location.href="/#/";
+                        
+                    } else if (payload.from == 'delete') {
+                        
+                        UserServices.destroyUser().then(data =>{
+                            if(data){
+                                store.commit(Constant.LOGOUT, data);
+                                
+                                toastr.success("You're acount has been delete succesfully", {
+                                    timeout: 1500
+                                });
+        
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1800);
+                            }
+                        })
                     } else {
 
                         toastr.success("Two-Factor Authentication activated", {
@@ -175,6 +194,9 @@ export const user = {
                     store.commit(Constant.DESTROY_USER, data);
                 }
             })
+        },
+        [Constant.LOGOUT]: (store, payload) => {
+            store.commit(Constant.LOGOUT);
         }
     },
     getters: {

@@ -53,6 +53,7 @@
 
 import { useToast } from "vue-toastification";
 import { useStore } from 'vuex';
+import Constant from "../Constant";
 
 export default({
   data() {
@@ -77,9 +78,10 @@ export default({
           timeout: 1500
       });
 
-      localStorage.removeItem('token');
-      this.store.state.user.user = undefined;
       this.$router.push({name: 'Home'});
+
+      this.store.dispatch("user/" + Constant.LOGOUT);
+
     }
   },
   setup() {

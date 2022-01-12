@@ -8,5 +8,6 @@ export default {
     VALIDATE_REGISTER:"validateRegister",
     REGISTER_USER:"validateMail",
     DELETE_USER:"deleteUser",
-    DESTROY_USER:"destroyUser"
+    DESTROY_USER:"destroyUser",
+    LOGOUT:"logout"
 }

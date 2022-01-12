@@ -258,34 +258,25 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteUser(Request $request){
-        if($this->userRepository->check2fa()){
-            $result = self::checkOTP($request->input('one_time_password'));
-            if($result === 'verified'){
-                $user = $this->userRepository->getUser();
-                $user->delete();
-                return self::apiResponseSuccess(null);
-            }
+        $user = $this->userRepository->getUser();
+        $type = 'delete';
+        $code = self::generateCode();
+        $arrMail = array();
+        array_push($arrMail,$user['mail']);
+        array_push($arrMail,$type);
+        array_push($arrMail,$code);
+        if (!$user['mail'] && !$type && !$code){
+            return self::apiServerError($e->getMessage());
         }else{
-             $user = $this->userRepository->getUser();
-             $type = 'delete';
-             $code = self::generateCode();
-             $arrMail = array();
-             array_push($arrMail,$user['mail']);
-             array_push($arrMail,$type);
-             array_push($arrMail,$code);
-             if (!$user['mail'] && !$type && !$code){
-                 return self::apiServerError($e->getMessage());
-             }else{
-                self::dataMail($arrMail);
-                return $code;
-            }
+            self::dataMail($arrMail);
+            return $code;
         }
     }
     public function destroy()
     {
-            $user = $this->userRepository->getUser();
-            $user->delete();
-            return self::apiResponseSuccess(null);
+        $user = $this->userRepository->getUser();
+        $user->delete();
+        return self::apiResponseSuccess(null);
     }
 
     private function userResponse($response): UserResource {

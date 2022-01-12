@@ -140,7 +140,7 @@
                 </button>
             </div> 
             <div class="modal-body">
-              <h4>Two-factor authentication increases the security of your Ledgy account.</h4>
+              <h4>Two-factor authentication increases the security of your account.</h4>
               <p>All you need is a compatible app on your smartphone, for example:</p>
               <ul>
                 <li>Google Authentificator</li>
@@ -157,7 +157,32 @@
             </div>
         </div>
     </div>
+
   </div>
+
+  <button id="delButton" type="button" class="btn btn-success btn-sm" data-bs-target="#modal2faDelete" data-bs-toggle="modal" v-show="del2fa">Delete user with 2fa</button>
+
+  <div id="modal2faDelete" class="modal fade" v-if="!store.state.user.modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete account</h4>
+                <button type="button" class="close btn btn-dark" data-bs-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div> 
+            <div class="modal-body">
+
+              <p>Enter the code from your two-factor authentication app to delete your account.</p>
+              <div class="form-outline mb-4">
+                <input type="text" v-model="otp" class="form-control form-control-lg" placeholder="One Time Password"/>
+              </div>
+              <button class="btn btn-danger btn-lg btn-block" v-on:click="check2faDelete()" :disabled="otp.length != 6">Delete user</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
 </div>
 </template>
 
@@ -184,6 +209,7 @@ export default ({
         var totReser = reser.length
         var obj = new Object
         var arrSport = []
+
         if(totReser == 0){
           obj[fIni] = 0
           obj[fFin] = 0
@@ -244,7 +270,8 @@ export default ({
       profileImgURL: '',
       profileImgPreview: false,
       showView:false,
-      code:''
+      code:'',
+      del2fa: false,
     }
   },
   methods: {
@@ -256,6 +283,9 @@ export default ({
     },
     check2fa() {
       this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp});
+    },
+    async check2faDelete() {
+      this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp, 'from': 'delete'});
     },
     showOverview() {
       this.overview = true;
@@ -306,16 +336,26 @@ export default ({
 
     },
     delete_user(){
-      this.store.dispatch("user/" + Constant.DELETE_USER, {'otp': this.otp});
-      if(localStorage.getItem('verifyCode')){
-        this.showView = true
-        this.overview = false
-        this.accSettngs = false
-        this.toastr.warning("Check the email where you will receive a verification code.", {
-          timeout: 4500
-        });
-        return
+
+
+      if (this.store.state.user.google2fa_secret) {
+
+        document.getElementById('delButton').click();
+
+      // } else {
+        // this.store.dispatch("user/" + Constant.DELETE_USER, {'otp': this.otp});
+
+        // if(localStorage.getItem('verifyCode')){
+        //   this.showView = true
+        //   this.overview = false
+        //   this.accSettngs = false
+        //   this.toastr.warning("Check the email where you will receive a verification code.", {
+        //     timeout: 4500
+        //   });
+        //   return
+        // }
       }
+      
     },
     sendCode(){
       if ( this.code != localStorage.getItem('verifyCode')){
