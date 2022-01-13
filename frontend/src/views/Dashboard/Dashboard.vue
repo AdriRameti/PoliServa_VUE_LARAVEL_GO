@@ -44,7 +44,12 @@
                 <Suspense>
                     <ListCourtsAdmin></ListCourtsAdmin>
                 </Suspense>  
-            </div>   
+            </div>
+            <div class="w-100 h-100" v-show="users">
+                <Suspense>
+                    <ListUsersAdmin></ListUsersAdmin>
+                </Suspense>  
+            </div>    
         </div>
     </div>
 </div>
@@ -56,12 +61,14 @@
 import AdminStats from '@/components/AdminStats.vue'
 import ListSportsAdmin from '@/components/ListSportsAdmin.vue'
 import ListCourtsAdmin from '@/components/ListCourtsAdmin.vue'
+import ListUsersAdmin from '@/components/ListUsersAdmin.vue'
 
 export default ({
     components: {
-        ListSportsAdmin,
         AdminStats,
-        ListCourtsAdmin
+        ListSportsAdmin,
+        ListCourtsAdmin,
+        ListUsersAdmin
     },
   data() {
     return {

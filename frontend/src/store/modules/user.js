@@ -54,6 +54,20 @@ export const user = {
         [Constant.LOGOUT]: (state, payload) => {
             localStorage.removeItem('token');
             state.user = undefined;
+        },
+        [Constant.GET_ALL_USERS]: (state, payload) => {
+            state.allUsers = payload;
+        },
+        [Constant.CREATE_USER]: (state, payload) => {
+            state.allUsers.push(payload);
+        },
+        [Constant.UPDATE_USER_ADMIN]: (state, payload) => {
+            var newData = state.allUsers.map(data => data.uuid == payload.uuid ? payload : data );
+            state.allUsers = newData;
+        },
+        [Constant.DELETE_USER_ADMIN]: (state, payload) => {
+            var newData = state.allUsers.filter((data) => { return data.uuid != payload.uuid })
+            state.allUsers = newData;
         }
     },
     actions: {
@@ -160,8 +174,6 @@ export const user = {
         },
         [Constant.VALIDATE_REGISTER]: (store, payload) => {
             
-            var toastr = useToast();
-
             UserServices.validaRegister(payload).then(data =>{
                 console.log(data.data);
                 store.commit(Constant.VALIDATE_REGISTER, data.data);
@@ -183,12 +195,12 @@ export const user = {
                 }
             });
         },
-        [Constant.DELETE_USER]: (store,payload) =>{
+        [Constant.DELETE_USER]: (store, payload) =>{
             UserServices.deleteUser(payload).then(data =>{
                 store.commit(Constant.DELETE_USER, data.data);
             })
         },
-        [Constant.DESTROY_USER]: (store,payload) =>{
+        [Constant.DESTROY_USER]: (store, payload) =>{
             UserServices.destroyUser().then(data =>{
                 if(data){
                     store.commit(Constant.DESTROY_USER, data);
@@ -197,12 +209,98 @@ export const user = {
         },
         [Constant.LOGOUT]: (store, payload) => {
             store.commit(Constant.LOGOUT);
+        },
+        [Constant.GET_ALL_USERS]: (store, payload) => {
+            UserServices.getAllUsers().then(data => {
+                store.commit(Constant.GET_ALL_USERS, data.data);
+            });
+        },
+        [Constant.CREATE_USER]: (store, payload) => {
+
+            var toastr = useToast();
+
+            UserServices.createUser(payload).then(data => {
+
+                if (data.status != 200) {
+                    toastr.error("Something failed trying to process the request.", {
+                        timeout: 1500
+                    });
+                } else {
+                    if (data.data == 'already used') {
+                        toastr.error("Mail already used.", {
+                            timeout: 1500
+                        });
+                    } else if (data.data == "can't bind") {
+                        toastr.error("Something failed trying to process the request.", {
+                            timeout: 1500
+                        });
+                    } else {
+                        store.commit(Constant.CREATE_USER, data.data);
+                        toastr.success("Used created successfully.", {
+                            timeout: 1500
+                        });
+                    }
+                }
+
+                
+            });
+        },
+        [Constant.UPDATE_USER_ADMIN]: (store, payload) => {
+            var toastr = useToast();
+
+            UserServices.updateUserAdmin(payload).then(data => {
+
+                if (data.status != 200) {
+                    toastr.error("Something failed trying to process the request.", {
+                        timeout: 1500
+                    });
+                } else {
+                    if (data.data == 'already used') {
+                        toastr.error("Mail already used.", {
+                            timeout: 1500
+                        });
+                    } else if (data.data == "can't bind") {
+                        toastr.error("Something failed trying to process the request.", {
+                            timeout: 1500
+                        });
+                    } else {
+                        store.commit(Constant.UPDATE_USER_ADMIN, data.data);
+                        toastr.success("Used updated successfully.", {
+                            timeout: 1500
+                        });
+                    }
+                }  
+
+            });
+
+        },
+        [Constant.DELETE_USER_ADMIN]: (store, payload) => {
+
+            var toastr = useToast();
+
+            UserServices.deleteUserAdmin(payload).then(data => {
+                if (data.status == 200) {
+                    if (data.data == "Se ha eliminado con éxito") {
+                        store.commit(Constant.DELETE_USER_ADMIN, payload);
+                        toastr.success("User deleted successfully.", {
+                            timeout: 1500
+                        });
+                    } else {
+                        toastr.error("Something failed trying to process the request.", {
+                            timeout: 1500
+                        });
+                    }
+                } else {
+                    toastr.error("Something failed trying to process the request.", {
+                        timeout: 1500
+                    });
+                }
+                
+            });
         }
     },
     getters: {
         getUser(state) {
-
-            console.log('getter', state);
             return state.user;
         }
     }

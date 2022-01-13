@@ -24,9 +24,21 @@ export default {
         return Api(`${secret.LARAVEL_URL}`).post(`users/mailRegister/`,{'info':info});
     },
     deleteUser(data){
-        return Api(`${secret.LARAVEL_URL}`).post(`users/deleteUser`,{'one_time_password':data})
+        return Api(`${secret.LARAVEL_URL}`).post(`users/deleteUser`,{'one_time_password':data});
     },
     destroyUser(){
-        return Api(`${secret.LARAVEL_URL}`).delete(`users/destroy`)
+        return Api(`${secret.LARAVEL_URL}`).delete(`users/destroy`);
+    },
+    getAllUsers() {
+        return Api(`${secret.GO_URL}`).get(`users/`);
+    },
+    createUser(data) {
+        return Api(`${secret.GO_URL}`).post(`users/?mail=${data.mail}&pass=${data.pass}&name=${data.name}&surnames=${data.surnames}&img=${data.img}&role=${data.role}&is_blocked=${data.is_blocked}`);
+    },
+    updateUserAdmin(data) {
+        return Api(`${secret.GO_URL}`).put(`users/?uuid=${data.uuid}&mail=${data.mail}&pass=${data.pass}&name=${data.name}&surnames=${data.surnames}&img=${data.img}&role=${data.role}&is_blocked=${data.is_blocked}`);
+    },
+    deleteUserAdmin(data) {
+        return Api(`${secret.GO_URL}`).delete(`users/?uuid=${data.uuid}`);
     }
 }

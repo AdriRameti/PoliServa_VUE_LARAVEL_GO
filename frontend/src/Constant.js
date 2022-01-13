@@ -9,5 +9,9 @@ export default {
     REGISTER_USER:"validateMail",
     DELETE_USER:"deleteUser",
     DESTROY_USER:"destroyUser",
-    LOGOUT:"logout"
+    LOGOUT:"logout",
+    GET_ALL_USERS:"getAllUsers",
+    CREATE_USER:"createUser",
+    UPDATE_USER_ADMIN:"updateUserAdmin",
+    DELETE_USER_ADMIN:"deleteUserAdmin"
 }

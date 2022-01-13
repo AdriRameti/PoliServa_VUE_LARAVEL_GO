@@ -44,14 +44,17 @@ func GetUserWithRoleRP(uuid string, c *gin.Context) UserModel {
 
 func CreateUserRP(user *UserModel, c *gin.Context) (userR UserModel, errR error) {
 
+	fmt.Println("ME CAGUE EN DEU")
+
 	var userRet UserModel
 
 	if err := Config.DB.Create(user).Error; err != nil {
 		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusNotFound)
+		c.AbortWithStatus(http.StatusUnprocessableEntity)
 		
 		return userRet, err
 	} else {
+		fmt.Println("hola si create")
 		Config.DB.Where("uuid = ?", user.UUID).Find(&userRet)
 		return userRet, err
 	}
@@ -94,18 +97,13 @@ func DeleteUserRP(uuid string, c *gin.Context) {
 
 }
 
+
 func CheckMail(user *UserModelValidator, c *gin.Context) bool {
 	var Newuser UserModel
 
 	if err := Config.DB.Where("mail = ?", user.Mail).Find(&Newuser).Error; err != nil {
-		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusNotFound)
 		return false
 	} else {
-
-		fmt.Println(user.UUID)
-		fmt.Println("-------------------")
-		fmt.Println(Newuser.UUID)
 
 		if (user.UUID == Newuser.UUID) {
 			return false
