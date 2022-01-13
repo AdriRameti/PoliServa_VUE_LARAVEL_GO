@@ -8,26 +8,22 @@
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showDashboard()">
-                            <i class="fab fa-accessible-icon"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span> 
+                            <i class="fab fa-accessible-icon"></i> <span class="ms-1 d-none d-sm-inline">Stats</span> 
                         </a>
                     </li>
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showSports()">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Deportes</span></a>
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Sports</span></a>
                     </li>
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showCourts()">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Pistas</span>
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Courts</span>
                         </a>
                     </li>
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showUsers()">
                             <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
                     </li>
                 </ul>
                 <hr>
@@ -43,7 +39,12 @@
                 <Suspense>
                     <ListSportsAdmin></ListSportsAdmin>
                 </Suspense>  
-            </div>      
+            </div>
+            <div class="w-100 h-100" v-show="courts">
+                <Suspense>
+                    <ListCourtsAdmin></ListCourtsAdmin>
+                </Suspense>  
+            </div>   
         </div>
     </div>
 </div>
@@ -52,13 +53,15 @@
 </template>
 <script>
 //import { defineComponent } from '@vue/composition-api'
-import ListSportsAdmin from '@/components/ListSportsAdmin.vue'
 import AdminStats from '@/components/AdminStats.vue'
+import ListSportsAdmin from '@/components/ListSportsAdmin.vue'
+import ListCourtsAdmin from '@/components/ListCourtsAdmin.vue'
 
 export default ({
     components: {
         ListSportsAdmin,
-        AdminStats
+        AdminStats,
+        ListCourtsAdmin
     },
   data() {
     return {
