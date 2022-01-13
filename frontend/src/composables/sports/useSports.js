@@ -26,7 +26,6 @@ export const useDeleteSport = async (slug) => {
 
     if (res.status == 200) {
 
-
         let data = await res.json();
 
         sports.value = data;
@@ -44,4 +43,66 @@ export const useDeleteSport = async (slug) => {
         return 'err'
     } 
 
+}
+
+export const useCreateSport = async (info) => {
+
+    let sport = ref();
+
+    let toastr = useToast();
+
+    let res = await fetch(secret.GO_URL + "sports/?name="+ info.name + "&img=" + info.img, {
+        method: 'POST',
+    });
+
+    if (res.status == 200) {
+
+        let data = await res.json();
+
+        sport.value = data;
+
+        toastr.success("Se ha creado con éxito", {
+            timeout: 1500
+        });
+
+        return { sport }
+
+    } else {
+        toastr.error("Ha habido error al procesar la petición", {
+            timeout: 1500
+        });
+
+        return 'err'
+    }
+}
+
+export const useUpdateSport = async (info) => {
+    
+    let sport = ref();
+
+    let toastr = useToast();
+
+    let res = await fetch(secret.GO_URL + "sports/?slug=" + info.slug + "&name="+ info.name + "&img=" + info.img, {
+        method: 'PUT',
+    });
+
+    if (res.status == 200) {
+
+        let data = await res.json();
+
+        sport.value = data;
+
+        toastr.success("Se ha actualizado con éxito", {
+            timeout: 1500
+        });
+
+        return { sport }
+
+    } else {
+        toastr.error("Ha habido error al procesar la petición", {
+            timeout: 1500
+        });
+
+        return 'err'
+    }
 }
