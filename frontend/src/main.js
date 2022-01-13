@@ -6,6 +6,8 @@ import router from './router'
 import store from './store'
 import 'bootstrap'
 import './assets/app.scss'
-createApp(App).use(router).use(store).use(Toast).mount('#app')
+import VueChartkick from 'vue-chartkick'
+import 'chartkick/chart.js'
+createApp(App).use(router).use(store).use(Toast).use(VueChartkick).mount('#app')
 
 

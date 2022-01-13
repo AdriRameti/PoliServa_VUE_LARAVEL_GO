@@ -1,6 +1,7 @@
 import { ref, watch, computed } from "vue";
 // import Api from "../../services/Api"
 import { secret } from "../../secret";
+import { useToast } from "vue-toastification";
 
 export const useGetAllCourts = async () => {
     let courts = ref([]);
@@ -93,23 +94,105 @@ export const useCreateReservation = async () => {
 
     return { courts, count }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 }
-export const insertReservation = async (body) => {
-    console.log(body);
+export const useInsertReservation = async (Rdata) => {
     let reservation = ref([]);
-
-    let res = await fetch(secret.LARAVEL_URL + "reservation/insertReservation",{
+    let token = localStorage.getItem('token')
+    let res = await fetch(secret.LARAVEL_URL + "reservation/insertReservations",{
         method:'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(Rdata)
     });
     let data = await res.json();
-    console.log(data);
-    // reservation.value = data;
 
-    // console.log('courtsFilter', courts.value, count.value);
+    return {data}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+}
 
-    return data                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+export const useDeleteCourt = async (id) => {
+
+    let toastr = useToast();
+
+    let res = await fetch(secret.GO_URL + "courts/?id=" + id, {
+        method: 'DELETE'
+    });
+
+    if (res.status == 200) {
+
+        toastr.success("Deleted successfully.", {
+            timeout: 1500
+        });
+
+        return 'success'
+    } else {
+        toastr.error("Something failed trying to process the request.", {
+            timeout: 1500
+        });
+
+        return 'err'
+    }
+}
+
+export const useCreateCourt = async (info) => {
+
+    let court = ref();
+
+    let toastr = useToast();
+
+    let res = await fetch(secret.GO_URL + "courts/?id_sport="+ info.id_sport + "&img=" + info.img + "&price_h=" + info.price_h + "&sector=" + info.sector , {
+        method: 'POST',
+    });
+
+    if (res.status == 201) {
+
+        let data = await res.json();
+
+        court.value = data;
+
+        toastr.success("Created successfully.", {
+            timeout: 1500
+        });
+
+        return { court }
+
+    } else {
+        toastr.error("Something failed trying to process the request.", {
+            timeout: 1500
+        });
+
+        return 'err'
+    }
+}
+
+export const useUpdateCourt = async (info) => {
+    
+    let court = ref();
+
+    let toastr = useToast();
+
+    let res = await fetch(secret.GO_URL + "courts/?id=" + info.id + "&id_sport=" + info.id_sport + "&img=" + info.img + "&price_h=" + info.price_h + "&sector=" + info.sector , {
+        method: 'PUT',
+    });
+
+    if (res.status == 200) {
+
+        let data = await res.json();
+
+        court.value = data;
+
+        toastr.success("Updated successfully.", {
+            timeout: 1500
+        });
+
+        return { court }
+
+    } else {
+        toastr.error("Something failed trying to process the request.", {
+            timeout: 1500
+        });
+
+        return 'err'
+    }
 }

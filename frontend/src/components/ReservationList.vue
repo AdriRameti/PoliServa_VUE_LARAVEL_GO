@@ -4,7 +4,7 @@
             <h1 v-if="this.courts == 0">No hay pistas disponibles en este horario</h1>
             <div class="card p-3 card-reser" v-for="court in this.courts" :key="court.id">
                 <img :src="court.Sport.img"/>
-                <h1> {{ court.Sport.name }}</h1>
+                <h1 class="text-center"> {{ court.Sport.name }}</h1>
                 <p class="reser-descrip">Precio hora: {{ court.price_h }}</p>
                 <p class="text-danger" v-show="dateSearch.isActivated == true">Introduzca la fecha de su reserva</p>
                 <button id="confirm" class="btn btn-dark" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">Confirmar Reserva</button>
@@ -26,7 +26,7 @@
                             Hora Final: {{ dateSearch.hfin }} <br/>
                         </p>
                         <a class="btn btn-danger text-white m-5" data-bs-dismiss="modal">Cancelar</a>
-                        <a class="btn btn-success text-white m-5" @click="reservar()">Confirmar</a>
+                        <a class="btn btn-success text-white m-5" v-on:click="reservar()">Confirmar</a>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,10 @@
 </template>
 <script>
 
-import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation, insertReservation } from '../composables/courts/useGetAllCourts';
+import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation, useInsertReservation } from '../composables/courts/useGetAllCourts';
 import { useToast } from "vue-toastification";
+import { useStore } from "vuex";
+
 export default ({
     data(){
         return{
@@ -53,7 +55,7 @@ export default ({
             // console.log('asd')
             const toastr = useToast();
 
-            if(!localStorage.getItem('token')){
+            if(localStorage.getItem('token') && this.store.state.user.user){
 
                 var totalPrices = this.calculateHour();
 
@@ -66,9 +68,8 @@ export default ({
                 hfin: this.dateSearch.hfin,
                 total_price:totalPrices
                 }
-                const reservation = await insertReservation(obj)
-            
-                if(reservation !=1){
+                const reservation = await useInsertReservation(obj)
+                if(reservation.data !=1){
 
                     toastr.error("Had an error processing your reservation", {
                         timeout: 2500
@@ -79,11 +80,17 @@ export default ({
                     toastr.success("Your reservation has been confirmed succesfuly", {
                         timeout: 2500
                     });
+
+                    document.getElementById('modalReservation').click();
+
+                    this.$router.push({name: 'Home'});
                     
                 }
 
             }else{
-               // window.location.href = '/#/login';
+                document.getElementById('modalReservation').click();
+
+               this.$router.push({name: 'Login'});
             }
         },
         calculateHour(){
@@ -113,6 +120,8 @@ export default ({
         }
     },
     async setup() {
+
+        var store = useStore();
     
         var sl = localStorage.getItem('slug')
 
@@ -147,19 +156,19 @@ export default ({
             localStorage.removeItem('hfin')  
                
             localStorage.removeItem('slug') 
-            return { courts, count }
+            return { courts, count, store }
 
         }else if (sl){
 
             const { courts, count } = await useGetSportCourts(sl);
 
-            return { courts, count };
+            return { courts, count, store };
 
         } else {
 
             const { courts, count } = await useGetAllCourts();
 
-            return { courts, count };
+            return { courts, count, store };
         }
     }
 })

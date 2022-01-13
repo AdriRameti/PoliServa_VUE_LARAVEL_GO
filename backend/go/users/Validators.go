@@ -9,15 +9,15 @@ import (
 
 type UserModelValidator struct {
 	// ID uint `form:"id" json:"id" binding:"required"`
-	UUID string `form:"" json:"" binding:"omitempty"`
-	Name string `form:"" json:"" binding:"required"`
-	Surnames string `form:"" json:"" binding:"required"`
-	Mail string `form:"" json:"" binding:"required"`
-	Pass string `form:"" json:"" binding:"required"`
-	Img string `form:"" json:"" binding:"omitempty"`
-	Role string `form:"" json:"" binding:"required"`
+	UUID string `form:"uuid" json:"uuid" binding:"omitempty"`
+	Name string `form:"name" json:"name" binding:"required"`
+	Surnames string `form:"surnames" json:"surnames" binding:"required"`
+	Mail string `form:"mail" json:"mail" binding:"required"`
+	Pass string `form:"pass" json:"pass" binding:"required"`
+	Img string `form:"img" json:"img" binding:"omitempty"`
+	Role string `form:"role" json:"role" binding:"required"`
 	// Google2fa_secret string `form:"" json:"" binding:"omitempty"`
-	Is_blocked bool `form:"" json:"" binding:"omitempty"`
+	Is_blocked bool `form:"is_blocked" json:"is_blocked" binding:"omitempty"`
 	userModel UserModel `json:"-"`
 }
 

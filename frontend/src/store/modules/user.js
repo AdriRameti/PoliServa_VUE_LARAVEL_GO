@@ -6,24 +6,26 @@ export const user = {
     namespaced: true,
 
     state: {
-        g2faverified: false
+        g2faverified: false,
     },
     mutations: {
         [Constant.LOGIN_USER]: (state, payload) => {
 
             state.user = payload;
             state.token = payload.token;
+            state.google2fa_secret = payload.google2fa_secret;
 
             localStorage.setItem('token', payload.token);
         },
         [Constant.REGISTER_USER]: (state, payload) => {
             state.user = payload;
             state.token = payload.token;
+            state.google2fa_secret = payload.google2fa_secret;
 
             localStorage.setItem('token', payload.token);
         },
         [Constant.ENABLE2FA]: (state, payload) => {
-            state.google2fa_secret = payload.google2fa;
+            state.google2fa_secret = 'secret';
             state.user = payload;
         },
         [Constant.DISABLE2FA]: (state, payload) => {
@@ -36,11 +38,36 @@ export const user = {
             }
         },
         [Constant.UPDATE_USER]: (state, payload) => {
-            state.user.img = payload.img;
+            state.user = payload;
         },
         [Constant.VALIDATE_REGISTER]: (state, payload) => {
             state.code = payload
             localStorage.setItem('verifyCode',state.code);
+        },
+        [Constant.DELETE_USER]: (state, payload) => {
+            state.code = payload
+            localStorage.setItem('verifyCode',state.code);
+        },
+        [Constant.DESTROY_USER]: (state, payload) => {
+            localStorage.setItem('delete',1);
+        },
+        [Constant.LOGOUT]: (state, payload) => {
+            localStorage.removeItem('token');
+            state.user = undefined;
+        },
+        [Constant.GET_ALL_USERS]: (state, payload) => {
+            state.allUsers = payload;
+        },
+        [Constant.CREATE_USER]: (state, payload) => {
+            state.allUsers.push(payload);
+        },
+        [Constant.UPDATE_USER_ADMIN]: (state, payload) => {
+            var newData = state.allUsers.map(data => data.uuid == payload.uuid ? payload : data );
+            state.allUsers = newData;
+        },
+        [Constant.DELETE_USER_ADMIN]: (state, payload) => {
+            var newData = state.allUsers.filter((data) => { return data.uuid != payload.uuid })
+            state.allUsers = newData;
         }
     },
     actions: {
@@ -110,6 +137,22 @@ export const user = {
                         });
 
                         window.location.href="/#/";
+                        
+                    } else if (payload.from == 'delete') {
+                        
+                        UserServices.destroyUser().then(data =>{
+                            if(data){
+                                store.commit(Constant.LOGOUT, data);
+                                
+                                toastr.success("You're acount has been deleted successfully", {
+                                    timeout: 1500
+                                });
+        
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1800);
+                            }
+                        })
                     } else {
 
                         toastr.success("Two-Factor Authentication activated", {
@@ -125,16 +168,12 @@ export const user = {
         [Constant.UPDATE_USER]: (store, payload) => {
 
             UserServices.updateUser(payload).then(data => {
-                console.log(data)
-
                 store.commit(Constant.UPDATE_USER, data.data)
             });
 
         },
         [Constant.VALIDATE_REGISTER]: (store, payload) => {
             
-            var toastr = useToast();
-
             UserServices.validaRegister(payload).then(data =>{
                 console.log(data.data);
                 store.commit(Constant.VALIDATE_REGISTER, data.data);
@@ -143,7 +182,6 @@ export const user = {
         [Constant.REGISTER_USER]: (store, payload) => {
             
             var toastr = useToast();
-            console.log(payload)
             UserServices.register(payload).then(data =>{
                 store.commit(Constant.REGISTER_USER, data.data.data);
 
@@ -156,12 +194,113 @@ export const user = {
                     });
                 }
             });
+        },
+        [Constant.DELETE_USER]: (store, payload) =>{
+            UserServices.deleteUser(payload).then(data =>{
+                store.commit(Constant.DELETE_USER, data.data);
+            })
+        },
+        [Constant.DESTROY_USER]: (store, payload) =>{
+            UserServices.destroyUser().then(data =>{
+                if(data){
+                    store.commit(Constant.DESTROY_USER, data);
+                }
+            })
+        },
+        [Constant.LOGOUT]: (store, payload) => {
+            store.commit(Constant.LOGOUT);
+        },
+        [Constant.GET_ALL_USERS]: (store, payload) => {
+            UserServices.getAllUsers().then(data => {
+                store.commit(Constant.GET_ALL_USERS, data.data);
+            });
+        },
+        [Constant.CREATE_USER]: (store, payload) => {
+
+            var toastr = useToast();
+
+            UserServices.createUser(payload).then(data => {
+
+                if (data.status != 200) {
+                    toastr.error("Something failed trying to process the request.", {
+                        timeout: 1500
+                    });
+                } else {
+                    if (data.data == 'already used') {
+                        toastr.error("Mail already used.", {
+                            timeout: 1500
+                        });
+                    } else if (data.data == "can't bind") {
+                        toastr.error("Something failed trying to process the request.", {
+                            timeout: 1500
+                        });
+                    } else {
+                        store.commit(Constant.CREATE_USER, data.data);
+                        toastr.success("Used created successfully.", {
+                            timeout: 1500
+                        });
+                    }
+                }
+
+                
+            });
+        },
+        [Constant.UPDATE_USER_ADMIN]: (store, payload) => {
+            var toastr = useToast();
+
+            UserServices.updateUserAdmin(payload).then(data => {
+
+                if (data.status != 200) {
+                    toastr.error("Something failed trying to process the request.", {
+                        timeout: 1500
+                    });
+                } else {
+                    if (data.data == 'already used') {
+                        toastr.error("Mail already used.", {
+                            timeout: 1500
+                        });
+                    } else if (data.data == "can't bind") {
+                        toastr.error("Something failed trying to process the request.", {
+                            timeout: 1500
+                        });
+                    } else {
+                        store.commit(Constant.UPDATE_USER_ADMIN, data.data);
+                        toastr.success("Used updated successfully.", {
+                            timeout: 1500
+                        });
+                    }
+                }  
+
+            });
+
+        },
+        [Constant.DELETE_USER_ADMIN]: (store, payload) => {
+
+            var toastr = useToast();
+
+            UserServices.deleteUserAdmin(payload).then(data => {
+                if (data.status == 200) {
+                    if (data.data == "Se ha eliminado con éxito") {
+                        store.commit(Constant.DELETE_USER_ADMIN, payload);
+                        toastr.success("User deleted successfully.", {
+                            timeout: 1500
+                        });
+                    } else {
+                        toastr.error("Something failed trying to process the request.", {
+                            timeout: 1500
+                        });
+                    }
+                } else {
+                    toastr.error("Something failed trying to process the request.", {
+                        timeout: 1500
+                    });
+                }
+                
+            });
         }
     },
     getters: {
         getUser(state) {
-
-            console.log('getter', state);
             return state.user;
         }
     }

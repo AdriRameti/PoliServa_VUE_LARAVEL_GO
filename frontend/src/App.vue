@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <Nav @relv="reloadView"/>
+    <Nav @relv="reloadView" v-show="$route.name != 'Otp'"/>
     <router-view :key="reload"/>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default ({
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  //text-align: center;
   color: #2c3e50;
 }
 
@@ -43,4 +43,8 @@ export default ({
     }
   }
 }
+
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+
 </style>

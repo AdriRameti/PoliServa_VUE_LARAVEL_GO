@@ -121,30 +121,54 @@ func UpdateSportDB(slug string, sport *SportModel, c *gin.Context) (sportR Sport
 
 }
 
-func DeleteSportDB(slug string, c *gin.Context) {
+func DeleteSportDB(slug string, c *gin.Context) []SportModel {
 
 	var sportF SportModel
 	var courts []courtsP.CourtModel
+	var sports []SportModel
 
 	if errF := Config.DB.Where("slug = ?", slug).Preload("Courts").Find(&sportF).Error; errF == nil {
 
-		Config.DB.Model(&sportF).Association("Courts").Find(&courts) 
+		Config.DB.Model(&sportF).Association("Courts").Find(&courts)
 
-		if Config.DB.Model(&sportF).Association("Courts").Delete(sportF.Courts).Error != nil {
-			c.JSON(http.StatusNotFound, gin.H{"message": "unable to delete courts association",})
-		} else {
-			Config.DB.Where("slug = ?", slug).Delete(&sportF)
+		if len(sportF.Courts) != 0 {
 
-			for _, court := range courts {
+			if Config.DB.Model(&sportF).Association("Courts").Delete(sportF.Courts).Error != nil {
+				c.JSON(http.StatusNotFound, gin.H{"message": "Unable to delete courts association",})
+			} else {
+				Config.DB.Where("slug = ?", slug).Delete(&sportF)
+	
+				for _, court := range courts {
+	
+					courtsP.DeleteCourtDB(strconv.FormatUint(uint64(court.Id), 10), c)
+				}
 
-				courtsP.DeleteCourtDB(strconv.FormatUint(uint64(court.Id), 10), c)
+				if err := Config.DB.Find(&sports).Error; err != nil {
+					c.AbortWithStatus(http.StatusNotFound)
+					fmt.Println("Status:", err)
+				}
+
+				return sports
 			}
+		} else {
+			if Config.DB.Where("slug = ?", slug).Delete(&sportF).Error != nil {
+				c.JSON(http.StatusNotFound, gin.H{"message": "Unable to delete sports",})
+			}
+
+			if err := Config.DB.Find(&sports).Error; err != nil {
+				c.AbortWithStatus(http.StatusNotFound)
+				fmt.Println("Status:", err)
+			}
+
+			return sports
 		}
 
 	} else {
 		fmt.Println(errF.Error())
 		c.AbortWithStatus(http.StatusUnprocessableEntity)
 	}
+
+	return sports
 
 }
 

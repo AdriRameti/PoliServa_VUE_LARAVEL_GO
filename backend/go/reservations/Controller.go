@@ -15,7 +15,25 @@ func GetAllReservations(c *gin.Context) {
 	serializer:= ReservationsSerializer{c, *consult}
 	c.JSON(http.StatusCreated,serializer.Response())
 }
-
+func GetUserReservation(c *gin.Context){
+	id:= c.Query("id")
+	fIni:= c.Query("fIni")
+	fFin:= c.Query("fFin")
+	arr:= []string {id,fIni,fFin}
+	consult:= GetUserReservations(arr,c)
+	serializer:= ReservationsSerializer{c, consult}
+	c.JSON(http.StatusCreated,serializer.Response())
+}
+func GetUserSportReservation(c *gin.Context){
+	id:= c.Query("id")
+	dashboard:= c.Query("type")
+	consult:=GetUserSportsReservation(id,dashboard,c)
+	c.JSON(http.StatusCreated,consult)
+}
+func GetUserCourtReservation(c *gin.Context){
+	consult:=GetCourtsReservation(c)
+	c.JSON(http.StatusCreated,consult)
+}
 func GetDateReservations(c *gin.Context){
 	// var reservations []courtsP.CourtModel
 	Date:= c.Query("date")
@@ -46,14 +64,6 @@ func CreateReservations(c *gin.Context){
 	arr:= []string{id_user,id_court,date,hini,hfin,total_price}
 	request:=CreateNewReservation(arr,c)
 	c.JSON(http.StatusCreated,request)
-	// reservationModelValidation := NewReservationModelValidator()
-	// if err := reservationModelValidation.Bind(c); err != nil {
-	// 	c.JSON(http.StatusUnprocessableEntity, "Error Validation Reservation")
-	// 	return
-	// }
-	// CreateNewReservation(&reservationModelValidation.reservationModel,c)
-	// serializer:= ReservationSerializer{c, reservationModelValidation.reservationModel}
-	// c.JSON(http.StatusCreated, serializer.Response())
 
 }
 

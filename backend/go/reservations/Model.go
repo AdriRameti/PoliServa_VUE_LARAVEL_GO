@@ -17,6 +17,14 @@ type ReservationModel struct {
 	Hfin        string `json:"hfin"`
 	Total_price int    `json:"total_price"`
 }
+type SportUserModel struct {
+	Numreser	int `json:"numreser"`
+	Name	string	`json:"name"`
+}
+type CourtUserModel struct {
+	Numreser	int `json:"numreser"`
+	Id	string	`json:"id"`
+}
 
 func GetAllReservation(reservations *[]ReservationModel, c *gin.Context) (*[]ReservationModel){
 	if err := Config.DB.Find(&reservations).Error; err != nil {
@@ -26,7 +34,42 @@ func GetAllReservation(reservations *[]ReservationModel, c *gin.Context) (*[]Res
 
 	return reservations
 }
-
+func GetCourtsReservation( c *gin.Context) ([]CourtUserModel){
+	var reser []CourtUserModel
+	err:=Config.DB.Raw("SELECT  count(c.id) as numreser,c.id from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id group by c.id").Find(&reser).Error
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+	return reser
+}
+func GetUserSportsReservation(id string,dashboard string,c *gin.Context)([]SportUserModel){
+	var reser []SportUserModel
+	var err error
+	if (dashboard == "profile"){
+		err=Config.DB.Raw("SELECT  COUNT(s.name) as numreser,s.name from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id where r.id_user = ? group by s.name",id).Find(&reser).Error
+	}else{
+		err=Config.DB.Raw("SELECT  COUNT(s.name) as numreser,s.name from reservations r inner join courts c inner join sports s ON r.id_court = c.id AND c.id_sport = s.id group by s.name").Find(&reser).Error
+	}
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+	return reser;
+}
+func GetUserReservations(arr []string, c *gin.Context) ([]ReservationModel){
+	var reser []ReservationModel
+	var id = arr[0]
+	var fIni = arr[1]
+	var fFin = arr[2]
+	fmt.Println(fIni)
+	err:= Config.DB.Raw("SELECT * FROM reservations r where r.id_user= ? AND STR_TO_DATE(r.date, '%d/%m/%Y') between STR_TO_DATE(?, '%d/%m/%Y') AND STR_TO_DATE(?, '%d/%m/%Y') order by date asc",id,fIni,fFin).Find(&reser).Error
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound);
+		fmt.Println("Status:", err);
+	}
+	return reser
+}
 func CreateNewReservation(reservations []string, c *gin.Context) bool {
 	var reser []ReservationModel
 	id_user:= reservations[0]

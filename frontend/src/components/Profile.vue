@@ -4,7 +4,7 @@
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
+				<div class="profile-userpic text-center">
 					<img :src="store.state.user.user.img" class="img-responsive" alt="">
 				</div>
 				<!-- END SIDEBAR USERPIC -->
@@ -23,7 +23,7 @@
 					<button type="button" class="btn btn-success btn-sm" data-bs-target="#modal2fa" data-bs-toggle="modal" v-show="!store.state.user.google2fa_secret" @click="enable2fa()">Enable 2fa</button>
           <button type="button" class="btn btn-danger btn-sm" v-show="store.state.user.google2fa_secret" @click="disable2fa()">Dissable 2fa</button>
 
-					<button type="button" class="btn btn-danger btn-sm">Delete user</button>
+					<button type="button" class="btn btn-danger btn-sm" @click="delete_user()">Delete user</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -47,7 +47,7 @@
             <!-- STAT -->
             <div class="row list-separated profile-stat">
               <div class="col-md-4 col-sm-4 col-xs-6">
-                  <div class="uppercase profile-stat-title"> 51 </div>
+                  <div class="uppercase profile-stat-title text-center"> {{ this.totReser }} </div>
                   <div class="uppercase profile-stat-text"> Reservations </div>
               </div>
             </div>
@@ -57,17 +57,40 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-          <div class="profile-content">
-            <p v-show="overview">Hola estadisticas</p>
+      <div iv class="row d-flex justify-content-center align-items-center h-100" v-if="showView==true">
+        <div class="col-12">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-4 text-center">
 
+              <h3 class="mb-3">Introduce the verify code</h3>
+
+              <div class="form-outline mb-4">
+                <input type="text" id="typeCodeX-2" v-model="code" class="form-control form-control-lg" placeholder="Insert code"/>
+              </div>      
+              <!-- Checkbox -->
+
+              <button class="btn btn-primary btn-lg btn-block" @click="sendCode()">Send</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="profile-content">
+            <div v-show="overview">
+              <h3 class="text-center">Your reservations for the last month</h3>
+              <line-chart :data="obj"></line-chart>
+              <br/>
+              <h3 class="text-center">Your reserves for each sport</h3>
+              <column-chart :data="arrSport"></column-chart>
+            </div>
             <section v-show="accSettngs">
               <div class="container h-100">
-                  <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                  <div class="col-12 ">
                       <div class="card-body p-4">
                         <h3 class="mb-3">Account Settings</h3>
 
                         <div class="form-outline mb-4">
-                          <label for="typeNameX-2" class="form-label float-left">Name</label>
+                          <label for="typeNameX-2" class="form-label">Name</label>
                           <input type="email" id="typeNameX-2" class="form-control form-control-lg" v-model="updateNameValue" :placeholder="user.name"/>
                         </div>
 
@@ -117,7 +140,7 @@
                 </button>
             </div> 
             <div class="modal-body">
-              <h4>Two-factor authentication increases the security of your Ledgy account.</h4>
+              <h4>Two-factor authentication increases the security of your account.</h4>
               <p>All you need is a compatible app on your smartphone, for example:</p>
               <ul>
                 <li>Google Authentificator</li>
@@ -134,22 +157,106 @@
             </div>
         </div>
     </div>
+
   </div>
+
+  <button id="delButton" type="button" class="btn btn-success btn-sm" data-bs-target="#modal2faDelete" data-bs-toggle="modal" v-show="del2fa">Delete user with 2fa</button>
+
+  <div id="modal2faDelete" class="modal fade" v-if="!store.state.user.modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete account</h4>
+                <button type="button" class="close btn btn-dark" data-bs-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div> 
+            <div class="modal-body">
+
+              <p>Enter the code from your two-factor authentication app to delete your account.</p>
+              <div class="form-outline mb-4">
+                <input type="text" v-model="otp" class="form-control form-control-lg" placeholder="One Time Password"/>
+              </div>
+              <button class="btn btn-danger btn-lg btn-block" v-on:click="check2faDelete()" :disabled="otp.length != 6">Delete user</button>
+            </div>
+        </div>
+    </div>
+  </div>
+
 </div>
 </template>
 
 <script>
 
 import { useStore } from 'vuex';
+import { useToast } from "vue-toastification";
 import Constant from "../Constant";
-
-export default {
-  setup() {
+import { useGetUserReservation,useGetUserSportReservation } from '../composables/reservations/useReservations';
+export default ({
+  async setup() {
+    const toastr = useToast();
     const store = useStore();
+      var id = store.state.user.user.id
+      var dates = validaDate();
+      if(dates && id){
+        var fIni = dates[0];
+        var fFin = dates[1];
+        var arr = [id,fIni,fFin];
+        var reserArr =[id,'profile']
+        var reservation = await useGetUserReservation(arr);
+        var reservationSport = await useGetUserSportReservation(reserArr);
+        var ReservationSportValue = reservationSport.reservations.value
+        var reser = reservation.reservations.value
+        var totReser = reser.length
+        var obj = new Object
+        var arrSport = []
 
-    console.log(window.location.origin)
+        if(totReser == 0){
+          obj[fIni] = 0
+          obj[fFin] = 0
+        }else{
+          for(var i=0;i<totReser;i++){
+            var date = reser[i].date.split("/")
+            var newDate = date[2]+"-"+date[1]+"-"+date[0]
+            obj[newDate]=1
+          }
+        }
 
-    return { store }
+        if(ReservationSportValue.length == 0){
+          var sport = 'No Sports'
+          var count = 0
+          var sportArr = [sport,count]
+          arrSport.push(sportArr)
+        }else{
+          for(var i=0;i<ReservationSportValue.length;i++){
+            var sport = ReservationSportValue[i].name.toUpperCase() 
+            var count = ReservationSportValue[i].numreser
+            var sportArr = [sport,count]
+            arrSport.push(sportArr)
+          }
+        }
+
+      }
+      function validaDate(){
+        var date = new Date();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
+        var finalDate = '';
+        var firstDate = '1/'+month+'/'+year;
+        var arr = [];
+        if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12 ){
+          finalDate = '31/'+month+'/'+year;
+        }else if (month == 4 || month == 6 || month == 9 || month == 11){
+          finalDate = '30/'+month+'/'+year;
+        }else{
+          finalDate = '28/'+month+'/'+year;
+        }
+        arr.push(firstDate);
+        arr.push(finalDate);
+        return arr;
+      }
+
+    return { store,toastr, totReser ,obj,arrSport}
   },
   data() {
     return {
@@ -162,7 +269,10 @@ export default {
       updateMailValue: '',
       updatePassValue: '',
       profileImgURL: '',
-      profileImgPreview: false
+      profileImgPreview: false,
+      showView:false,
+      code:'',
+      del2fa: false,
     }
   },
   methods: {
@@ -174,6 +284,9 @@ export default {
     },
     check2fa() {
       this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp});
+    },
+    async check2faDelete() {
+      this.store.dispatch("user/" + Constant.CHECK2FA, {'otp': this.otp, 'from': 'delete'});
     },
     showOverview() {
       this.overview = true;
@@ -222,9 +335,48 @@ export default {
 
       this.store.dispatch("user/" + Constant.UPDATE_USER, userUpdate);
 
+    },
+    delete_user(){
+
+      if (this.store.state.user.google2fa_secret) {
+
+        document.getElementById('delButton').click();
+
+      } else {
+        this.store.dispatch("user/" + Constant.DELETE_USER, {'otp': this.otp});
+
+        if(localStorage.getItem('verifyCode')){
+          this.showView = true
+          this.overview = false
+          this.accSettngs = false
+          this.toastr.warning("Check the email where you will receive a verification code.", {
+            timeout: 4500
+          });
+          return
+        }
+      }
+      
+    },
+    sendCode(){
+      if ( this.code != localStorage.getItem('verifyCode')){
+        this.toastr.error("You're code is diferent than the verification code", {
+          timeout: 2500
+        });
+        return
+      }else{
+        this.store.dispatch("user/" + Constant.DESTROY_USER);
+        if(localStorage.getItem('delete')){
+          this.toastr.success("You're acount has been deleted successfully", {
+            timeout: 1500
+          });
+          localStorage.removeItem('token');
+          this.store.state.user.user = undefined;
+          this.$router.push({name: 'Home'});
+        }
+      }
     }
   }
-}
+})
 </script>
 
 <style>

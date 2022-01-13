@@ -21,6 +21,7 @@ use App\Http\Controllers\UserController;
 //     return $request->user();
 // });
 
+Route::post('users/getUser', [UserController::class, "getUser"])->middleware('jwtsession');
 Route::post('users/check2fa', [UserController::class, "check2fa"])->middleware('jwtsession');
 
 Route::post('users/enable2fa', [UserController::class, "enable2fa"])->middleware('jwtsession');
@@ -35,7 +36,9 @@ Route::post('users/register', [UserController::class, "register"]);
 Route::post('users/mailRegister',[UserController::class,"mailRegister"]);
 Route::post('users/sendMailRegister',[UserController::class,"sendMailRegister"]);
 
-Route::post('reservation/insertReservation', [ReservationController::class,"insertReservation"]);
+Route::post('users/deleteUser', [UserController::class,"deleteUser"])->middleware('jwtsession');
+
+Route::post('reservation/insertReservations', [ReservationController::class,"insertReservation"])->middleware('jwtsession');
 
 Route::resource('users', UserController::class)->middleware('jwtsession');
 Route::resource('reservation',ReservationController::class);

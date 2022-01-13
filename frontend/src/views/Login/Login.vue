@@ -1,8 +1,10 @@
 <template>
-    <Login v-show="login"/>
-    <Register v-show="register"/>
-    <p v-show="register">Ya tienes cuenta? <a v-on:click="changeLogin()">Login</a></p>
-    <p v-show="login">No tienes cuenta? <a v-on:click="changeRegister()">Registrarte</a></p>
+    <div>
+        <Login v-show="login"/>
+        <Register v-show="register"/>
+        <p class="text-center" v-show="register">Ya tienes cuenta? <a v-on:click="changeLogin()">Login</a></p>
+        <p class="text-center" v-show="login">No tienes cuenta? <a v-on:click="changeRegister()">Registrarte</a></p>
+    </div>
 </template>
 <script>
 //import { defineComponent } from '@vue/composition-api'

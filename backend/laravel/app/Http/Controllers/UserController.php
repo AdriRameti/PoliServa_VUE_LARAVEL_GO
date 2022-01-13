@@ -30,6 +30,13 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function getUser() {
+        $user = $this->userRepository->getUser();
+        $fullName = $user->fullName;
+        $user->fullName = $fullName;
+        return $this->userResponse($user);
+    }
+
     public function enable2fa() {
         return self::en2fa();
     }
@@ -124,12 +131,6 @@ class UserController extends Controller
 
     public function mailRegister(Request $request){
         $info = $request->only('info');
-        // return $info['info']['info']['name'];
-        // $name = $request->only('name');
-        // $surnames = $request->only('surnames');
-        // $mail = $request->only('mail');
-        // $pass = $request->only('password');
-        // $code = $request->only('code');
         $arr = array(
             'name' => $info['info']['info']['name'],
             'surnames' => $info['info']['info']['surnames'],
@@ -242,11 +243,10 @@ class UserController extends Controller
             if ($request->img) {
 
                 $file = $request->file('img');
+                $fileName = time().'_'.$file->getClientOriginalName();
 
-                $path = $file->store('public/files', 'public');
-                $path2 = Storage::path($path);
-
-                $user->img = $request->imgURL;
+                $file->move(public_path().'/uploads/', $fileName);
+                $user->img = 'http://localhost:8000/uploads/'.$fileName;
             }
 
             $user->save();
@@ -265,37 +265,25 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteUser(Request $request){
-        if($this->userRepository->check2fa()){
-            $result = self::checkOTP($request->input('one_time_password'));
-            if($result === 'verified'){
-                $user = $this->userRepository->getUser();
-                $user->delete();
-                return self::apiResponseSuccess(null);
-            }
-        }else{
-             $user = $this->userRepository->getUser();
-             $type = 'delete';
-             $arrMail = array();
-             array_push($arrMail,$user['mail']);
-             array_push($arrMail,$type);
-             if (!$user['mail'] && !$type){
-                 return self::apiServerError($e->getMessage());
-             }else{
-                 return self::dataMail($arrMail);
-             }
-        }
-    }
-    public function destroy(Request $request)
-    {
-        $codeVerify = $request->input('codeVeri');
-        $code = session('code');
-        if($codeVerify != $code){
+        $user = $this->userRepository->getUser();
+        $type = 'delete';
+        $code = self::generateCode();
+        $arrMail = array();
+        array_push($arrMail,$user['mail']);
+        array_push($arrMail,$type);
+        array_push($arrMail,$code);
+        if (!$user['mail'] && !$type && !$code){
             return self::apiServerError($e->getMessage());
         }else{
-            $user = $this->userRepository->getUser();
-            $user->delete();
-            return self::apiResponseSuccess(null);
+            self::dataMail($arrMail);
+            return $code;
         }
+    }
+    public function destroy()
+    {
+        $user = $this->userRepository->getUser();
+        $user->delete();
+        return self::apiResponseSuccess(null);
     }
 
     private function userResponse($response): UserResource {

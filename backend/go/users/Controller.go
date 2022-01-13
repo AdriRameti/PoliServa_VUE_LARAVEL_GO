@@ -21,7 +21,7 @@ func CreateUser(c *gin.Context) {
 	userModelValidator := NewUserValidator()
 
 	if err, strErr := userModelValidator.Bind(c); (err != nil || strErr == "already used") || (err != nil && strErr == "can't bind") {
-		c.JSON(http.StatusUnprocessableEntity, strErr)
+		c.JSON(200, strErr)
 		return
 	}
 

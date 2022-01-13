@@ -4,7 +4,7 @@
       <Carousel/>
     </Suspense>
 
-    <h2 class="mt-3">Deportes</h2>
+    <h1 class="mt-3 text-center">Deportes</h1>
 
     <Suspense>
       <ListSports/>
