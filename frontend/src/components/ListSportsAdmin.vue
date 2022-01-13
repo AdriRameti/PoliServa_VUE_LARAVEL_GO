@@ -66,9 +66,9 @@ export default({
     data() {
         return {
             columnDefs: [
-                { headerName: "ID", field: "id", sortable: true, filter: true, checkboxSelection: true },
+                { headerName: "ID", field: "id", sortable: true, checkboxSelection: true },
                 { headerName: "Slug", field: "slug", sortable: true, filter: true },
-                { headerName: "Name", field: "name", sortable: true },
+                { headerName: "Name", field: "name", sortable: true, filter: true },
                 { headerName: "Image", field: "img", resizable: true },
             ],
             gridApi: ref({}),
@@ -89,11 +89,20 @@ export default({
             const slug = selectedData.map( node => `${node.slug}`);
 
             if (op == "delete") {
-                var del = await useDeleteSport(slug[0]);
+            
+                if (selectedNodes.length == 1) {
 
-                if (del != 'err') {
-                    this.rowData = del.sports.value;
-                    this.grid += 1;
+                    var del = await useDeleteSport(slug[0]);
+
+                    if (del != 'err') {
+                        this.rowData = del.sports.value;
+                        this.grid += 1;
+                    }
+                
+                } else {
+                    this.toastr.error("You must select one.", {
+                        timeout: 1500
+                    });
                 }
             } else if (op == "update") {
 

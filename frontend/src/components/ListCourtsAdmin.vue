@@ -98,16 +98,26 @@ export default({
             const sportSlug = selectedData.map( node => `${node.Sport.slug}`);
 
             if (op == "delete") {
-                var del = await useDeleteCourt(selectedData[0].id);
+                
+                if (selectedNodes.length == 1) {
 
-                if (del != 'err') {
+                    var del = await useDeleteCourt(selectedData[0].id);
 
-                    var newData = this.rowData.filter((data) => { return data.id != selectedData[0].id })
-                    
-                    this.rowData = newData;
+                    if (del != 'err') {
 
-                    this.grid += 1;
+                        var newData = this.rowData.filter((data) => { return data.id != selectedData[0].id })
+                        
+                        this.rowData = newData;
+
+                        this.grid += 1;
+                    }
+                
+                } else {
+                    this.toastr.error("You must select one.", {
+                        timeout: 1500
+                    });
                 }
+
             } else if (op == "update") {
 
                 if (this.update && this.uID_sport == selectedData[0].id_sport) {
