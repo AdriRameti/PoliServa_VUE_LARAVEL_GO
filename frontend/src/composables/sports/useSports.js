@@ -30,13 +30,13 @@ export const useDeleteSport = async (slug) => {
 
         sports.value = data;
 
-        toastr.success("Se ha eliminado con éxito", {
+        toastr.success("Deleted successfully.", {
             timeout: 1500
         });
 
         return { sports }
     } else {
-        toastr.error("Ha habido error al procesar la petición", {
+        toastr.error("Something failed trying to process the request.", {
             timeout: 1500
         });
 
@@ -61,14 +61,14 @@ export const useCreateSport = async (info) => {
 
         sport.value = data;
 
-        toastr.success("Se ha creado con éxito", {
+        toastr.success("Created successfully.", {
             timeout: 1500
         });
 
         return { sport }
 
     } else {
-        toastr.error("Ha habido error al procesar la petición", {
+        toastr.error("Something failed trying to process the request.", {
             timeout: 1500
         });
 
@@ -92,14 +92,14 @@ export const useUpdateSport = async (info) => {
 
         sport.value = data;
 
-        toastr.success("Se ha actualizado con éxito", {
+        toastr.success("Updated successfully.", {
             timeout: 1500
         });
 
         return { sport }
 
     } else {
-        toastr.error("Ha habido error al procesar la petición", {
+        toastr.error("Something failed trying to process the request.", {
             timeout: 1500
         });
 

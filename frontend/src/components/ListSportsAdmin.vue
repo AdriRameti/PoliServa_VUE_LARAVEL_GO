@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="text-center">
-            <h1>Deportes</h1>
+            <h1>Sports</h1>
         </div>
 
         <div class="mb-2 d-flex justify-content-end">
@@ -99,7 +99,7 @@ export default({
 
                 if (this.update && this.uName == selectedData[0].name) {
                     this.update = false;
-                    this.create = null;
+                    this.create = false;
                 } else {
                     if (selectedNodes.length == 1) {
 
@@ -161,7 +161,7 @@ export default({
                 }
 
             } else {
-                this.toastr.error("Both values must be filled.", {
+                this.toastr.error("Both fields must be filled.", {
                     timeout: 1500
                 });
             }
@@ -177,7 +177,6 @@ export default({
         
                     this.rowData = newData;
                 
-                    this.update = false;
                     this.uSlug = '';
                     this.uName = '';
                     this.uImg = '';
@@ -187,7 +186,7 @@ export default({
                 }
 
             } else {
-                this.toastr.error("Both values must be filled.", {
+                this.toastr.error("Both fields must be filled.", {
                     timeout: 1500
                 }); 
             }
