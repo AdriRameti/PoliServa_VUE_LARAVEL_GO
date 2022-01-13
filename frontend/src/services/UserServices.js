@@ -40,5 +40,8 @@ export default {
     },
     deleteUserAdmin(data) {
         return Api(`${secret.GO_URL}`).delete(`users/?uuid=${data.uuid}`);
+    },
+    getUser() {
+        return Api(`${secret.LARAVEL_URL}`).post(`users/getUser`);
     }
 }

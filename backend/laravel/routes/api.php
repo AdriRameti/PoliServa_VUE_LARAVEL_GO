@@ -21,6 +21,7 @@ use App\Http\Controllers\UserController;
 //     return $request->user();
 // });
 
+Route::post('users/getUser', [UserController::class, "getUser"])->middleware('jwtsession');
 Route::post('users/check2fa', [UserController::class, "check2fa"])->middleware('jwtsession');
 
 Route::post('users/enable2fa', [UserController::class, "enable2fa"])->middleware('jwtsession');

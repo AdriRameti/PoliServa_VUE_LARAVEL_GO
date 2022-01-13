@@ -30,6 +30,13 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function getUser() {
+        $user = $this->userRepository->getUser();
+        $fullName = $user->fullName;
+        $user->fullName = $fullName;
+        return $this->userResponse($user);
+    }
+
     public function enable2fa() {
         return self::en2fa();
     }

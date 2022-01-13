@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'), beforeEnter: [AuthGuards.checkIfToken]
   },
   {
     path: '/about',
@@ -16,12 +16,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {path: '/court',name: 'Court',component:()=> import('../views/Court/Court.vue')},
-  {path: '/dashboard',name: 'Dashboard',component:()=> import('../views/Dashboard/Dashboard.vue'), beforeEnter: AuthGuards.authGuardAdmin},
-  {path: '/login',name: 'Login',component:()=> import('../views/Login/Login.vue')},
-  {path: '/otp',name: 'Otp',component: ()=> import('../views/Login/OTP.vue'), beforeEnter: AuthGuards.authGuardUser},
-  {path: '/profile', name:'Profile', component: () => import('../views/Profile/Profile.vue'), beforeEnter: AuthGuards.authGuardUser},
+  {path: '/dashboard',name: 'Dashboard',component:()=> import('../views/Dashboard/Dashboard.vue'), beforeEnter: [AuthGuards.checkIfToken, AuthGuards.authGuardAdmin]},
+  {path: '/login',name: 'Login',component:()=> import('../views/Login/Login.vue'), beforeEnter: [AuthGuards.checkIfToken]},
+  {path: '/otp',name: 'Otp',component: ()=> import('../views/Login/OTP.vue'), beforeEnter: [AuthGuards.checkIfToken, AuthGuards.authGuardUser]},
+  {path: '/profile', name:'Profile', component: () => import('../views/Profile/Profile.vue'), beforeEnter: [AuthGuards.checkIfToken, AuthGuards.authGuardUser]},
   // {path: '/register',name: 'Register',component:()=> import('../views/Login/Register.vue')},
-  {path: '/reservation',name: 'Reservation',component:()=> import('../views/Reservation/Reservation.vue')},
+  {path: '/reservation',name: 'Reservation',component:()=> import('../views/Reservation/Reservation.vue'), beforeEnter: [AuthGuards.checkIfToken]},
   {path: '/sport',name: 'Sport',component:()=> import('../views/Sport/Sport.vue')}
 ]
 

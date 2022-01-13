@@ -1,6 +1,18 @@
 import store from '@/store';
+import UserServices from "../../services/UserServices";
 
 export default {
+
+    checkIfToken(to, from, next) {
+        if (localStorage && !store.state.user.user) {
+            UserServices.getUser().then(data => {
+                console.log(data);
+                store.state.user.user = data.data.data;
+            })
+        }
+
+        next();
+    },
 
     authGuardUser(to, from, next) {
 
