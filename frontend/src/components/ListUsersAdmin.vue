@@ -191,7 +191,7 @@ export default({
 
                 if (regex.test(this.cMail) != false && (blocked != 'err')) { 
                     this.store.dispatch("user/" + Constant.CREATE_USER, {'mail': this.cMail, 'pass':this.cPass, 'name': this.cName, 'surnames': this.cSurnames, 'img': this.cImg, 'role': this.cRole, 'is_blocked': blocked});
-                } else if (regex.test(this.uMail) != false) {
+                } else if (regex.test(this.uMail) == false) {
                     this.toastr.error("Email must be like example@example.example", {
                         timeout: 1500
                     }); 
@@ -212,7 +212,7 @@ export default({
 
                 if (regex.test(this.uMail) != false && (blocked != 'err')) {
                     this.store.dispatch("user/" + Constant.UPDATE_USER_ADMIN, {'uuid': this.uUUID, 'mail': this.uMail, 'pass':this.uPass, 'name': this.uName, 'surnames': this.uSurnames, 'img': this.uImg, 'role': this.uRole, 'is_blocked': blocked});
-                } else if (regex.test(this.uMail) != false) {
+                } else if (regex.test(this.uMail) == false) {
                     this.toastr.error("Email must be like example@example.example", {
                         timeout: 1500
                     }); 

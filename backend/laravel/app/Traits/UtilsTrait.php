@@ -92,7 +92,7 @@ trait UtilsTrait {
         return $result;
     }
     public static function sendMail($mailServ,$mailClien,$subject,$html){
-        $info_file = parse_ini_file( $_SERVER['DOCUMENT_ROOT'].'\info.ini');
+        $info_file = parse_ini_file( $_SERVER['DOCUMENT_ROOT'].'/info.ini');
         $config = array();
         $config['api_key']=$info_file['api_key'];
         $config['api_url']=$info_file['api_url'];
