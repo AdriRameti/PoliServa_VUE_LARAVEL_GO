@@ -6,12 +6,12 @@ Adrián Ramos Ureña y Cristian Juan Saez
 La aplicación que veremos a continuación ha sido desarrollada con Vue 3 , Laravel ,Go y Bootstrap 5.1. Seguidamente, explicamos para cada ambito de uso, que tecnología hemos empleado.
 
 ### Tecnologías
-[Bootstrap 5.1](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap")
-[VUE 3](https://v3.vuejs.org/ "Vue")
-[Laravel](https://laravel.com/ "Laravel")
-[Eloquent ORM](https://laravel.com/docs/8.x/eloquent "Eloquent")
-[GO](https://go.dev/ "GO")
-[Gorm ORM](https://gorm.io/index.html "Gorm")
+* [Bootstrap 5.1](https://getbootstrap.com/docs/5.1/getting-started/introduction/ "Bootstrap")
+* [VUE 3](https://v3.vuejs.org/ "Vue")
+* [Laravel](https://laravel.com/ "Laravel")
+* [Eloquent ORM](https://laravel.com/docs/8.x/eloquent "Eloquent")
+* [GO](https://go.dev/ "GO")
+* [Gorm ORM](https://gorm.io/index.html "Gorm")
 
 ### Diseño
 Para el diseño de la aplicación, hemos utilizado Bootstrap 5.1 para aplicar todos los conocimientos vistos en clase. Posteriormente, en la demostración de la aplicación, explicaremos que elementos hemos utilizado en cada página.
@@ -19,10 +19,55 @@ Para el diseño de la aplicación, hemos utilizado Bootstrap 5.1 para aplicar to
 ### Cliente o Frontend 
 En el desarrollo de la parte cliente de la aplicación, hemos utilizado Vue 3 junto a Vuex y Vue Router, que parten del framework progresivo de Vue. A diferencia de otros clientes con framework monoliticos, Vue hace referencia a un framework híbrido ya que parte de una libreria propia central, pero se le pueden añadir distintos paquetes adicionales. Este cliente será el encargado de realizar todas las operaciones y peticiones a nuestros servidores. Como hemos dicho anteriormente, posteriormente explicaremos que elementos hemos utilizado en cada página.
 
+<strong>
+ 
+Aspectos técnicos utilizados en VUE:
+* Composables
+* Store modularizado
+* Emitters
+* Watchers
+* Lazy load en el routing
+* Componente Suspense
+* Services
+* Guards
+* :key para re renderizar componentes y vistas
+
+Librerias utilizadas en VUE:
+* [Vue-chartkick](https://chartkick.com/vue)
+* [Ag-grid-vue](https://www.ag-grid.com/vue-data-grid/getting-started/)
+* [Toastr](https://github.com/Maronato/vue-toastification)
+ 
+</strong>
+
 ### Servidor o Backend
 En el desarrollo de la parte servidora, hemos utilizados dos servidores distintos los cuales son Laravel (con su propio ORM Eloquent) y GO (con su propio ORM Gorm). 
 El servidor Laravel ha sido destinado a gestionar las migraciones de la base de datos y todas las operaciones relacionadas con los usuarios.
 El servidor Go ha sido destinado a gestionar todas las operaciones simples de obtención de datos , crear nuevos registros o modificarlos.
+
+<strong>
+ 
+Aspectos técnicos utilizados en Laravel:
+* Migrations
+* Relationships
+* Factories
+* Seeders
+* Middlewares
+* Traits
+* Repositories
+* Requests
+* Resources
+* Accessors
+* Mutators
+
+Aspectos técnicos utilizados en Go:
+* Validators
+* Serializers ( serializer de serializer )
+* Repositories
+* Interfaces
+* Relationships
+* GORM Hooks
+
+</strong>
 
 ## Demostración de la aplicación
 
