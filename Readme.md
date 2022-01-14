@@ -14,7 +14,7 @@ La aplicación que veremos a continuación ha sido desarrollada con Vue 3 , Lara
 * [Gorm ORM](https://gorm.io/index.html "Gorm")
 
 ### Diseño
-Para el diseño de la aplicación, hemos utilizado Bootstrap 5.1 para aplicar todos los conocimientos vistos en clase. Posteriormente, en la demostración de la aplicación, explicaremos que elementos hemos utilizado en cada página.
+Para el diseño de la aplicación, hemos utilizado Bootstrap 5.1 para aplicar todos los conocimientos vistos en clase, maquetación de la web, componente nav, carousel, item cards, barras de progreso, entre otros.
 
 ### Cliente o Frontend 
 En el desarrollo de la parte cliente de la aplicación, hemos utilizado Vue 3 junto a Vuex y Vue Router, que parten del framework progresivo de Vue. A diferencia de otros clientes con framework monoliticos, Vue hace referencia a un framework híbrido ya que parte de una libreria propia central, pero se le pueden añadir distintos paquetes adicionales. Este cliente será el encargado de realizar todas las operaciones y peticiones a nuestros servidores. Como hemos dicho anteriormente, posteriormente explicaremos que elementos hemos utilizado en cada página.
