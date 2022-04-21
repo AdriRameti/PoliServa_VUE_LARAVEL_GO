@@ -1,0 +1,60 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    container_name: poliservaDB
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "35000:3306"
+    env_file: .env
+    restart: always
+    volumes:
+      - ./backend/db/iniDB.sql:/docker-entrypoint-initdb.d/initDB.sql
+      - poliserva_mysql_data:/var/lib/mysql
+    networks:
+      - poliserva
+
+  backend-laravel:
+    build: 
+      context: ./backend/
+      dockerfile: ./laravel/Dockerfile
+    container_name: poliservaLARAVEL
+    command: sh -c './wait-for-it.sh db:3306; ./migrate.sh; php artisan serve --port=8000'
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - poliserva_laravel_uploads:/app/laravel/public/uploads
+      - ./backend/db/migrate.sh:/app/laravel/migrate.sh
+    networks:
+      - poliserva
+
+  backend-go:
+    build:
+      context: ./backend/
+      dockerfile: ./go/Dockerfile
+    container_name: poliservaGO
+    command: sh -c './wait-for-it.sh db:3306; go run main.go'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - backend-laravel
+    networks:
+      - poliserva
+
+  # frontend-vue:
+  #   depends_on:
+  #     - db
+  #     - backend-laravel
+  #     - backend-go
+  #   networks:
+  #     - poliserva
+
+networks:
+  poliserva:
+
+volumes:
+  poliserva_mysql_data:
+  poliserva_laravel_uploads:

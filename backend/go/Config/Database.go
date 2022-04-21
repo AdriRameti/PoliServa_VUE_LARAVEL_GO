@@ -25,7 +25,7 @@ func BuildDBConfig() *DBConfig {
 	godotenv.Load();
 
 	dbConfig := DBConfig{
-		Host:     "localhost",
+		Host:     os.Getenv("DB_HOST"),
 		Port:     3306,
 		User:     os.Getenv("DB_USERNAME"),
 		Password: os.Getenv("DB_PASSWORD"),

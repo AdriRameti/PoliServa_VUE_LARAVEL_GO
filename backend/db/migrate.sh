@@ -1,0 +1,15 @@
+MIGRATE=1
+
+php artisan config:clear
+php artisan config:cache
+php artisan cache:clear
+
+php artisan migrate
+
+
+if [ $MIGRATE -eq 1 ]; then
+    php artisan db:seed --class=SportSeeder
+    php artisan db:seed --class=CourtSeeder
+    php artisan db:seed --class=UserSeeder
+    php artisan db:seed --class=ReservationSeeder
+fi
