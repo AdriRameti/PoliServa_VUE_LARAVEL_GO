@@ -9,3 +9,5 @@ COPY ./db/wait-for-it.sh .
 RUN chmod +x wait-for-it.sh
 
 RUN go mod tidy
+
+EXPOSE 3000

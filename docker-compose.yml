@@ -19,9 +19,9 @@ services:
       context: ./backend/
       dockerfile: ./laravel/Dockerfile
     container_name: poliservaLARAVEL
-    command: sh -c './wait-for-it.sh db:3306; ./migrate.sh; php artisan serve --port=8000'
+    command: sh -c './wait-for-it.sh db:3306; ./migrate.sh; php artisan serve --port=4000'
     ports:
-      - "8000:8000"
+      - "4000:4000"
     depends_on:
       - db
     volumes:
@@ -44,13 +44,18 @@ services:
     networks:
       - poliserva
 
-  # frontend-vue:
-  #   depends_on:
-  #     - db
-  #     - backend-laravel
-  #     - backend-go
-  #   networks:
-  #     - poliserva
+  frontend-vue:
+    build: ./frontend
+    container_name: poliservaVUE
+    # command: bash -C "npm run serve"
+    ports:
+      - "4200:4200"
+    depends_on:
+      - db
+      - backend-laravel
+      - backend-go
+    networks:
+      - poliserva
 
 networks:
   poliserva:

@@ -1,13 +1,11 @@
-MIGRATE=1
-
-php artisan config:clear
-php artisan config:cache
-php artisan cache:clear
-
-php artisan migrate
+MIGRATE=0
 
 
-if [ $MIGRATE -eq 1 ]; then
+if [ $MIGRATE -eq 1 ] then
+    php artisan config:clear
+    php artisan config:cache
+    php artisan cache:clear
+    php artisan migrate
     php artisan db:seed --class=SportSeeder
     php artisan db:seed --class=CourtSeeder
     php artisan db:seed --class=UserSeeder

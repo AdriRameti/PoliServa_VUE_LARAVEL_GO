@@ -15,3 +15,5 @@ COPY ./db/wait-for-it.sh .
 RUN chmod +x wait-for-it.sh
 
 RUN composer install
+
+EXPOSE 4000
