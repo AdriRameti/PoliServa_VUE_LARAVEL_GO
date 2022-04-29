@@ -1,7 +1,7 @@
 MIGRATE=0
 
 
-if [ $MIGRATE -eq 1 ] then
+if [ $MIGRATE -eq 1 ]; then
     php artisan config:clear
     php artisan config:cache
     php artisan cache:clear
