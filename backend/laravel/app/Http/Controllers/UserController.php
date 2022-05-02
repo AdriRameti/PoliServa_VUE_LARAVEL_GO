@@ -59,7 +59,7 @@ class UserController extends Controller
                 $uuid = self::getUuid();
                 $user = $this->userRepository->getUser();
                 $fullName = $user->fullName;
-                $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
+                $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:3000/api/users/getrole")->json();
                 $response+=array('fullName'=>$fullName);
                 $response+=array('token'=>session('token'));
                 return $this->userResponse($response);
@@ -69,12 +69,13 @@ class UserController extends Controller
 
                 $uuid = $this->userRepository->login($data);
 
+                
                 if ($uuid == "user not found") {
                     return self::apiResponseLogin('user not found');
                 } else if ($uuid == "password don't match") {
                     return self::apiResponseLogin("password don't match");
                 } else {
-                    $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
+                    $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:3000/api/users/getrole")->json();
                 }
 
                 session(['uuid'=>$uuid]);

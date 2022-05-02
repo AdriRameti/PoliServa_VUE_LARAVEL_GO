@@ -12,7 +12,8 @@ services:
       - ./backend/db/iniDB.sql:/docker-entrypoint-initdb.d/initDB.sql
       - poliserva_mysql_data:/var/lib/mysql
     networks:
-      - poliserva
+      poliserva: 
+        ipv4_address: 172.29.0.10
 
   backend-laravel:
     build: 
@@ -28,7 +29,8 @@ services:
       - poliserva_laravel_uploads:/app/laravel/public/uploads
       - ./backend/db/migrate.sh:/app/laravel/migrate.sh
     networks:
-      - poliserva
+      poliserva: 
+        ipv4_address: 172.29.0.11
 
   backend-go:
     build:
@@ -42,7 +44,8 @@ services:
       - db
       - backend-laravel
     networks:
-      - poliserva
+      poliserva: 
+        ipv4_address: 172.29.0.12
 
   frontend-vue:
     build: ./frontend
@@ -55,10 +58,16 @@ services:
       - backend-laravel
       - backend-go
     networks:
-      - poliserva
+      poliserva: 
+        ipv4_address: 172.29.0.13
 
 networks:
   poliserva:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.29.0.0/24
+          gateway: 172.29.0.1
 
 volumes:
   poliserva_mysql_data:
