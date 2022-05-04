@@ -7,7 +7,7 @@
                 <h1 class="text-center"> {{ court.Sport.name }}</h1>
                 <p class="reser-descrip">Precio hora: {{ court.price_h }}</p>
                 <p class="text-danger" v-show="dateSearch.isActivated == true">Introduzca la fecha de su reserva</p>
-                <button id="confirm" class="btn btn-dark" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">Confirmar Reserva</button>
+                <button id="confirm" class="btn-reservation btn" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">Confirmar Reserva</button>
             </div>
         </div>
         <div class="modal fade" id="modalReservation">
@@ -15,15 +15,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Confirm your reservation</h4>
-                        <button type="button" class="close btn btn-dark" data-bs-dismiss="modal">
-                            <span aria-hidden="true">X</span>
+                        <button type="button" class="btn-modal close btn" data-bs-dismiss="modal">
+                            <span aria-hidden="true" class="closed-key">X</span>
                         </button>
                     </div> 
                     <div class="modal-body"> 
                         <p>
-                            Fecha: {{ dateSearch.date }} <br/>
-                            Hora Inicio: {{ dateSearch.hini }} <br/>
-                            Hora Final: {{ dateSearch.hfin }} <br/>
+                            Fecha: {{ dateSearch.date }} <br/><br/>
+                            Hora Inicio: {{ dateSearch.hini }} <br/><br/>
+                            Hora Final: {{ dateSearch.hfin }}
                         </p>
                         <a class="btn btn-danger text-white m-5" data-bs-dismiss="modal">Cancelar</a>
                         <a class="btn btn-success text-white m-5" v-on:click="reservar()">Confirmar</a>
@@ -33,6 +33,24 @@
         </div>
     </div>
 </template>
+<style>
+    .btn-reservation{
+        background-color: #40916C;
+    }
+    .modal-header{
+        background-color: #40916C;
+        color:white;
+    }
+    .btn-modal{
+        background-color: #1B4332;
+    }
+    .closed-key{
+        color:white;
+    }
+    .modal-body{
+        text-align: center;
+    }
+</style>
 <script>
 
 import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation, useInsertReservation } from '../composables/courts/useGetAllCourts';

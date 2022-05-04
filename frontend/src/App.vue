@@ -2,11 +2,12 @@
   <div id="nav">
     <Nav @relv="reloadView" v-show="$route.name != 'Otp'"/>
     <router-view :key="reload"/>
+    <Footer/>
   </div>
 </template>
 <script>
 import Nav from './components/Nav.vue'
-
+import Footer from './components/Footer.vue'
 export default ({
   components:{Nav},
   data() {

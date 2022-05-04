@@ -87,7 +87,7 @@
               <div class="container h-100">
                   <div class="col-12 ">
                       <div class="card-body p-4">
-                        <h3 class="mb-3">Account Settings</h3>
+                        <h3 class="title-settings-profile mb-3">Account Settings</h3>
 
                         <div class="form-outline mb-4">
                           <label for="typeNameX-2" class="form-label">Name</label>
@@ -493,6 +493,11 @@ a, button, code, div, img, input, label, li, p, pre, select, span, svg, table, t
     -moz-border-radius: 0!important;
     border-radius: 0!important;
 }
+
+.title-settings-profile{
+  color:black;
+}
+
 .dashboard-stat, .portlet {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;

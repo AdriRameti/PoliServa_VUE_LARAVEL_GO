@@ -5,10 +5,15 @@
             <img class="w-100" :src="sport.img"/>
             <h1 class="text-center uppercase fs-3">{{ sport.name }}</h1>
             <p class="reser-descrip">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <button class="btn btn-dark text-white" v-on:click="setSport(sport.slug)">Mirar pistas</button>
+            <button class="btn-sport btn text-white" v-on:click="setSport(sport.slug)">Mirar pistas</button>
         </div>
     </div>
 </template>
+<style>
+    .btn-sport{
+        background-color: #40916C;
+    }
+</style>
 <script>
 
 import { useGetAllSports } from '../composables/sports/useSports';

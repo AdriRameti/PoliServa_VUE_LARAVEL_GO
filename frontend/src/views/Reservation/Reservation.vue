@@ -36,7 +36,7 @@
             <option data-time="21:00" id="21" value="21">21:00</option>
             <option data-time="22:00" id="22" value="22">22:00</option>
         </select>
-        <button class="btn btn-dark text-white" v-on:click="search()" :disabled="apply">Aplicar</button>   
+        <button class="btn-search-reservation btn" v-on:click="search()" :disabled="apply">Aplicar</button>   
         </div>
         <Suspense>
             <reservation-list :key="updateList" 
@@ -51,6 +51,10 @@
     </div>
 </template>
 <style>
+    .btn-search-reservation{
+        background-color: #52B788;
+        color:white
+    }
     .hfin>:disabled{
         color:rgba(160, 7, 7, 0.712);
     }
