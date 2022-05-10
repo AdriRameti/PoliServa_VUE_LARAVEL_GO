@@ -9,7 +9,7 @@
 import Nav from './components/Nav.vue'
 import Footer from './components/Footer.vue'
 export default ({
-  components:{Nav},
+  components:{Nav,Footer},
   data() {
     return {
       reload: 0,

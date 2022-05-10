@@ -7,6 +7,7 @@ use app\Models\Reservation;
 use App\Traits\UtilsTrait;
 use App\Task;
 use App\Models\User;
+use App\Http\Requests\StripeRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Http;
 class ReservationController extends Controller
@@ -15,6 +16,28 @@ class ReservationController extends Controller
     public function __construct(User $user, UserRepository $userRepository) {
         $this->user = $user;
         $this->userRepository = $userRepository;
+    }
+    public function usergetsessionid(StripeRequest $request){
+        $stripe = new \Stripe\StripeClient(env('STRIPE_API_KEY'));
+        $total = $request['total_price'];
+        $checkout = $stripe->checkout->sessions->create([
+            'success_url' => 'http://localhost:4200/#/',
+            'cancel_url' => 'http://localhost:4200/#/reservation',
+            'line_items' => [
+              [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => $total,
+                    'product_data' => [
+                        'name'=> "Pista deportiva",
+                    ],
+                ] ,
+                'quantity' => 1,
+              ],
+            ],
+            'mode' => 'payment',
+        ]);
+        return $checkout;
     }
     public function insertReservation(Request $request){
 
@@ -28,7 +51,7 @@ class ReservationController extends Controller
             "hini"=>$request->input('hini'),
             "hfin"=>$request->input('hfin'),
             "total_price"=>$request->input('total_price')
-        ])->acceptJson()->post("http://localhost:3000/api/reservations/")->json();
+        ])->acceptJson()->post("http://172.29.0.12:3000/api/reservations/")->json();
 
         return $response;
 

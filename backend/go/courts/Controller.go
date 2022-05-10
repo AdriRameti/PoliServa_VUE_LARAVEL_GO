@@ -14,7 +14,7 @@ func GetAllCourts(c *gin.Context) {
 	c.JSON(http.StatusOK, serializer.Response())
 }
 func GetDateReservations(c *gin.Context){
-	// var reservations []courtsP.CourtModel
+	println("Entra en la función")
 	Date:= c.Query("date")
 	hini:= c.Query("hini")
 	hfin:= c.Query("hfin")

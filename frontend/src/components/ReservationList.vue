@@ -31,6 +31,12 @@
                 </div>
             </div>
         </div>
+        <stripe-checkout v-if="sessionId!=null"
+        ref="checkoutRef"
+        mode="payment"
+        :pk="publishableKey"
+        :sessionId="sessionId"
+        />
     </div>
 </template>
 <style>
@@ -56,21 +62,27 @@
 import { useGetAllCourts, useGetSportCourts,useGetDateReservation, useCreateReservation, useInsertReservation } from '../composables/courts/useGetAllCourts';
 import { useToast } from "vue-toastification";
 import { useStore } from "vuex";
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
+import {useGetSessionId} from '../composables/reservations/useReservations';
 
 export default ({
+    components:{
+     StripeCheckout,
+    },
     data(){
         return{
             courts:[],
             date: "",
             hini: "",
-            hfin: ""
-
+            hfin: "",
+            publishableKey:'pk_test_51KxbOyDYuFjRSXysBDcEnM12LTgFfpggzLvChDmXb76r6L2JF5L3LdtMLddXO3zanIgE87i3tNdoBj7doimMiLQ600bchwv1Iz',
+            sessionId:null
         }
     },
     props:['dateSearch'],
     methods: {
         async reservar(){
-            // console.log('asd')
+
             const toastr = useToast();
 
             if(localStorage.getItem('token') && this.store.state.user.user){
@@ -81,12 +93,14 @@ export default ({
             
                 var obj = {
                 id_court:idCourt,
-                date: this.dateSearch.date,
+                date: "09/05/2022",
                 hini: this.dateSearch.hini,
                 hfin: this.dateSearch.hfin,
                 total_price:totalPrices
                 }
+                localStorage.setItem("total_price", totalPrices);
                 const reservation = await useInsertReservation(obj)
+                console.log(reservation.data);
                 if(reservation.data !=1){
 
                     toastr.error("Had an error processing your reservation", {
@@ -94,14 +108,14 @@ export default ({
                     });
 
                 }else{
-
-                    toastr.success("Your reservation has been confirmed succesfuly", {
-                        timeout: 2500
-                    });
+                    await this.getSessionId();
+                    if(this.sessionId!=null){
+                        await this.submit();
+                    }
 
                     document.getElementById('modalReservation').click();
 
-                    this.$router.push({name: 'Home'});
+                    // this.$router.push({name: 'Home'});
                     
                 }
 
@@ -110,6 +124,15 @@ export default ({
 
                this.$router.push({name: 'Login'});
             }
+        },
+        async getSessionId(){
+            const sessionId = await useGetSessionId();
+            this.sessionId = sessionId;
+            console.log(this.sessionId)
+        },
+        submit () {
+            // You will be redirected to Stripe's secure checkout page
+            this.$refs.checkoutRef.redirectToCheckout();
         },
         calculateHour(){
 
@@ -125,7 +148,7 @@ export default ({
 
             var totalHoras = hfinNumber - hiniNumber
 
-            var totalPrice = totalHoras * priceHour
+            var totalPrice = (totalHoras * priceHour) * 100;
 
             return totalPrice;
         },
@@ -150,7 +173,7 @@ export default ({
         var hfi = localStorage.getItem('hfin')
 
         var arr = []
-
+    
         if (dat && hin && hfi){
 
             arr.push(dat)
@@ -167,6 +190,7 @@ export default ({
 
             const { courts, count } = await useGetDateReservation(arr);
 
+            console.log(courts);
             localStorage.removeItem('date')
 
             localStorage.removeItem('hini')
