@@ -1,10 +1,10 @@
 <template>
-    <div class="pistas d-flex flex-wrap p-3 justify-content-center m-3">
+    <div class="pistas d-flex flex-wrap p-3 justify-content-center m-1">
 
         <div class="card p-3 card-reser" v-for="sport in sportsData" :key="sport.id">
-            <img class="w-100" :src="sport.img"/>
+            <img class="w-100 listSports" :src="sport.img"/>
             <h1 class="text-center uppercase fs-3">{{ sport.name }}</h1>
-            <p class="reser-descrip">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            <p class="reser-descrip">Practicar deporte nunca ha sido aburrido!</p>
             <button class="btn-sport btn text-white" v-on:click="setSport(sport.slug)">Mirar pistas</button>
         </div>
     </div>
@@ -38,6 +38,8 @@ export default({
 })
 </script>
 
-<style lang="scss">
-
+<style>
+.listSports{
+    height: 141.13px !important;
+}
 </style>
