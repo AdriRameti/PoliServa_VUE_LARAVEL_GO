@@ -1,25 +1,25 @@
-<template>
+    <template>
     <div>
         <div class="text-center">
-            <h1>Courts</h1>
+            <h1>{{ $t("COURTS") }}</h1>
         </div>
 
         <div class="mb-2 d-flex justify-content-end">
-            <button v-on:click="showCreate()" class="btn btn-success m-1">Create</button>
-            <button v-on:click="getSelectedRows('update')" class="btn btn-primary m-1">Update</button>
-            <button v-on:click="getSelectedRows('delete')" class="btn btn-danger m-1">Delete</button>
+            <button v-on:click="showCreate()" class="btn btn-success m-1">{{ $t("CREATE") }}</button>
+            <button v-on:click="getSelectedRows('update')" class="btn btn-primary m-1">{{ $t("UPDATE") }}</button>
+            <button v-on:click="getSelectedRows('delete')" class="btn btn-danger m-1">{{ $t("DELETE") }}</button>
         </div>
         
         <div class="text-center">
-            <p v-if="create">Create</p>
-            <p v-if="update">Update</p>
+            <p v-if="create">{{ $t("CREATE") }}</p>
+            <p v-if="update">{{ $t("UPDATE") }}</p>
         </div>
         <div class="d-flex flex-row justify-content-between mb-3" v-if="create">
             <input id="cID_sport" v-model="cID_sport" class="form-control form-control-sm" type="text" placeholder="Id_sport">
             <input id="cImg" v-model="cImg" class="form-control form-control-sm" type="text" placeholder="Image">
             <input id="cPriceH" v-model="cPriceH" class="form-control form-control-sm w-75" type="text" placeholder="Precio/h">
             <input id="cSector" v-model="cSector" class="form-control form-control-sm w-75" type="text" placeholder="Sector">
-            <button v-on:click="createCourt()" class="btn btn-primary m-1">Send</button>
+            <button v-on:click="createCourt()" class="btn btn-primary m-1">{{ $t("SEND") }}</button>
         </div>
 
         <div class="d-flex d-inline-block" v-if="update">
@@ -27,7 +27,7 @@
             <input id="uImg" v-model="uImg" class="form-control form-control-sm" type="text" :placeholder="uImg">
             <input id="uPriceH" v-model="uPriceH" class="form-control form-control-sm w-75" type="text" :placeholder="uPriceH">
             <input id="uSector" v-model="uSector" class="form-control form-control-sm w-75" type="text" :placeholder="uSector">
-            <button v-on:click="updateCourt()" class="btn btn-primary m-1">Send</button>
+            <button v-on:click="updateCourt()" class="btn btn-primary m-1">{{ $t("SEND") }}</button>
         </div>
 
         <ag-grid-vue id="myGrid" style="width: 100%;"

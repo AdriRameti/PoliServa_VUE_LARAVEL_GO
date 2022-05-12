@@ -8,21 +8,21 @@
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showDashboard()">
-                            <i class="fab fa-accessible-icon"></i> <span class="ms-1 d-none d-sm-inline">Stats</span> 
+                            <i class="fab fa-accessible-icon"></i> <span class="ms-1 d-none d-sm-inline">{{ $t("STATS") }}</span> 
                         </a>
                     </li>
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showSports()">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Sports</span></a>
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">{{ $t("SPORTS") }}</span></a>
                     </li>
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showCourts()">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Courts</span>
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">{{ $t("COURTS") }}</span>
                         </a>
                     </li>
                     <li>
                         <a class="nav-link px-0 align-middle text-white" v-on:click="showUsers()">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">{{ $t("USERS") }}</span>
                         </a>
                     </li>
                 </ul>

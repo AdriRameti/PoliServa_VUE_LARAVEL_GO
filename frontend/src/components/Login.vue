@@ -6,19 +6,19 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-4 text-center">
 
-              <h3 class="mb-3">Sign in</h3>
+              <h3 class="mb-3">{{ $t("SIGN_IN") }}</h3>
 
               <div class="form-outline mb-4">
-                <input type="email" id="typeEmailX-2" v-model="email" class="form-control form-control-lg" placeholder="Email"/>
+                <input type="email" id="typeEmailX-2" v-model="email" class="form-control form-control-lg" :placeholder="$t('EMAIL')"/>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-2" v-model="password" class="form-control form-control-lg" placeholder="Password"/>
+                <input type="password" id="typePasswordX-2" v-model="password" class="form-control form-control-lg" :placeholder="$t('PASSWORD')"/>
               </div>
 
               <!-- Checkbox -->
               
-              <button class="btn btn-primary btn-lg btn-block" v-on:click="login()">Login</button>
+              <button class="btn btn-primary btn-lg btn-block" v-on:click="login()">{{ $t("LOGIN") }}</button>
 
             </div>
           </div>

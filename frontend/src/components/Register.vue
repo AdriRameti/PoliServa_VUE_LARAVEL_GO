@@ -6,22 +6,22 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-4 text-center">
 
-              <h3 class="mb-3">Register</h3>
+              <h3 class="mb-3">{{ $t("REGISTER") }}</h3>
 
               <div class="form-outline mb-4">
-                <input type="text" id="typeNameX-2" v-model="name" class="form-control form-control-lg" placeholder="Name"/>
+                <input type="text" id="typeNameX-2" v-model="name" class="form-control form-control-lg" :placeholder="$t('NAME')"/>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="text" id="typeSurnamesX-2" v-model="surnames" class="form-control form-control-lg" placeholder="Surnames"/>
+                <input type="text" id="typeSurnamesX-2" v-model="surnames" class="form-control form-control-lg" :placeholder="$t('SURNAMES')"/>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="email" id="typeEmailX-3" v-model="email" class="form-control form-control-lg" placeholder="Email"/>
+                <input type="email" id="typeEmailX-3" v-model="email" class="form-control form-control-lg" :placeholder="$t('EMAIL')"/>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="password" id="typePasswordX-3" v-model="password"  class="form-control form-control-lg" placeholder="Password"/>
+                <input type="password" id="typePasswordX-3" v-model="password"  class="form-control form-control-lg" :placeholder="$t('PASSWORD')"/>
               </div>
 
               <div class="progress" v-show="this.password.length>0">
@@ -29,11 +29,11 @@
               </div>
               <br v-show="this.password.length>0"/>
               <div class="form-outline mb-4">
-                <input type="password" id="typeRepeatPasswordX-2" v-model="repeatPassword" class="form-control form-control-lg" placeholder="Repeat Password"/>
+                <input type="password" id="typeRepeatPasswordX-2" v-model="repeatPassword" class="form-control form-control-lg" :placeholder="$t('REPEAT_PASSWORD')"/>
               </div>           
               <!-- Checkbox -->
               
-              <button class="btn btn-primary btn-lg btn-block" @click="register()">Register</button>
+              <button class="btn btn-primary btn-lg btn-block" @click="register()">{{ $t("REGISTER") }}</button>
 
             </div>
           </div>
@@ -44,14 +44,14 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-4 text-center">
 
-              <h3 class="mb-3">Introduce the verify code</h3>
+              <h3 class="mb-3">{{ $t("INTRODUCE_VERIFY_CODE") }}</h3>
 
               <div class="form-outline mb-4">
                 <input type="text" id="typeCodeX-2" v-model="code" class="form-control form-control-lg" placeholder="Insert code"/>
               </div>      
               <!-- Checkbox -->
 
-              <button class="btn btn-primary btn-lg btn-block" @click="send()">Send</button>
+              <button class="btn btn-primary btn-lg btn-block" @click="send()">{{ $t("SEND") }}</button>
 
             </div>
           </div>

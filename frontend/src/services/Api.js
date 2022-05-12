@@ -12,5 +12,7 @@ export default (URL) => {
         InstanceAxios.defaults.headers.common.Authorization = `Bearer ${token}`;
     }
 
+    
+
     return InstanceAxios
 }

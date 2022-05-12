@@ -20,10 +20,10 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm" data-bs-target="#modal2fa" data-bs-toggle="modal" v-show="!store.state.user.google2fa_secret" @click="enable2fa()">Enable 2fa</button>
-          <button type="button" class="btn btn-danger btn-sm" v-show="store.state.user.google2fa_secret" @click="disable2fa()">Dissable 2fa</button>
+					<button type="button" class="btn btn-success btn-sm" data-bs-target="#modal2fa" data-bs-toggle="modal" v-show="!store.state.user.google2fa_secret" @click="enable2fa()">{{ $t("ENABLE_2FA") }}</button>
+          <button type="button" class="btn btn-danger btn-sm" v-show="store.state.user.google2fa_secret" @click="disable2fa()">{{ $t("DISABLE_2FA") }}</button>
 
-					<button type="button" class="btn btn-danger btn-sm" @click="delete_user()">Delete user</button>
+					<button type="button" class="btn btn-danger btn-sm" @click="delete_user()">{{ $t("DELETE_USER") }}</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -32,12 +32,12 @@
 						<li class="active">
 							<a @click="showOverview()">
 							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
+							{{ $t("OVERVIEW") }} </a>
 						</li>
 						<li>
 							<a @click="showAccSettings()">
 							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
+							{{ $t("ACCOUNT_SETTINGS") }} </a>
 						</li>
 					</ul>
 				</div>
@@ -48,7 +48,7 @@
             <div class="row list-separated profile-stat">
               <div class="col-md-4 col-sm-4 col-xs-6">
                   <div class="uppercase profile-stat-title text-center"> {{ this.totReser }} </div>
-                  <div class="uppercase profile-stat-text"> Reservations </div>
+                  <div class="uppercase profile-stat-text"> {{ $t("RESERVATIONS") }} </div>
               </div>
             </div>
             <!-- END STAT -->
@@ -57,74 +57,73 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-      <div iv class="row d-flex justify-content-center align-items-center h-100" v-if="showView==true">
-        <div class="col-12">
-          <div class="card shadow-2-strong" style="border-radius: 1rem;">
-            <div class="card-body p-4 text-center">
-
-              <h3 class="mb-3">Introduce the verify code</h3>
-
-              <div class="form-outline mb-4">
-                <input type="text" id="typeCodeX-2" v-model="code" class="form-control form-control-lg" placeholder="Insert code"/>
-              </div>      
-              <!-- Checkbox -->
-
-              <button class="btn btn-primary btn-lg btn-block" @click="sendCode()">Send</button>
-
-            </div>
-          </div>
-        </div>
-      </div>
           <div class="profile-content">
             <div v-show="overview">
-              <h3 class="text-center">Your reservations for the last month</h3>
+              <h3 class="text-center">{{ $t("LAST_MONTH_RESERVATIONS") }}</h3>
               <line-chart :data="obj"></line-chart>
               <br/>
-              <h3 class="text-center">Your reserves for each sport</h3>
+              <h3 class="text-center">{{ $t("EACH_SPORT_RESERVATIONS") }}</h3>
               <column-chart :data="arrSport"></column-chart>
             </div>
             <section v-show="accSettngs">
               <div class="container h-100">
                   <div class="col-12 ">
                       <div class="card-body p-4">
-                        <h3 class="title-settings-profile mb-3">Account Settings</h3>
+                        <h3 class="title-settings-profile mb-3">{{ $t("ACCOUNT_SETTINGS") }}</h3>
 
                         <div class="form-outline mb-4">
-                          <label for="typeNameX-2" class="form-label">Name</label>
+                          <label for="typeNameX-2" class="form-label">{{ $t("NAME") }}</label>
                           <input type="email" id="typeNameX-2" class="form-control form-control-lg" v-model="updateNameValue" :placeholder="user.name"/>
                         </div>
 
                         <div class="form-outline mb-4">
-                          <label for="typeSurnamesX-2" class="form-label float-left">Surnames</label>
+                          <label for="typeSurnamesX-2" class="form-label float-left">{{ $t("SURNAMES") }}</label>
                           <input type="email" id="typeSurnamesX-2" class="form-control form-control-lg" v-model="updateSurnamesValue" :placeholder="user.surnames"/>
                         </div>
 
                         <div class="form-outline mb-4">
-                          <label for="typeEmailX-2" class="form-label float-left">Email</label>
+                          <label for="typeEmailX-2" class="form-label float-left">{{ $t("EMAIL") }}</label>
                           <input type="email" id="typeEmailX-2" class="form-control form-control-lg" v-model="updateMailValue" :placeholder="user.mail"/>
                         </div>
 
                         <div class="form-outline mb-4">
-                          <label for="typePasswordX-2" class="form-label float-left">Password</label>
+                          <label for="typePasswordX-2" class="form-label float-left">{{ $t("PASSWORD") }}</label>
                           <input type="password" id="typePasswordX-2" v-model="updatePassValue" class="form-control form-control-lg" placeholder="Password"/>
                         </div>
 
                         <div class="form-outline mb-4">
-                          <label for="typeProfileX-2" class="form-label float-left">Profile image</label>
+                          <label for="typeProfileX-2" class="form-label float-left">{{ $t("PROFILE_IMAGE") }}</label>
                           <input type="file" id="typeProfileX-2" class="form-control form-control-lg" @change="previewFile"/>
                         </div>
                         <div class="profile-userpic mt-2 mb-3" v-show="profileImgPreview">
-                          <p>Profile photo preview</p>
+                          <p>{{ $t("PROFILE_PHOTO_PREVIEW") }}</p>
                           <img :src="profileImgURL" class="img-responsive" alt="">
                         </div>
 
-                        <button class="btn btn-primary btn-lg btn-block" v-on:click="updateUser()">Update</button>
+                        <button class="btn btn-primary btn-lg btn-block" v-on:click="updateUser()">{{ $t("UPDATE") }}</button>
                       </div>
                 </div>
               </div>
             </section>
 
+            <div iv class="row d-flex justify-content-center align-items-center h-100" v-if="showView==true">
+              <div class="col-12">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                  <div class="card-body p-4 text-center">
 
+                    <h3 class="mb-3">{{ $t("INTRODUCE_VERIFY_CODE") }}</h3>
+
+                    <div class="form-outline mb-4">
+                      <input type="text" id="typeCodeX-2" v-model="code" class="form-control form-control-lg" placeholder="Insert code"/>
+                    </div>      
+                    <!-- Checkbox -->
+
+                    <button class="btn btn-primary btn-lg btn-block" @click="sendCode()">{{ $t("SEND") }}</button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 		</div>
 	</div>
@@ -134,50 +133,50 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Two-Factor Authentication</h4>
+                <h4 class="modal-title">{{ $t("2FA_TITLE") }}</h4>
                 <button type="button" class="close btn btn-dark" data-bs-dismiss="modal" @click="disable2fa()">
                     <span aria-hidden="true">X</span>
                 </button>
             </div> 
             <div class="modal-body">
-              <h4>Two-factor authentication increases the security of your account.</h4>
-              <p>All you need is a compatible app on your smartphone, for example:</p>
+              <h4>{{ $t("2FA_H4") }}</h4>
+              <p>{{ $t("2FA_P1") }}</p>
               <ul>
                 <li>Google Authentificator</li>
                 <li>Duo</li>
                 <li>Authy</li>
               </ul>
               <div v-html="store.state.user.user.QR"></div>
-              <p>Scan this image with your app. You will see a 6-digit code on your screen. Enter the code below to verify your phone and complete the setup.</p>
+              <p>{{ $t("2FA_P2") }}</p>
               <div class="form-outline mb-4">
                 <input type="text" v-model="otp" class="form-control form-control-lg" placeholder="One Time Password"/>
               </div>
-              <button class="btn btn-primary btn-lg btn-block" v-on:click="check2fa()" v-show="!store.state.user.g2faverified" :disabled="otp.length != 6">Verify Two-Factor Authentication</button>
-              <button class="btn btn-primary btn-lg btn-block" v-show="store.state.user.g2faverified" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-primary btn-lg btn-block" v-on:click="check2fa()" v-show="!store.state.user.g2faverified" :disabled="otp.length != 6">{{ $t("2FA_VERIFY_CODE") }}</button>
+              <button class="btn btn-primary btn-lg btn-block" v-show="store.state.user.g2faverified" data-bs-dismiss="modal">{{ $t("CLOSE") }}</button>
             </div>
         </div>
     </div>
 
   </div>
 
-  <button id="delButton" type="button" class="btn btn-success btn-sm" data-bs-target="#modal2faDelete" data-bs-toggle="modal" v-show="del2fa">Delete user with 2fa</button>
+  <button id="delButton" type="button" class="btn btn-success btn-sm" data-bs-target="#modal2faDelete" data-bs-toggle="modal" v-show="del2fa">{{ $t("DELETE_USER_WITH_2FA") }}</button>
 
   <div id="modal2faDelete" class="modal fade" v-if="!store.state.user.modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Delete account</h4>
+                <h4 class="modal-title">{{ $t("DELETE_ACCOUNT") }}</h4>
                 <button type="button" class="close btn btn-dark" data-bs-dismiss="modal">
                     <span aria-hidden="true">X</span>
                 </button>
-            </div> 
+            </div>
             <div class="modal-body">
 
-              <p>Enter the code from your two-factor authentication app to delete your account.</p>
+              <p>{{ $t("ENTER_2FA_CODE_DELETE") }}</p>
               <div class="form-outline mb-4">
                 <input type="text" v-model="otp" class="form-control form-control-lg" placeholder="One Time Password"/>
               </div>
-              <button class="btn btn-danger btn-lg btn-block" v-on:click="check2faDelete()" :disabled="otp.length != 6">Delete user</button>
+              <button class="btn btn-danger btn-lg btn-block" v-on:click="check2faDelete()" :disabled="otp.length != 6">{{ $t("DELETE_USER") }}</button>
             </div>
         </div>
     </div>
@@ -291,10 +290,12 @@ export default ({
     showOverview() {
       this.overview = true;
       this.accSettngs = false;
+      this.showView = false;
     },
     showAccSettings() {
       this.overview = false;
       this.accSettngs = true;
+      this.showView = false;
     },
     previewFile(event) {
       this.profileImg = event.target.files[0];

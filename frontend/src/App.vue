@@ -2,14 +2,16 @@
   <div id="nav">
     <Nav @relv="reloadView" v-show="$route.name != 'Otp'"/>
     <router-view :key="reload"/>
+    <Cookies class="cookies"/>
     <Footer/>
   </div>
 </template>
 <script>
 import Nav from './components/Nav.vue'
 import Footer from './components/Footer.vue'
+import Cookies from './components/Cookies.vue'
 export default ({
-  components:{Nav, Footer},
+  components:{Nav, Footer, Cookies},
   data() {
     return {
       reload: 0,
@@ -34,6 +36,7 @@ export default ({
 
 #nav {
   padding: 30px;
+  position: absolute;
 
   a {
     font-weight: bold;
@@ -43,6 +46,10 @@ export default ({
       color: #42b983;
     }
   }
+}
+
+.cookies {
+  position: relative;
 }
 
 @import "~ag-grid-community/dist/styles/ag-grid.css";

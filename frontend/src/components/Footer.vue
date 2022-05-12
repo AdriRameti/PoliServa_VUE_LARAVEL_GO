@@ -5,39 +5,33 @@
             <div class="col-md-4 footer-column">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <span class="footer-title">Reservas</span>
+                        <span class="footer-title">{{ $t("RESERVATIONS") }}</span>
                     </li>
                 </ul>
             </div>
             <div class="col-md-4 footer-column">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <span class="footer-title">Compañía</span>
+                        <span class="footer-title">{{ $t("COMPANY") }}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sobre nosotros</a>
+                        <a class="nav-link color-ent" href="#">{{ $t("ABOUT_US") }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Nuestra Historia</a>
+                        <a class="nav-link color-ent" href="#">{{ $t("OUR_HISTORY") }}</a>
                     </li>
                 </ul>
             </div>
             <div class="col-md-4 footer-column">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <span class="footer-title">Contacto & Soporte</span>
+                        <span class="footer-title">{{ $t("CONTACT_AND_SUPPORT") }}</span>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link"><i class="fas fa-phone"></i>+34 969 69 69 69</span>
+                        <a class="nav-link color-ent" href="/#/contact"><i class="fas fa-envelope"></i>{{ $t("CONTACT_US") }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-comments"></i>Live chat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-envelope"></i>Contact us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-star"></i>Give feedback</a>
+                        <a class="nav-link color-ent" href="#"><i class="fas fa-star"></i>{{ $t("GIVE_FEEDBACK") }}</a>
                     </li>
                 </ul>
             </div>
@@ -72,10 +66,10 @@
             <div class="col-md-4 box">
                 <ul class="list-inline quick-links">
                 <li class="list-inline-item">
-                    <a href="#">Privacy Policy</a>
+                    <a class="color-ent" href="#">{{ $t("PRIVACY_POLICY") }}</a>
                 </li>
                 <li class="list-inline-item">
-                    <a href="#">Terms of Use</a>
+                    <a class="color-ent" href="#">{{ $t("TERMS_OF_USE") }}</a>
                 </li>
                 </ul>
             </div>
@@ -84,22 +78,22 @@
     </footer>
 </template>
 <style>
-a {
-  color: #6c757d;
+.color-ent {
+  color: #40916C !important;
 }
 
-a:hover {
-  color: #EB5E28;
+.color-ent:hover {
+  color: #74C69D;
   text-decoration: none;
 }
 
 ::-moz-selection {
-  background: #EB5E28;
+  background: #40916C;
   text-shadow: none;
 }
 
 ::selection {
-  background: #EB5E28;
+  background: #40916C;
   text-shadow: none;
 }
 
@@ -126,7 +120,7 @@ footer {
   padding: 0.1rem 0;
 }
 
-.footer-column .nav-item span.nav-link {
+.footer-column .nav-item {
   color: #6c757d;
 }
 
@@ -158,7 +152,7 @@ ul.social-buttons {
 ul.social-buttons li a:active,
 ul.social-buttons li a:focus,
 ul.social-buttons li a:hover {
-  background-color: #EB5E28;
+  background-color: #40916C;
 }
 
 ul.social-buttons li a {

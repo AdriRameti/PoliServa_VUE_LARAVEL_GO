@@ -3,7 +3,7 @@
         <div class="input-group">
             <Datepicker class="input-group-text" v-model="picked" />
             <select class="form-select" v-on:change="hIni($event)">
-            <option value="" selected disabled hidden>Inicio</option>
+            <option value="" selected disabled hidden>{{ $t("START") }}</option>
             <option data-time="08:00">08:00</option>
             <option data-time="09:00">09:00</option>
             <option data-time="10:00">10:00</option>
@@ -20,7 +20,7 @@
             <option data-time="21:00">21:00</option>
         </select>
         <select class="form-select hfin" @change="handleChange">
-            <option value="" selected disabled hidden>Fin</option>
+            <option value="" selected disabled hidden>{{ $t("END") }}</option>
             <option data-time="09:00" id="9" value="9">09:00</option>
             <option data-time="10:00" id="10" value="10">10:00</option>
             <option data-time="11:00" id="11" value="11">11:00</option>
@@ -36,7 +36,7 @@
             <option data-time="21:00" id="21" value="21">21:00</option>
             <option data-time="22:00" id="22" value="22">22:00</option>
         </select>
-        <button class="btn-search-reservation btn" v-on:click="search()" :disabled="apply">Aplicar</button>   
+        <button class="btn-search-reservation btn" v-on:click="search()" :disabled="apply">{{ $t("APPLY") }}</button>   
         </div>
         <Suspense>
             <reservation-list :key="updateList" 

@@ -2,8 +2,8 @@
     <div>
         <Login v-show="login"/>
         <Register v-show="register"/>
-        <p class="text-center" v-show="register">Ya tienes cuenta? <a v-on:click="changeLogin()">Login</a></p>
-        <p class="text-center" v-show="login">No tienes cuenta? <a v-on:click="changeRegister()">Registrarte</a></p>
+        <p class="text-center" v-show="register">{{ $t("HAVE_ACCOUNT") }} <a v-on:click="changeLogin()">{{ $t("SIGN_IN") }}</a></p>
+        <p class="text-center" v-show="login">{{ $t("NO_ACCOUNT") }} <a v-on:click="changeRegister()">{{ $t("REGISTER") }}</a></p>
     </div>
 </template>
 <script>

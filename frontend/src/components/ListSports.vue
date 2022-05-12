@@ -5,7 +5,7 @@
             <img class="w-100" :src="sport.img"/>
             <h1 class="text-center uppercase fs-3">{{ sport.name }}</h1>
             <p class="reser-descrip">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            <button class="btn-sport btn text-white" v-on:click="setSport(sport.slug)">Mirar pistas</button>
+            <button class="btn-sport btn text-white" v-on:click="setSport(sport.slug)">{{ $t("CHECK_COURTS") }}</button>
         </div>
     </div>
 </template>

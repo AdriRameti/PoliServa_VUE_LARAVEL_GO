@@ -1,32 +1,32 @@
 <template :key="update">
     <div>
         <div class="pistas d-flex flex-wrap p-3 justify-content-center m-3">
-            <h1 v-if="this.courts == 0">No hay pistas disponibles en este horario</h1>
+            <h1 v-if="this.courts == 0">{{ $t("NO_COURTS") }}</h1>
             <div class="card p-3 card-reser" v-for="court in this.courts" :key="court.id">
                 <img :src="court.Sport.img"/>
                 <h1 class="text-center"> {{ court.Sport.name }}</h1>
-                <p class="reser-descrip">Precio hora: {{ court.price_h }}</p>
-                <p class="text-danger" v-show="dateSearch.isActivated == true">Introduzca la fecha de su reserva</p>
-                <button id="confirm" class="btn-reservation btn" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">Confirmar Reserva</button>
+                <p class="reser-descrip">{{ $t("PRICE_PER_HOUR") }}: {{ court.price_h }}</p>
+                <p class="text-danger" v-show="dateSearch.isActivated == true">{{ $t("ENTER_YOUR_RESERVATION_DATE") }}</p>
+                <button id="confirm" class="btn-reservation btn" data-bs-target="#modalReservation" data-bs-toggle="modal" :disabled="dateSearch.isActivated" v-on:click="saveId(court.id,court.price_h)">{{ $t("CONFIRM_RESERVATION") }}</button>
             </div>
         </div>
         <div class="modal fade" id="modalReservation">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Confirm your reservation</h4>
+                        <h4 class="modal-title">{{ $t("CONFIRM_RESERVATION") }}</h4>
                         <button type="button" class="btn-modal close btn" data-bs-dismiss="modal">
                             <span aria-hidden="true" class="closed-key">X</span>
                         </button>
                     </div> 
                     <div class="modal-body"> 
                         <p>
-                            Fecha: {{ dateSearch.date }} <br/><br/>
-                            Hora Inicio: {{ dateSearch.hini }} <br/><br/>
-                            Hora Final: {{ dateSearch.hfin }}
+                            {{ $t("DATE") }}: {{ dateSearch.date }} <br/><br/>
+                            {{ $t("INITIAL_HOUR") }}: {{ dateSearch.hini }} <br/><br/>
+                            {{ $t("END_HOUR") }}: {{ dateSearch.hfin }}
                         </p>
-                        <a class="btn btn-danger text-white m-5" data-bs-dismiss="modal">Cancelar</a>
-                        <a class="btn btn-success text-white m-5" v-on:click="reservar()">Confirmar</a>
+                        <a class="btn btn-danger text-white m-5" data-bs-dismiss="modal">{{ $t("CANCEL") }}</a>
+                        <a class="btn btn-success text-white m-5" v-on:click="reservar()">{{ $t("CONFIRM") }}</a>
                     </div>
                 </div>
             </div>

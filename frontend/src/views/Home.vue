@@ -4,7 +4,7 @@
       <Carousel/>
     </Suspense>
 
-    <h1 class="mt-3 text-center">Deportes</h1>
+    <h1 class="mt-3 text-center">{{ $t("SPORTS") }}</h1>
 
     <Suspense>
       <ListSports/>

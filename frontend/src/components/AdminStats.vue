@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h3 class="text-center w-100">Total reserves by sport</h3>
+        <h3 class="text-center w-100">{{ $t("TOTAL_RESERVATIONS_BY_SPORT") }}</h3>
         <column-chart :data="arrSport"></column-chart>
         <br/>
-        <h3 class="text-center">Total reserves by court</h3>
+        <h3 class="text-center">{{ $t("TOTAL_RESERVATIONS_BY_COURT") }}</h3>
         <column-chart :data="arrCourt"></column-chart>
     </div>
 </template>

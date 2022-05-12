@@ -8,10 +8,8 @@ import 'bootstrap'
 import './assets/app.scss'
 import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHatWizard,faCalendar } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faCalendar);
-createApp(App).use(router).use(store).use(Toast).use(VueChartkick).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+import i18n from './locales/i18n'
+
+createApp(App).use(router).use(store).use(Toast).use(VueChartkick).use(i18n).mount('#app')
 
 
