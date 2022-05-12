@@ -65,5 +65,8 @@
     "CLOSE": "Close",
     "DELETE_USER_WITH_2FA": "Delete user with 2fa",
     "DELETE_ACCOUNT": "Delete account",
-    "ENTER_2FA_CODE_DELETE": "Enter the code from your two-factor authentication app to delete your account."
+    "ENTER_2FA_CODE_DELETE": "Enter the code from your two-factor authentication app to delete your account.",
+    "CARD_DESC": "Playing sports has never been boring!",
+    "ABOUT_US_HEADER": "About us",
+    "CONTACT_HEADER": "Contact"
 }

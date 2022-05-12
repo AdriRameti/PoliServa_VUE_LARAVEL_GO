@@ -71,7 +71,7 @@ export const useGetDateReservation = async (infoDate) => {
     let res = await fetch(secret.GO_URL + "courts/datereservation?date="+date+"&hini="+hini+"&hfin="+hfin+"&slug="+slug);
     // let res = Api(`http://localhost:3000/api/`).get(`courts`);
     let data = await res.json();
-    
+    console.log(data);
     courts.value = data;
 
     // console.log('courtsFilter', courts.value, count.value);

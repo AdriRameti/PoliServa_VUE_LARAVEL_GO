@@ -65,5 +65,8 @@
     "CLOSE": "Tancar",
     "DELETE_USER_WITH_2FA": "Eliminar usuari amb l'autenticació en dos passos",
     "DELETE_ACCOUNT": "Eliminar compte",
-    "ENTER_2FA_CODE_DELETE": "Introdueïx el codi de la teua aplicació de autenticació en dos passos per a eliminar el teu compte."
+    "ENTER_2FA_CODE_DELETE": "Introdueïx el codi de la teua aplicació de autenticació en dos passos per a eliminar el teu compte.",
+    "CARD_DESC": "Practicar esport mai ha sigut aburrit!",
+    "ABOUT_US_HEADER": "Sobre nosaltres",
+    "CONTACT_HEADER": "Contacte"
 }

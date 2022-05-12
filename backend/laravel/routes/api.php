@@ -39,6 +39,7 @@ Route::post('users/sendMailRegister',[UserController::class,"sendMailRegister"])
 Route::post('users/deleteUser', [UserController::class,"deleteUser"])->middleware('jwtsession');
 
 Route::post('reservation/insertReservations', [ReservationController::class,"insertReservation"])->middleware('jwtsession');
+Route::post('reservation/usergetsessionid',[ReservationController::class,"usergetsessionid"])->middleware('jwtsession');
 
 Route::resource('users', UserController::class)->middleware('jwtsession');
 Route::resource('reservation',ReservationController::class);

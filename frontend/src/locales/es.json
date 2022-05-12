@@ -65,5 +65,8 @@
     "CLOSE": "Cerrar",
     "DELETE_USER_WITH_2FA": "Eliminar usuario con la autenticación en dos pasos",
     "DELETE_ACCOUNT": "Eliminar cuenta",
-    "ENTER_2FA_CODE_DELETE": "Introduce el codigo de tu aplicación en dos pasos para eliminar tu cuenta."
+    "ENTER_2FA_CODE_DELETE": "Introduce el codigo de tu aplicación en dos pasos para eliminar tu cuenta.",
+    "CARD_DESC": "Practicar deporte nunca ha sido aburrido!",
+    "ABOUT_US_HEADER": "Sobre nosotros",
+    "CONTACT_HEADER": "Contacto"
 }

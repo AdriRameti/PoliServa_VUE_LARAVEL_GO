@@ -35,3 +35,21 @@ export const useGetUserCourtReservation = async () => {
     return { reservations }
 
 }
+
+export const useGetSessionId = async()=>{
+    var total_price = localStorage.getItem("total_price");
+    let token = localStorage.getItem('token');
+    let res = await fetch(secret.LARAVEL_URL + "reservation/usergetsessionid",{
+        method:'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({total_price:parseInt(total_price)})
+    });
+    console.log(res.body);
+    let data = await res.json();
+    console.log(data);
+    return data.id;
+}

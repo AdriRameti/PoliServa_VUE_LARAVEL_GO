@@ -2,7 +2,7 @@
   <div id="nav">
     <Nav @relv="reloadView" v-show="$route.name != 'Otp'"/>
     <router-view :key="reload"/>
-    <Cookies class="cookies"/>
+    <Cookies/>
     <Footer/>
   </div>
 </template>
@@ -36,7 +36,6 @@ export default ({
 
 #nav {
   padding: 30px;
-  position: absolute;
 
   a {
     font-weight: bold;
@@ -47,11 +46,6 @@ export default ({
     }
   }
 }
-
-.cookies {
-  position: relative;
-}
-
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
 

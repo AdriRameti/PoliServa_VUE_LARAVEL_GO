@@ -13,7 +13,12 @@
           <li class="nav-item rounded">
             <a class="nav-link text-white" v-on:click="clearSport()"><i class="bi bi-people-fill me-2"></i>{{ $t("RESERVE") }}</a>
           </li>
-
+          <li class="nav-item rounded">
+            <a class="nav-link text-white" href="/#/contact"><i class="bi bi-people-fill me-2"></i>{{ $t("CONTACT_HEADER") }}</a>
+          </li>
+          <li class="nav-item rounded">
+            <a class="nav-link text-white" href="/#/about"><i class="bi bi-people-fill me-2"></i>{{ $t("ABOUT_US_HEADER") }}</a>
+          </li>
           <li class="nav-item rounded">
             <a class="nav-link text-white" v-show="store.state.user.user && store.state.user.user.role == 'admin'" href="/#/dashboard"><i class="bi bi-people-fill me-2"></i>{{ $t("DASHBOARD") }}</a>
           </li>
