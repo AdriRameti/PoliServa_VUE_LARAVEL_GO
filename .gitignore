@@ -5,3 +5,4 @@
 **info.ini
 frontend/src/secret.js
 backend/laravel/public/uploads
+frontend/src/firebaseConfig.js

@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <Nav @relv="reloadView" v-show="$route.name != 'Otp'"/>
-    <router-view :key="reload"/>
+    <router-view :key="reload" />
     <Footer/>
   </div>
 </template>

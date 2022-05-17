@@ -43,5 +43,8 @@ export default {
     },
     getUser() {
         return Api(`${secret.LARAVEL_URL}`).post(`users/getUser`);
+    },
+    socialLogin(data){
+        return Api(`${secret.LARAVEL_URL}`).post(`users/insertUserSocial`,data)
     }
 }

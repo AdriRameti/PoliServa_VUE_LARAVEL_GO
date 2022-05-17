@@ -194,8 +194,10 @@ import Constant from "../Constant";
 import { useGetUserReservation,useGetUserSportReservation } from '../composables/reservations/useReservations';
 export default ({
   async setup() {
+
     const toastr = useToast();
     const store = useStore();
+    console.log(store.state.user.user.fullName)
       var id = store.state.user.user.id
       var dates = validaDate();
       if(dates && id){

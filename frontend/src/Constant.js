@@ -13,5 +13,6 @@ export default {
     GET_ALL_USERS:"getAllUsers",
     CREATE_USER:"createUser",
     UPDATE_USER_ADMIN:"updateUserAdmin",
-    DELETE_USER_ADMIN:"deleteUserAdmin"
+    DELETE_USER_ADMIN:"deleteUserAdmin",
+    SOCIAL_LOGIN_USER:"socialloginuser"
 }
