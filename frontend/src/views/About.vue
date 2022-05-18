@@ -5,10 +5,10 @@
                 <div class="top-box">
                     <div class="content-box">
                         <h1>
-                            Sobre Poliserva
+                            {{$t("ABOUT_POLISERVA")}}
                         </h1>
                         <p>
-                            Poliserva es una plataforma de experiencia para desarrolladores de API web.  <br /> Nuestra misión es hacer que los desarrolladores sean productivos a través de la generación automática de código.
+                            {{$t("SUB_1")}}  <br /> {{$t("SUB_2")}}
                         </p>
                     </div>
                 </div>
@@ -31,10 +31,10 @@
         <div class="story-container">
             <div class="need-for-dx-container">
                 <h3 class="text-center">
-                    Necesidad de Poliserva
+                    {{$t("POLISERVA_NECESSITY")}}
                 </h3>
                 <p>
-                    Las interfaces de programación de aplicaciones (API) han conquistado el mundo y ahora son el estándar de facto de la comunicación de software. Casi todos los productos de software hoy en día consumen API. El modelo de negocio de numerosas empresas de todo el mundo se basa en el consumo de sus API. Los proveedores de API, por lo tanto, se esfuerzan por aumentar las tasas de adopción de API gastando millones de dólares cada año para mejorar la experiencia del desarrollador. Esto generalmente se hace al proporcionar kits de desarrollo de software (SDK) y documentación de API al desarrollador que consume sus API. Sin embargo, desarrollar SDK y escribir documentación son tareas arduas, monótonas y propensas a errores. Es un proceso lento y cuesta mucho tiempo y dinero.
+                    {{$t("ABOUT_P1")}}
                 </p>
                 <div class="img-container">
                     <img src="https://apimatic.io/img/theme/aboutUs/dxFlow.svg" alt="apimatic developer experience process" class="img-responsive"/>
@@ -43,10 +43,10 @@
             <div class="container-divider"></div>
             <div class="our-tech-container">
                 <h3 class="text-center">
-                    Nuestras Tecnologías
+                    {{$t("OUR_TECHNOLOGIES")}}
                 </h3>
                 <p>
-                    Nuestro motor de generación de código permite a los proveedores de API generar SDK para sus API en cuestión de minutos y por una fracción del costo. Proporcionamos herramientas como nuestro editor de API y el transformador de API para ayudar aún más a los proveedores de API a minimizar el tiempo necesario para enviar SDK de excelente calidad a los desarrolladores que utilizan sus API. Nuestro motor de generación de código también es capaz de generar documentación sucinta y sin errores para API y SDK, ambos. La documentación de los SDK incluye capturas de pantalla dinámicas que detallan las instrucciones de uso adaptadas a la API específica del proveedor y también fragmentos de código que muestran ejemplos de uso. Como guinda del pastel, proporcionamos portales DX bellamente diseñados para encapsular esta documentación.
+                    {{$t("ABOUT_P2")}}
                 </p>
                 <div class="img-container">
                     <img src="https://apimatic.io/img/theme/cgaasIcons/cgaasProcess.gif" alt="apimatic code generation engine" class="img-responsive"/>
@@ -55,28 +55,28 @@
             <div class="container-divider"></div>
             <div class="origin-story-container">
                 <h3 class="text-center">
-                    Nuestra historia
+                    {{$t("OUR_HISTORY_ABOUT")}}
                 </h3>
                 <p>
-                    Mientras realizaban un trabajo de investigación para sus trabajos finales del instituto IES L'Estació en 2022, nuestros fundadores se encontraron con uno de los puntos débiles de las reservas de pistas online: el responsivo de la página y la dificultat de interacción del usuario. Se dieron cuenta de que los administradores de las páginas web de reservas no cuidaban el trato con el cliente haciendo que estos añadiera calificaciones negativas a la página.
+                    {{$t("ABOUT_P3")}}
                 </p>
                 <p>
-                    Estaba tan claro que, aunque los administradores sabían que había malas valoraciones, no iban a mejorar la aplicación que nos pusimos manos a la obra para empezar el desarrollo de la aplicación y poder presentarla como futuro proyecto al ayuntamiento de Ontinyent.
+                    {{$t("ABOUT_P4")}}
                 </p>
             </div>
             <div class="container-divider"></div>
             <div class="today-container">
                 <h3 class="text-center">
-                    Avances
+                    {{$t("PROGRESS")}}
                 </h3>
                 <p>
-                   Poliserva ha recorrido un corto camino desde su creación hace . Pero esto no impide que el proyecto crezca con nuevos y fuertes valores los cuales son:
+                   {{$t("ABOUT_P5")}}
                 </p>
                 <ul>
-                    <li>Cuidar el medio ambiente, cuidar nuestro futuro</li>
-                    <li>Transparencia con el cliente</li>
-                    <li>Crecer como persona y con el equipo</li>
-                    <li>Tener visión de futuro</li>
+                    <li>{{$t("LIST_1")}}</li>
+                    <li>{{$t("LIST_2")}}</li>
+                    <li>{{$t("LIST_3")}}</li>
+                    <li>{{$t("LIST_4")}}</li>
 
                 </ul>
             </div>

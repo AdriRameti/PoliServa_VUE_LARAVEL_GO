@@ -75,7 +75,7 @@ class UserController extends Controller
                 } else if ($uuid == "password don't match") {
                     return self::apiResponseLogin("password don't match");
                 } else {
-                    $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://localhost:3000/api/users/getrole")->json();
+                    $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:3000/api/users/getrole")->json();
                 }
 
                 session(['uuid'=>$uuid]);
@@ -103,7 +103,23 @@ class UserController extends Controller
         }
 
     }
+    public function insertUserSocial(Request $request) {
+        $user = $this->userRepository->register($request);
+        if($user){
+            $token = self::encode();
+           if( $token ){
 
+                session(['token'=>$token]);
+
+                Session::save();
+
+                $fullname = $user->fullname;
+                $user->setAttribute('token',$token);
+                $user->setAttribute('fullName',$fullname);
+                return $user ;
+            } 
+        }
+    }
     public function register(RegisterRequest $request) {
         try{
             $dataReq = $request->only(
@@ -128,6 +144,30 @@ class UserController extends Controller
         }catch(Exception $e){
             return self::apiServerError($e->getMessage());
         }
+    }
+
+    public function sendIssue(Request $request) {
+        $arrMailSupport = array();
+        $arrMailUser = array();
+
+        $uuid = self::getUuid();
+        $user = $this->userRepository->getUser();
+
+        array_push($arrMailSupport, $user['mail']);
+        array_push($arrMailSupport, 'sendIssueSupport');
+        array_push($arrMailSupport, $request['subject']);
+        array_push($arrMailSupport, $request['issue']);
+
+        self::dataMail($arrMailSupport);
+
+        array_push($arrMailUser, $user['mail']);
+        array_push($arrMailUser, 'sendIssueUser');
+        array_push($arrMailUser, "");
+
+        self::dataMail($arrMailUser);
+
+        return "emails_sended";
+
     }
 
     public function mailRegister(Request $request){
@@ -247,7 +287,7 @@ class UserController extends Controller
                 $fileName = time().'_'.$file->getClientOriginalName();
 
                 $file->move(public_path().'/uploads/', $fileName);
-                $user->img = 'http://localhost:4000/uploads/'.$fileName;
+                $user->img = 'http://172.29.0.11:4000/uploads/'.$fileName;
             }
 
             $user->save();

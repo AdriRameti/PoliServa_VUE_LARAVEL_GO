@@ -1,4 +1,5 @@
 <template>
+<div>
   <section>
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -25,15 +26,23 @@
         </div>
       </div>
     </div>
+    <div id="firebaseui-auth-container"></div>
   </section>
+</div>
 </template>
 
 <script>
 
+import { firebaseConfig } from '../firebaseConfig';
+import firebase from 'firebase/compat/app';
 import { useStore } from 'vuex';
 import { useToast } from "vue-toastification";
 import Constant from "../Constant";
 
+firebase.initializeApp(firebaseConfig);
+import * as firebaseui from 'firebaseui';
+import 'firebaseui/dist/firebaseui.css';
+import { onBeforeMount, onMounted } from '@vue/runtime-core';
 export default({
 
   data() {
@@ -97,9 +106,48 @@ export default({
 
     }
   },
-  setup() {
+   setup() {
     const toastr = useToast();
     const store = useStore();
+    const uiConfig = {
+      signInFlow: 'popup',
+      signinSuccessUrl:'http://localhost:4200/#/',
+      signInOptions:[ 
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.GithubAuthProvider.PROVIDER_ID
+      ],
+      callbacks:{
+        signInSuccessWithAuthResult: function(authResult,redirectUrl){
+          const PayloadPrefix= authResult.additionalUserInfo.profile;
+          const PrivatePayloadPrefix = authResult.user
+          const payloadUser = {
+            fullName:PayloadPrefix.name,
+            id: PayloadPrefix.id,
+            img: PayloadPrefix.picture,
+            is_blocked: false,
+            mail:PayloadPrefix.email,
+            name: PayloadPrefix.given_name,
+            role:'client',
+            surnames:PayloadPrefix.family_name,
+            token:PrivatePayloadPrefix.refreshToken,
+            uuid:PrivatePayloadPrefix.uid,
+            social:1
+          };
+          store.dispatch('user/'+Constant.SOCIAL_LOGIN_USER,payloadUser);
+          return true;
+        }
+      }
+    }
+    
+      let ui = firebaseui.auth.AuthUI.getInstance();
+      if (!ui) {
+          ui = new firebaseui.auth.AuthUI(firebase.auth());
+      }
+      onMounted(()=>{
+        ui.start('#firebaseui-auth-container' ,uiConfig);
+      })
+      
+
 
     return { toastr, store }
   },

@@ -36,18 +36,40 @@ class UserRepository{
 
     public function register($data)
     {
-        $data = [
-            'name'=>$data['name'],
-            'uuid'=>self::generteUUID(),
-            'surnames'=>$data['surnames'],
-            'mail'=>$data['mail'],
-            'pass'=>$data['pass'],
-            'img'=>"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png",
-            'google2fa_secret'=> null,
-            'role' => 'client',
-            'is_blocked' => false
-        ];
-        $user = User::create($data);
+        if($data['social']==1 && $data['social']){
+            $data = [
+                'name'=>$data['name'],
+                'uuid'=>self::generteUUID(),
+                'surnames'=>$data['surnames'],
+                'mail'=>$data['mail'],
+                'pass'=>'',
+                'img'=>$data['img'],
+                'google2fa_secret'=> null,
+                'role' => $data['role'],
+                'is_blocked' => $data['is_blocked']
+            ];
+            $user = User::where('mail', $data['mail'])->first();
+            if($user){
+                $user = null;
+            }else{
+                $user = User::create($data);
+            }
+            
+        }else{
+            $data = [
+                'name'=>$data['name'],
+                'uuid'=>self::generteUUID(),
+                'surnames'=>$data['surnames'],
+                'mail'=>$data['mail'],
+                'pass'=>$data['pass'],
+                'img'=>"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png",
+                'google2fa_secret'=> null,
+                'role' => 'client',
+                'is_blocked' => false
+            ];
+            $user = User::create($data);
+        }
+
         return $user;
     }
 
