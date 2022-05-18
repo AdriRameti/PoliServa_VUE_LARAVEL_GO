@@ -24,6 +24,7 @@ const routes = [
   // {path: '/register',name: 'Register',component:()=> import('../views/Login/Register.vue')},
   {path: '/reservation',name: 'Reservation',component:()=> import('../views/Reservation/Reservation.vue'), beforeEnter: [AuthGuards.checkIfToken]},
   {path: '/sport',name: 'Sport',component:()=> import('../views/Sport/Sport.vue')},
+  {path: '/report-incident', name: 'Report', component: ()=> import('../views/ReportIncident.vue'), beforeEnter: [AuthGuards.checkIfToken]}
 ]
 
 const router = createRouter({

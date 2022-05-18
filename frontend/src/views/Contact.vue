@@ -7,40 +7,40 @@
          <!--Form with header-->
          <div class="card rounded-0">
             <div class="card-header p-0">
-               <div class="header-contact text-white text-center py-2">
-                  <h3><i class="fa fa-envelope"></i> Contacta con nosotros:</h3>
-                  <p class="m-0">La comunicación siempre es importante!</p>
+               <div class="header-contact text-center py-2">
+                  <h3 class="text-white"><i class="fa fa-envelope"></i> {{ $t("CONTACT_WITH_US") }}:</h3>
+                  <p class="m-0">{{ $t("COMMUNICATION") }}</p>
                </div>
             </div>
             <div class="card-body p-3">
                
                   <div class="form-group">
-                  <label> Nombre </label>
+                  <label> {{ $t("NAME") }} </label>
                   <div class="input-group">
-                     <input value="" type="text" name="data[name]" class="form-control" id="inlineFormInputGroupUsername" placeholder="Introduzca su nombre">
+                     <input value="" type="text" name="data[name]" class="form-control" id="inlineFormInputGroupUsername" :placeholder="$t('ENTER_YOUR_NAME')">
                   </div>
 				</div>
                   <div class="form-group">
-                     <label>Correo Electrónico</label>
+                     <label>{{ $t("EMAIL") }}</label>
                      <div class="input-group mb-2 mb-sm-0">
-                        <input type="email" value="" name="data[email]" class="form-control" id="inlineFormInputGroupUsername" placeholder="Introduzca su correo electrónico">
+                        <input type="email" value="" name="data[email]" class="form-control" id="inlineFormInputGroupUsername" :placeholder="$t('ENTER_THE_EMAIL')">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label>Asunto</label>
+                     <label>{{ $t("SUBJECT") }}</label>
                      <div class="input-group mb-2 mb-sm-0">
-                        <input type="text" name="data[subject]" class="form-control" id="inlineFormInputGroupUsername" placeholder="Introduzca el asunto">
+                        <input type="text" name="data[subject]" class="form-control" id="inlineFormInputGroupUsername" :placeholder="$t('ENTER_THE_SUBJECT')">
                      </div>
                   </div>
                   <div class="form-group">
-                     <label>Mensaje</label>
+                     <label>{{ $t("MESSAGE") }}</label>
                      <div class="input-group mb-2 mb-sm-0">
-                        <input type="text" class="form-control" name="mesg">
+                        <input type="text" class="form-control" name="mesg" :placeholder="$t('ENTER_THE_MESSAGE')">
                      </div>
                   </div>
                   <br/>
                   <div class="text-center">
-                     <input type="submit" name="submit" value="Enviar" class="btn btn-block rounded-0 py-2 text-white">
+                     <input type="submit" name="submit" :value="$t('SEND')" class="btn btn-block rounded-0 py-2 text-white">
                   </div>
              
 			     </div>
@@ -73,6 +73,8 @@
       </div>
       <!--Grid column-->
 	    </div>
+
+
 </section>
 </template>
 
