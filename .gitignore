@@ -4,4 +4,5 @@
 **.env
 **info.ini
 frontend/src/secret.js
+frontend/src/firebaseConfig.js
 backend/laravel/public/uploads
