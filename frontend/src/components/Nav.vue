@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-      <a class="navbar-brand text-white" href="#">Poliserva</a>
+      <a class="navbar-brand text-white" href="#"><img src="../assets/logo.jpg" style="height: 55px"> Poliserva</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -21,6 +21,10 @@
           </li>
           <li class="nav-item rounded">
             <a class="nav-link text-white" v-show="store.state.user.user && store.state.user.user.role == 'admin'" href="/#/dashboard"><i class="bi bi-people-fill me-2"></i>{{ $t("DASHBOARD") }}</a>
+          </li>
+
+          <li class="nav-item rounded" v-show="store.state.user.user">
+              <a class="nav-link active text-white" aria-current="page" href="/#/report-incident"><i class="bi bi-house-fill me-2"></i>{{ $t("REPORT_ISSUE") }}</a>
           </li>
 
           <li class="nav-item rounded" v-show="!store.state.user.user">

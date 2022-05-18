@@ -1,6 +1,8 @@
 <template>
     <div>
-        <Login v-show="login"/>
+        <Suspense>
+            <Login v-show="login"/>
+        </Suspense>
         <Register v-show="register"/>
         <p class="text-center" v-show="register">{{ $t("HAVE_ACCOUNT") }} <a v-on:click="changeLogin()">{{ $t("SIGN_IN") }}</a></p>
         <p class="text-center" v-show="login">{{ $t("NO_ACCOUNT") }} <a v-on:click="changeRegister()">{{ $t("REGISTER") }}</a></p>
@@ -12,7 +14,7 @@
 import Login from '@/components/Login.vue';
 import Register from '@/components/Register.vue';
 
-export default({
+export default ({
 
     name: 'LoginView',
     components: {
@@ -20,12 +22,12 @@ export default({
         Register
     },
 
-    data() {
-        return {
-            login: true,
-            register: false
-        }
-    },
+    // data() {
+    //     return {
+    //         login: true,
+    //         register: false
+    //     }
+    // },
     methods: {
         changeRegister() {
             this.register = true;
@@ -37,7 +39,10 @@ export default({
         }
     },
     setup() {
-        
+        var login=true;
+        var register=false;
+
+        return{login,register}
     },
 })
 </script>
