@@ -41,6 +41,8 @@ Route::post('users/deleteUser', [UserController::class,"deleteUser"])->middlewar
 Route::post('reservation/insertReservations', [ReservationController::class,"insertReservation"])->middleware('jwtsession');
 Route::post('reservation/usergetsessionid',[ReservationController::class,"usergetsessionid"])->middleware('jwtsession');
 
+Route::post('users/sendIssue', [UserController::class,"sendIssue"])->middleware('jwtsession');
+
 Route::resource('users', UserController::class)->middleware('jwtsession');
 Route::resource('reservation',ReservationController::class);
 Route::resource('courts',CourtsController::class);

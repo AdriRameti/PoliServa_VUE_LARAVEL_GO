@@ -67,6 +67,17 @@ trait UtilsTrait {
                 $subject = 'Confirmación para la eliminación de la cuenta';
                 $body = 'Te esperamos pronto en Poliserva';
                 break;
+            case 'sendIssueSupport':
+                $emailClient = 'poliserva@infopoliserva.com';
+                $subject = $info[2];
+                $message = $info[3];
+                $body = "El correo del usuario que ha realizado la notificacion es " . $info[0] . ".";
+                break;
+            case 'sendIssueUser': 
+                $subject = "Notificación de incidencias";
+                $message = "Pronto el soporte se pondrá en contacto con usted.";
+                $body = "Gracias por notificarnos la incidencia.";
+                break;
         }
         $html .= "<html>";
         $html .= "<body>";

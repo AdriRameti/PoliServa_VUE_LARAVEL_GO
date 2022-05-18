@@ -14,5 +14,6 @@ export default {
     CREATE_USER:"createUser",
     UPDATE_USER_ADMIN:"updateUserAdmin",
     DELETE_USER_ADMIN:"deleteUserAdmin",
-    CHANGE_LANG:"changeLang"
+    CHANGE_LANG:"changeLang",
+    SEND_ISSUE: "sendIssue"
 }

@@ -297,6 +297,17 @@ export const user = {
                 }
                 
             });
+        },
+        [Constant.SEND_ISSUE]: (store, payload) => {
+            var toastr = useToast();
+
+            UserServices.sendIssue(payload).then(data => {
+                if (data.data == "emails_sended") {
+                    toastr.success("Se ha notificado la incidencia.", {
+                        timeout: 1500
+                    });
+                }
+            })
         }
     },
     getters: {

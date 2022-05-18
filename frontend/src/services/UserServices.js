@@ -43,5 +43,8 @@ export default {
     },
     getUser() {
         return Api(`${secret.LARAVEL_URL}`).post(`users/getUser`);
+    },
+    sendIssue(data) {
+        return Api(`${secret.LARAVEL_URL}`).post(`users/sendIssue`, data);
     }
 }

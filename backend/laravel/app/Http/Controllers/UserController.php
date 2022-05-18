@@ -130,6 +130,30 @@ class UserController extends Controller
         }
     }
 
+    public function sendIssue(Request $request) {
+        $arrMailSupport = array();
+        $arrMailUser = array();
+
+        $uuid = self::getUuid();
+        $user = $this->userRepository->getUser();
+
+        array_push($arrMailSupport, $user['mail']);
+        array_push($arrMailSupport, 'sendIssueSupport');
+        array_push($arrMailSupport, $request['subject']);
+        array_push($arrMailSupport, $request['issue']);
+
+        self::dataMail($arrMailSupport);
+
+        array_push($arrMailUser, $user['mail']);
+        array_push($arrMailUser, 'sendIssueUser');
+        array_push($arrMailUser, "");
+
+        self::dataMail($arrMailUser);
+
+        return "emails_sended";
+
+    }
+
     public function mailRegister(Request $request){
         $info = $request->only('info');
         $arr = array(
