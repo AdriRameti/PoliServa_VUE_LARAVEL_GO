@@ -16,4 +16,4 @@ RUN chmod +x wait-for-it.sh
 
 RUN composer install
 
-EXPOSE 4000
+EXPOSE 8002
