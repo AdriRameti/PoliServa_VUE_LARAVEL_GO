@@ -103,7 +103,23 @@ class UserController extends Controller
         }
 
     }
+    public function insertUserSocial(Request $request) {
+        $user = $this->userRepository->register($request);
+        if($user){
+            $token = self::encode();
+           if( $token ){
 
+                session(['token'=>$token]);
+
+                Session::save();
+
+                $fullname = $user->fullname;
+                $user->setAttribute('token',$token);
+                $user->setAttribute('fullName',$fullname);
+                return $user ;
+            } 
+        }
+    }
     public function register(RegisterRequest $request) {
         try{
             $dataReq = $request->only(

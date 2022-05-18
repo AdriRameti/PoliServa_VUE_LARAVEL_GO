@@ -42,6 +42,7 @@ Route::post('reservation/insertReservations', [ReservationController::class,"ins
 Route::post('reservation/usergetsessionid',[ReservationController::class,"usergetsessionid"])->middleware('jwtsession');
 
 Route::post('users/sendIssue', [UserController::class,"sendIssue"])->middleware('jwtsession');
+Route::post('users/insertUserSocial',[UserController::class,"insertUserSocial"])->middleware('jwtsession');
 
 Route::resource('users', UserController::class)->middleware('jwtsession');
 Route::resource('reservation',ReservationController::class);

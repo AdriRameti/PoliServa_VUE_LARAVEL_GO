@@ -10,7 +10,14 @@ export const user = {
     },
     mutations: {
         [Constant.LOGIN_USER]: (state, payload) => {
+            
+            state.user = payload;
+            state.token = payload.token;
+            state.google2fa_secret = payload.google2fa_secret;
 
+            localStorage.setItem('token', payload.token);
+        },
+        [Constant.SOCIAL_LOGIN_USER]: (state, payload) => {
             state.user = payload;
             state.token = payload.token;
             state.google2fa_secret = payload.google2fa_secret;
@@ -76,7 +83,7 @@ export const user = {
             var toastr = useToast();
 
             UserServices.login(payload).then((data) => {
-
+                console.log(data);
                 
                 if (data.data.message == "password don't match") {
                     toastr.error("Password don't match", {
@@ -105,6 +112,13 @@ export const user = {
             });
             
 
+        },
+        [Constant.SOCIAL_LOGIN_USER]: (store, payload) => {
+            UserServices.socialLogin(payload).then(data=>{
+                console.log(data.data);
+                store.commit(Constant.SOCIAL_LOGIN_USER,data.data);
+            })
+            
         },
         [Constant.ENABLE2FA]: (store, payload) => {
             UserServices.enable2fa().then(data => {
@@ -175,7 +189,7 @@ export const user = {
         [Constant.VALIDATE_REGISTER]: (store, payload) => {
             
             UserServices.validaRegister(payload).then(data =>{
-                console.log(data.data);
+                
                 store.commit(Constant.VALIDATE_REGISTER, data.data);
             });
         },

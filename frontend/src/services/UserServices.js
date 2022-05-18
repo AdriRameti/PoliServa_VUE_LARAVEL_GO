@@ -46,5 +46,8 @@ export default {
     },
     sendIssue(data) {
         return Api(`${secret.LARAVEL_URL}`).post(`users/sendIssue`, data);
+    },
+    socialLogin(data){
+        return Api(`${secret.LARAVEL_URL}`).post(`users/insertUserSocial`,data)
     }
 }

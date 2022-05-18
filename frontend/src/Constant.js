@@ -15,5 +15,6 @@ export default {
     UPDATE_USER_ADMIN:"updateUserAdmin",
     DELETE_USER_ADMIN:"deleteUserAdmin",
     CHANGE_LANG:"changeLang",
-    SEND_ISSUE: "sendIssue"
+    SEND_ISSUE: "sendIssue",
+    SOCIAL_LOGIN_USER:"socialloginuser"
 }
