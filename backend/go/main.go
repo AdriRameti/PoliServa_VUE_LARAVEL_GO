@@ -23,6 +23,6 @@ func main() {
 
 	r := Routes.SetupRouter()
 
-	r.Run(":3000") // listen and serve on 0.0.0.0:3000 (for windows "localhost:3000")
+	r.Run(":8003") // listen and serve on 0.0.0.0:8003 (for windows "localhost:8003")
 }
 

@@ -59,7 +59,7 @@ class UserController extends Controller
                 $uuid = self::getUuid();
                 $user = $this->userRepository->getUser();
                 $fullName = $user->fullName;
-                $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:3000/api/users/getrole")->json();
+                $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:8003/api/users/getrole")->json();
                 $response+=array('fullName'=>$fullName);
                 $response+=array('token'=>session('token'));
                 return $this->userResponse($response);
@@ -75,7 +75,7 @@ class UserController extends Controller
                 } else if ($uuid == "password don't match") {
                     return self::apiResponseLogin("password don't match");
                 } else {
-                    $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:3000/api/users/getrole")->json();
+                    $response = HTTP::withHeaders(['uuid' => $uuid])->acceptJson()->post("http://172.29.0.12:8003/api/users/getrole")->json();
                 }
 
                 session(['uuid'=>$uuid]);
@@ -287,7 +287,7 @@ class UserController extends Controller
                 $fileName = time().'_'.$file->getClientOriginalName();
 
                 $file->move(public_path().'/uploads/', $fileName);
-                $user->img = 'http://172.29.0.11:4000/uploads/'.$fileName;
+                $user->img = 'http://127.0.0.1:8002/uploads/'.$fileName;
             }
 
             $user->save();

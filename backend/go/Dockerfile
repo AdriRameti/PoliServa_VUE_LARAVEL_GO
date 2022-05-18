@@ -10,4 +10,4 @@ RUN chmod +x wait-for-it.sh
 
 RUN go mod tidy
 
-EXPOSE 3000
+EXPOSE 8003

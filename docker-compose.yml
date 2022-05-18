@@ -5,7 +5,7 @@ services:
     container_name: poliservaDB
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
-      - "35000:3306"
+      - "3308:3306"
     env_file: .env
     restart: always
     volumes:
@@ -20,9 +20,9 @@ services:
       context: ./backend/
       dockerfile: ./laravel/Dockerfile
     container_name: poliservaLARAVEL
-    command: sh -c './wait-for-it.sh db:3306; ./migrate.sh; php artisan serve --host=0.0.0.0 --port=4000'
+    command: sh -c './wait-for-it.sh db:3306; ./migrate.sh; php artisan serve --host=0.0.0.0 --port=8002'
     ports:
-      - "4000:4000"
+      - "8002:8002"
     depends_on:
       - db
     volumes:
@@ -39,27 +39,13 @@ services:
     container_name: poliservaGO
     command: sh -c './wait-for-it.sh db:3306; go run main.go'
     ports:
-      - "3000:3000"
+      - "8003:8003"
     depends_on:
       - db
       - backend-laravel
     networks:
       poliserva: 
         ipv4_address: 172.29.0.12
-
-  frontend-vue:
-    build: ./frontend
-    container_name: poliservaVUE
-    # command: bash -C "npm run serve"
-    ports:
-      - "4200:4200"
-    depends_on:
-      - db
-      - backend-laravel
-      - backend-go
-    networks:
-      poliserva: 
-        ipv4_address: 172.29.0.13
 
 networks:
   poliserva:
