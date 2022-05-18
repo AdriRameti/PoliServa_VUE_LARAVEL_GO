@@ -51,7 +51,7 @@ class ReservationController extends Controller
             "hini"=>$request->input('hini'),
             "hfin"=>$request->input('hfin'),
             "total_price"=>$request->input('total_price')
-        ])->acceptJson()->post("http://172.29.0.12:3000/api/reservations/")->json();
+        ])->acceptJson()->post("http://172.29.0.12:8003/api/reservations/")->json();
 
         return $response;
 
