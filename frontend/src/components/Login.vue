@@ -111,7 +111,7 @@ export default({
     const store = useStore();
     const uiConfig = {
       signInFlow: 'popup',
-      signinSuccessUrl:'http://poliserva.jals.es:4200/#/',
+      signinSuccessUrl:'http://poliserva.jals.es/#/',
       signInOptions:[ 
         firebase.auth.GoogleAuthProvider.PROVIDER_ID
       ],

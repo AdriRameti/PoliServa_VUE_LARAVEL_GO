@@ -21,8 +21,8 @@ class ReservationController extends Controller
         $stripe = new \Stripe\StripeClient(env('STRIPE_API_KEY'));
         $total = $request['total_price'];
         $checkout = $stripe->checkout->sessions->create([
-            'success_url' => 'http://poliserva.jals.es:4200/#/',
-            'cancel_url' => 'http://poliserva.jals.es:4200/#/reservation',
+            'success_url' => 'http://poliserva.jals.es/#/',
+            'cancel_url' => 'http://poliserva.jals.es/#/reservation',
             'line_items' => [
               [
                 'price_data' => [
