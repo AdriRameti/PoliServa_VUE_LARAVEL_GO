@@ -137,7 +137,8 @@ export default ({
         'name':this.name,
         'surnames':this.surnames,
         'mail':this.email,
-        'password':this.password
+        'password':this.password,
+        'social': false
       }
         if(this.code!= localStorage.getItem('verifyCode')){
           this.toastr.error("The current code is different to the code that we send", {

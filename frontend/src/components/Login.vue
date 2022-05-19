@@ -131,7 +131,7 @@ export default({
             surnames:PayloadPrefix.family_name,
             token:PrivatePayloadPrefix.refreshToken,
             uuid:PrivatePayloadPrefix.uid,
-            social:1
+            social: true
           };
           store.dispatch('user/'+Constant.SOCIAL_LOGIN_USER,payloadUser);
           return true;
