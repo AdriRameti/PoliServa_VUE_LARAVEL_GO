@@ -133,10 +133,9 @@ class UserController extends Controller
 
             $user = $this->userRepository->register($dataReq);
 
-            return $user;
-            die();
             if($user){
                 $token = self::encode();
+                
                if( $token ){
 
                     session(['token'=>$token]);
