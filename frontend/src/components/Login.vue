@@ -113,8 +113,7 @@ export default({
       signInFlow: 'popup',
       signinSuccessUrl:'http://localhost:4200/#/',
       signInOptions:[ 
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.GithubAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
       ],
       callbacks:{
         signInSuccessWithAuthResult: function(authResult,redirectUrl){
