@@ -36,7 +36,8 @@ class UserRepository{
 
     public function register($data)
     {
-        if($data['social']==1 && $data['social']){
+
+        if($data['social']==1){
             $data = [
                 'name'=>$data['name'],
                 'uuid'=>self::generteUUID(),
@@ -50,7 +51,7 @@ class UserRepository{
             ];
             $user = User::where('mail', $data['mail'])->first();
             if($user){
-                $user = null;
+                $user = $user;
             }else{
                 $user = User::create($data);
             }

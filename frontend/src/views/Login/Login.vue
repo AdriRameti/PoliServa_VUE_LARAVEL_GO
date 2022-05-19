@@ -22,12 +22,12 @@ export default ({
         Register
     },
 
-    // data() {
-    //     return {
-    //         login: true,
-    //         register: false
-    //     }
-    // },
+    data() {
+        return {
+            login: true,
+            register: false
+        }
+    },
     methods: {
         changeRegister() {
             this.register = true;
@@ -39,10 +39,6 @@ export default ({
         }
     },
     setup() {
-        var login=true;
-        var register=false;
-
-        return{login,register}
     },
 })
 </script>
