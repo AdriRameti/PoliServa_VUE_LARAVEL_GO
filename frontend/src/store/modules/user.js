@@ -197,9 +197,9 @@ export const user = {
             var toastr = useToast();
             UserServices.register(payload).then(data =>{
                 console.log(data);
-                store.commit(Constant.REGISTER_USER, data.data);
+                store.commit(Constant.REGISTER_USER, data.data.data);
 
-                if (data.data.google2fa_secret) {
+                if (data.data.data.google2fa_secret) {
                     window.location.href = "/#/otp";
                 } else {
                     window.location.href = "/#/";
