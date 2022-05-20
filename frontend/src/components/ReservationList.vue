@@ -100,7 +100,7 @@ export default ({
                 }
                 localStorage.setItem("total_price", totalPrices);
                 const reservation = await useInsertReservation(obj)
-                console.log(reservation.data);
+                
                 if(reservation.data !=1){
 
                     toastr.error("Had an error processing your reservation", {
@@ -128,7 +128,6 @@ export default ({
         async getSessionId(){
             const sessionId = await useGetSessionId();
             this.sessionId = sessionId;
-            console.log(this.sessionId)
         },
         submit () {
             // You will be redirected to Stripe's secure checkout page
@@ -190,7 +189,6 @@ export default ({
 
             const { courts, count } = await useGetDateReservation(arr);
 
-            console.log(courts);
             localStorage.removeItem('date')
 
             localStorage.removeItem('hini')

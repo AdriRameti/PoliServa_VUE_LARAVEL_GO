@@ -196,7 +196,6 @@ export default ({
 
     const toastr = useToast();
     const store = useStore();
-    console.log(store.state.user.user.fullName)
       var id = store.state.user.user.id
       var dates = validaDate();
       if(dates && id){

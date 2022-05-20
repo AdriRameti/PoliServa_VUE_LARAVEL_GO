@@ -83,7 +83,6 @@ export const user = {
             var toastr = useToast();
 
             UserServices.login(payload).then((data) => {
-                console.log(data);
                 
                 if (data.data.message == "password don't match") {
                     toastr.error("Password don't match", {
@@ -115,7 +114,6 @@ export const user = {
         },
         [Constant.SOCIAL_LOGIN_USER]: (store, payload) => {
             UserServices.socialLogin(payload).then(data=>{
-                console.log(data.data);
                 store.commit(Constant.SOCIAL_LOGIN_USER,data.data);
             })
             
@@ -196,7 +194,6 @@ export const user = {
         [Constant.REGISTER_USER]: (store, payload) => {
             var toastr = useToast();
             UserServices.register(payload).then(data =>{
-                console.log(data);
                 store.commit(Constant.REGISTER_USER, data.data.data);
 
                 if (data.data.data.google2fa_secret) {

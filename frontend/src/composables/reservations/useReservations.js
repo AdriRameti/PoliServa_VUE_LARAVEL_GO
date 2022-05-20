@@ -20,8 +20,7 @@ export const useGetUserSportReservation = async (arr) => {
     let id = arr[0];
     let type = arr[1];
     let res = await fetch(secret.GO_URL + "reservations/usersportreservation?id="+id+"&type="+type);
-     let data = await res.json();
-    console.log(data);
+    let data = await res.json();
     reservations.value = data;
     return { reservations }
 
@@ -29,8 +28,7 @@ export const useGetUserSportReservation = async (arr) => {
 export const useGetUserCourtReservation = async () => {
     let reservations = ref([]);
     let res = await fetch(secret.GO_URL + "reservations/usercourtreservation");
-     let data = await res.json();
-    console.log(data);
+    let data = await res.json();
     reservations.value = data;
     return { reservations }
 
@@ -48,8 +46,6 @@ export const useGetSessionId = async()=>{
         },
         body: JSON.stringify({total_price:parseInt(total_price)})
     });
-    console.log(res.body);
     let data = await res.json();
-    console.log(data);
     return data.id;
 }
