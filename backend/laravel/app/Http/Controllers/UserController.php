@@ -121,17 +121,21 @@ class UserController extends Controller
         }
     }
     public function register(RegisterRequest $request) {
+
         try{
             $dataReq = $request->only(
                 'name',
                 'surnames',
                 'mail',
-                'pass'
+                'pass',
+                'social'
             );
 
             $user = $this->userRepository->register($dataReq);
+
             if($user){
                 $token = self::encode();
+                
                if( $token ){
 
                     session(['token'=>$token]);
@@ -177,8 +181,9 @@ class UserController extends Controller
             'surnames' => $info['info']['info']['surnames'],
             'mail' => $info['info']['info']['mail'],
             'pass' => $info['info']['info']['password'],
+            'social' => $info['info']['info']['social'],
         );
-            return redirect()->action([ UserController::class, 'register' ],[ 'name' => $arr['name'] , 'surnames' => $arr['surnames'] , 'mail' => $arr['mail'] ,'pass' => $arr['pass']  ]);
+            return redirect()->action([ UserController::class, 'register' ],[ 'name' => $arr['name'] , 'surnames' => $arr['surnames'] , 'mail' => $arr['mail'] ,'pass' => $arr['pass'],'social'=>$arr['social']  ]);
     }
 
     public function sendMailRegister(Request $request){

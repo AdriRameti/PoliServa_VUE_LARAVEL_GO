@@ -111,10 +111,9 @@ export default({
     const store = useStore();
     const uiConfig = {
       signInFlow: 'popup',
-      signinSuccessUrl:'http://localhost:4200/#/',
+      signinSuccessUrl:'http://poliserva.jals.es/#/',
       signInOptions:[ 
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.GithubAuthProvider.PROVIDER_ID
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
       ],
       callbacks:{
         signInSuccessWithAuthResult: function(authResult,redirectUrl){
@@ -131,7 +130,7 @@ export default({
             surnames:PayloadPrefix.family_name,
             token:PrivatePayloadPrefix.refreshToken,
             uuid:PrivatePayloadPrefix.uid,
-            social:1
+            social: true
           };
           store.dispatch('user/'+Constant.SOCIAL_LOGIN_USER,payloadUser);
           return true;

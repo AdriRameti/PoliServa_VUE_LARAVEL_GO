@@ -31,7 +31,8 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string',
             'surnames' => 'required|string',
             'mail' => 'required|max:255|email|unique:users',
-            'pass' =>'required'
+            'pass' =>'required',
+            'social'=>'required'
         ];
     }
     public function messages(){
@@ -40,7 +41,8 @@ class RegisterRequest extends FormRequest
             'surnames.required'     => 'User name is missing!',
             'mail.required'    => 'Email address is missing!',
             'mail.unique'      => 'This email has been used already!',
-            'pass.required' => 'Password is missing'
+            'pass.required' => 'Password is missing',
+            'social.required' => 'Social is missing',
         ];
     }
 }
