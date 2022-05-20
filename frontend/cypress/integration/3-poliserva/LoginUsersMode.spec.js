@@ -1,5 +1,5 @@
 const time = 3000
-context('Login with all modes and show the profile and user information',()=>{
+context('Login with all modes, show the profile and user information and change language',()=>{
 
     it('Accept cookies', () => {
         cy.visit('http://localhost:4200/#/')
@@ -30,12 +30,11 @@ context('Login with all modes and show the profile and user information',()=>{
         // It has not been possible to access the profile and dashboard, it seems Vue Guards don't let Cypress access to these routes    
     })
 
-    it('Visit Contact and About Us', () => {
-        cy.wait(time-800)
-        cy.get('.navbar-nav > :nth-child(3) > .nav-link').click()
-        cy.wait(time+2000)
-        cy.get('.navbar-nav > :nth-child(4) > .nav-link').click()
-        cy.wait(time)
-        cy.get('footer').scrollIntoView({ duration: time - 1000 })
+
+    it('Change Language', () => {
+        cy.get(':nth-child(1) > .nav-link').contains('Home')
+        cy.get('.form-select').select('Español')
+        cy.get(':nth-child(1) > .nav-link').contains('Inicio')
     })
+
 })
